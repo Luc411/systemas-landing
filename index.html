@@ -1,0 +1,310 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>systemás — instalá la entrega que hoy hacés a mano</title>
+<meta name="description" content="Te digo cuántas horas por semana se te van entregando a mano, y te armo una de esas cosas funcionando. 15 minutos, sin costo.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+:root{
+  --lucca:"Poppins","Century Gothic","Avenir Next",system-ui,sans-serif;
+  --papel:#FBFAF7; --papel2:#F2F0EB; --blanco:#FEFEFD;
+  --tinta:#102327; --humo:#5F6E70; --linea:#E3E0D8;
+  --marina:#06282E; --azul:#0B6A70; --electrico:#35E0D0;
+  --noche:#04171B; --rojo:#E23A2E;
+  --r:14px;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth;background:var(--papel)}
+body{font:400 17px/1.6 var(--lucca);background:var(--papel);color:var(--tinta);
+  -webkit-font-smoothing:antialiased;overflow-x:hidden}
+.env{width:min(1080px,92vw);margin-inline:auto}
+img{max-width:100%;display:block}
+
+h1{font-weight:700;font-size:clamp(2rem,4.6vw,3.5rem);line-height:1.06;letter-spacing:-.035em;text-wrap:balance}
+h2{font-weight:700;font-size:clamp(1.7rem,3.6vw,2.7rem);line-height:1.1;letter-spacing:-.032em;text-wrap:balance}
+h3{font-weight:600;font-size:clamp(1.05rem,1.9vw,1.22rem);line-height:1.3;letter-spacing:-.02em}
+p{max-width:60ch}
+.centro{text-align:center}
+.centro p,.centro h1,.centro h2{margin-inline:auto}
+.sub{font-weight:400;font-size:clamp(1rem,1.8vw,1.16rem);line-height:1.5;color:var(--humo);max-width:52ch}
+.chico{font-size:14px;line-height:1.55;color:var(--humo)}
+section{padding-block:clamp(3.2rem,6vw,5rem)}
+
+/* el rótulo: un tachón de marcador, no una píldora */
+.pico{position:relative;display:inline-block;font-weight:800;font-size:clamp(10px,1.05vw,12.5px);
+  line-height:1;letter-spacing:.1em;text-transform:uppercase;color:#fff;
+  padding:.85rem clamp(1.2rem,2.1vw,1.9rem);rotate:-1.6deg;margin-bottom:1.7rem;max-width:100%}
+.pico span{position:relative;z-index:2}
+.pico::before,.pico::after{content:"";position:absolute;inset:-8% -4%;
+  background-repeat:no-repeat;background-size:100% 100%}
+.pico::before{background-image:url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 420 52' preserveAspectRatio='none'><path fill='%23E23A2E' d='M11 18C58 5 132 13 203 8c58-4 127 4 205 9 7 8 5 18-2 26-66 8-158 1-244 6-66 4-121-1-153-8-8-7-9-16 2-23z'/></svg>")}
+.pico::after{rotate:1.4deg;opacity:.92;filter:drop-shadow(0 12px 22px rgba(226,58,46,.6));
+  background-image:url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 420 52' preserveAspectRatio='none'><path fill='%23E23A2E' d='M6 24C74 11 143 21 219 13c66-7 133 1 196 9 5 7 2 17-6 24-70 9-160 2-248 8-63 4-116-2-150-9-6-7-4-16-5-21z'/></svg>")}
+.rotulo{display:inline-flex;align-items:center;gap:.5rem;font-weight:600;font-size:12.5px;line-height:1;
+  letter-spacing:.06em;color:var(--azul);margin-bottom:1rem}
+.rotulo::before{content:"";width:6px;height:6px;border-radius:50%;background:var(--azul)}
+.cierre .rotulo::before{background:var(--electrico)}
+
+.boton{display:inline-flex;align-items:center;justify-content:center;gap:.55rem;background:var(--azul);
+  color:#fff;font-weight:600;font-size:15.5px;line-height:1;text-decoration:none;
+  padding:1rem 1.7rem;border-radius:40px;min-height:50px;
+  box-shadow:0 10px 30px -10px rgba(11,106,112,.55);transition:transform .2s,box-shadow .2s,background .2s}
+.boton:hover{background:#095157;transform:translateY(-2px);box-shadow:0 14px 36px -10px rgba(11,106,112,.7)}
+.boton.rayo{background:var(--electrico);color:#052226;box-shadow:0 10px 32px -10px rgba(53,224,208,.75)}
+.boton.rayo:hover{background:#63EADC}
+
+/* ── barra flotante ── */
+.barra{position:fixed;top:14px;left:0;right:0;z-index:60}
+.barra .caja{width:min(1080px,92vw);margin-inline:auto;display:flex;align-items:center;
+  justify-content:space-between;gap:1rem;background:rgba(4,23,27,.78);backdrop-filter:blur(16px);
+  border:1px solid rgba(255,255,255,.09);border-radius:40px;padding:.5rem .5rem .5rem 1.4rem}
+.marca{display:flex;align-items:center;gap:.6rem;font-weight:700;font-size:17px;letter-spacing:-.03em;
+  color:#fff;text-decoration:none}
+.marca .punto{width:26px;height:26px;border-radius:50%;background:var(--electrico);display:grid;
+  place-items:center;font-weight:800;font-size:12px;color:#04171B}
+.barra .boton{padding:.7rem 1.25rem;font-size:14px;min-height:42px;box-shadow:none}
+.corto{display:inline}.largo{display:none}
+@media(min-width:620px){.corto{display:none}.largo{display:inline}}
+
+/* ── el hero, banda de color ── */
+.hero{position:relative;background:var(--marina);color:#fff;overflow:hidden;
+  padding:clamp(7rem,12vw,9.5rem) 0 clamp(7rem,13vw,10rem)}
+.hero::before{content:"";position:absolute;inset:0;opacity:.5;
+  background-image:linear-gradient(rgba(255,255,255,.05) 1px,transparent 1px),
+                   linear-gradient(90deg,rgba(255,255,255,.05) 1px,transparent 1px);
+  background-size:64px 64px}
+.hero::after{content:"";position:absolute;left:50%;top:-30%;width:120%;height:120%;translate:-50% 0;
+  background:radial-gradient(45% 40% at 50% 45%,rgba(53,224,208,.2) 0%,rgba(6,40,46,0) 70%)}
+.hero .env{position:relative;z-index:2}
+.hero h1{color:#fff;max-width:20ch}
+.hero h1 em{font-style:normal;color:var(--electrico)}
+.hero .sub{color:rgba(255,255,255,.72);margin-top:1.2rem}
+
+/* ── la tarjeta que se monta sobre la banda ── */
+.montada{position:relative;z-index:10;margin-top:clamp(-8rem,-11vw,-5.5rem);padding-bottom:clamp(2.5rem,5vw,3.5rem)}
+.tarjeta{background:var(--blanco);border:1px solid var(--linea);border-radius:22px;
+  box-shadow:0 30px 70px -30px rgba(6,40,46,.4),0 8px 20px -12px rgba(6,40,46,.2);
+  padding:clamp(1rem,2vw,1.6rem)}
+.hueco{border-radius:14px;background:var(--papel2);display:grid;place-items:center;text-align:center;padding:2rem}
+.hueco.agenda{min-height:clamp(360px,46vw,470px)}
+.hueco.video{aspect-ratio:16/9}
+.hueco p{font-size:14px;color:var(--humo);max-width:38ch}
+.hueco b{color:var(--tinta);font-weight:600}
+.friccion{text-align:center;margin-top:1.4rem;font-size:13.5px;line-height:1.55;color:var(--humo);
+  max-width:46ch;margin-inline:auto}
+
+/* ── bloques de contenido ── */
+.gris{background:var(--papel2)}
+.reglas{list-style:none;display:grid;gap:.7rem;margin-top:clamp(1.8rem,3.5vw,2.4rem)}
+@media(min-width:760px){.reglas{grid-template-columns:1fr 1fr;gap:.8rem 1.2rem}}
+.reglas li{display:grid;grid-template-columns:auto 1fr;gap:.9rem;align-items:start;
+  background:var(--blanco);border:1px solid var(--linea);border-radius:var(--r);padding:1.05rem 1.2rem;
+  font-size:15.5px;line-height:1.4}
+.reglas .tic{width:22px;height:22px;border-radius:50%;background:rgba(11,106,112,.12);color:var(--azul);
+  display:grid;place-items:center;font-weight:800;font-size:12px;margin-top:.06em}
+.reglas b{font-weight:600}
+
+.pasos{list-style:none;display:grid;gap:1rem;margin-top:clamp(1.8rem,3.5vw,2.4rem)}
+@media(min-width:860px){.pasos{grid-template-columns:repeat(4,1fr)}}
+.pasos li{background:var(--blanco);border:1px solid var(--linea);border-radius:var(--r);
+  padding:1.3rem 1.3rem 1.4rem;display:flex;flex-direction:column;align-items:flex-start}
+.pasos .num{font-weight:800;font-size:1.6rem;line-height:1;letter-spacing:-.05em;color:var(--azul);
+  margin-bottom:.7rem}
+.pasos h3{margin-bottom:.4rem}
+.pasos p{font-size:14.5px;line-height:1.45;color:var(--humo);margin-bottom:1rem}
+.pasos .reloj{margin-top:auto;font-weight:700;font-size:11px;letter-spacing:.13em;text-transform:uppercase;
+  color:var(--azul);background:rgba(11,106,112,.08);border-radius:40px;padding:.45rem .8rem}
+
+/* ── preguntas ── */
+.faq{display:grid;gap:.7rem;margin-top:clamp(1.8rem,3.5vw,2.4rem)}
+.faq details{background:var(--marina);border-radius:var(--r);overflow:hidden;transition:background .2s}
+.faq details[open]{background:#0A363E}
+.faq summary{cursor:pointer;list-style:none;display:flex;justify-content:space-between;align-items:center;
+  gap:1.2rem;padding:1.1rem 1.4rem;color:#fff;font-weight:600;font-size:15.5px;line-height:1.35}
+.faq summary::-webkit-details-marker{display:none}
+.faq summary::after{content:"";width:9px;height:9px;border-right:2px solid rgba(255,255,255,.65);
+  border-bottom:2px solid rgba(255,255,255,.65);rotate:45deg;flex:0 0 auto;transition:rotate .25s;margin-top:-4px}
+.faq details[open] summary::after{rotate:-135deg;margin-top:2px}
+.faq .cuerpo{padding:0 1.4rem 1.3rem;color:rgba(255,255,255,.72);font-size:14.5px;line-height:1.55;max-width:68ch}
+
+/* ── cierre oscuro ── */
+.cierre{background:var(--noche);color:#fff;padding-block:clamp(3.5rem,7vw,5.5rem)}
+.cierre h2{color:#fff}
+.cierre .rotulo{color:rgba(255,255,255,.62)}
+.cierre .sub{color:rgba(255,255,255,.62);margin-top:1rem}
+.cierre .tarjeta{background:var(--blanco);border-color:transparent;margin-top:clamp(1.8rem,3.5vw,2.4rem)}
+.cierre .friccion{color:rgba(255,255,255,.5)}
+
+/* ── la píldora de abajo ── */
+.pie-cta{position:fixed;left:0;right:0;bottom:14px;z-index:55;display:flex;justify-content:center;
+  padding-inline:1rem;opacity:0;transform:translateY(18px);pointer-events:none;transition:opacity .4s,transform .4s}
+.pie-cta.vista{opacity:1;transform:none;pointer-events:auto}
+.pie-cta .caja{display:flex;align-items:center;gap:1.2rem;background:rgba(4,23,27,.93);
+  backdrop-filter:blur(16px);border:1px solid rgba(255,255,255,.09);border-radius:40px;
+  padding:.55rem .55rem .55rem 1.5rem;max-width:min(880px,100%)}
+.pie-cta p{color:#fff;font-size:14.5px;line-height:1.35;font-weight:500;max-width:36ch}
+.pie-cta p em{font-style:normal;color:var(--electrico);font-weight:700}
+.pie-cta .boton{flex:0 0 auto;padding:.75rem 1.3rem;font-size:14px;min-height:44px;box-shadow:none}
+@media(max-width:700px){.pie-cta p{display:none}.pie-cta .caja{padding:.55rem}}
+
+footer{background:var(--noche);color:rgba(255,255,255,.5);padding-block:2rem;
+  border-top:1px solid rgba(255,255,255,.08)}
+footer .env{display:flex;flex-wrap:wrap;gap:1rem;justify-content:space-between;align-items:center;font-size:13.5px}
+footer a{color:rgba(255,255,255,.5);text-decoration:none}
+footer a:hover{color:var(--electrico)}
+
+.reveal{opacity:0;transform:translateY(20px);transition:opacity .7s cubic-bezier(.2,.7,.3,1),transform .7s cubic-bezier(.2,.7,.3,1)}
+.reveal.vista{opacity:1;transform:none}
+@media(prefers-reduced-motion:reduce){.reveal{opacity:1;transform:none;transition:none}}
+</style>
+</head>
+<body>
+
+<header class="barra">
+  <div class="caja">
+    <a class="marca" href="#">systemás</a>
+    <a class="boton rayo" href="#agendar"><span class="corto">Agendar</span><span class="largo">Agendar la consultoría</span></a>
+  </div>
+</header>
+
+<!-- ═══ hero ═══ -->
+<div class="hero">
+  <div class="env centro">
+    <span class="pico"><span>Para agencias de servicios por internet</span></span>
+    <h1>Instalá la entrega que hoy hacés <em>a mano</em></h1>
+    <p class="sub">Y recuperá las horas que se te van cada semana, sin cambiar de herramientas ni contratar a nadie.</p>
+  </div>
+</div>
+
+<!-- ═══ la tarjeta montada: acá se agenda ═══ -->
+<div class="montada" id="agendar">
+  <div class="env">
+    <div class="tarjeta">
+      <div class="hueco agenda">
+        <p><b>Acá va el calendario.</b> Falta el link público de agendamiento: sin eso el botón no lleva a ningún lado.</p>
+      </div>
+    </div>
+    <p class="friccion">Valoramos tu tiempo y el nuestro. Si vas a agendar para no venir, por favor no agendes.</p>
+  </div>
+</div>
+
+<!-- ═══ el video ═══ -->
+<section class="gris">
+  <div class="env centro">
+    <span class="rotulo reveal">En un minuto</span>
+    <h2 class="reveal">Te lo cuento yo, y decidís</h2>
+    <div class="tarjeta reveal" style="margin-top:clamp(1.8rem,3.5vw,2.4rem)">
+      <div class="hueco video">
+        <p><b>Acá va el video.</b> Un minuto, cámara al frente, sin edición.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══ para quién es ═══ -->
+<section>
+  <div class="env centro">
+    <span class="rotulo reveal">Para quién es</span>
+    <h2 class="reveal">Las cuatro tienen que dar que sí</h2>
+    <ul class="reglas reveal" style="text-align:left">
+      <li><span class="tic">✓</span><span>Cobrás por un servicio que se <b>entrega por internet</b>.</span></li>
+      <li><span class="tic">✓</span><span>Son <b>tres o más</b> trabajando.</span></li>
+      <li><span class="tic">✓</span><span>Cada cliente pasa por una <b>puesta en marcha</b>.</span></li>
+      <li><span class="tic">✓</span><span>Y <b>vos seguís metido</b> adentro de esa puesta en marcha.</span></li>
+    </ul>
+    <p class="chico reveal" style="margin-top:1.4rem">Si alguna da que no, te lo digo en la primera llamada y no te hago perder el tiempo.</p>
+  </div>
+</section>
+
+<!-- ═══ los cuatro momentos ═══ -->
+<section class="gris">
+  <div class="env centro">
+    <span class="rotulo reveal">La consultoría</span>
+    <h2 class="reveal">Cuatro momentos. En el último la ves andando</h2>
+    <ol class="pasos reveal" style="text-align:left">
+      <li><span class="num">01</span><h3>La llamada corta</h3>
+        <p>Te digo el número ahí mismo: cuántas horas por semana se te van a mano.</p>
+        <span class="reloj">15 minutos</span></li>
+      <li><span class="num">02</span><h3>El relevamiento</h3>
+        <p>Mapeamos la entrega entera y elegimos una sola cosa.</p>
+        <span class="reloj">90 minutos</span></li>
+      <li><span class="num">03</span><h3>La construyo</h3>
+        <p>Cuatro horas, y no se estiran. Si no entra, elijo una más chica.</p>
+        <span class="reloj">4 horas</span></li>
+      <li><span class="num">04</span><h3>La ves corriendo</h3>
+        <p>Compartimos pantalla y la hacés andar vos.</p>
+        <span class="reloj">45 minutos</span></li>
+    </ol>
+  </div>
+</section>
+
+<!-- ═══ preguntas ═══ -->
+<section>
+  <div class="env centro">
+    <span class="rotulo reveal">Preguntas frecuentes</span>
+    <h2 class="reveal">Preguntas antes de agendar</h2>
+    <div class="faq reveal" style="text-align:left">
+      <details><summary>¿Por qué no me cobrás nada?</summary><div class="cuerpo">Porque prefiero mostrarte algo funcionando antes que mandarte un presupuesto. Si te sirve, hablamos de instalarlo en tus cuentas. Si no, te quedás con el mapa y el número igual.</div></details>
+      <details><summary>¿Cuánto tiempo mío se lleva?</summary><div class="cuerpo">Quince minutos la primera llamada, noventa el relevamiento y cuarenta y cinco la demo. Las cuatro horas de construcción las pongo yo, vos no estás.</div></details>
+      <details><summary>No tengo los procesos escritos.</summary><div class="cuerpo">Nadie los tiene. La consultoría no espera los procesos: los saca. Que no estén escritos es justamente el problema del que estamos hablando.</div></details>
+      <details><summary>¿Me vas a pedir las claves de mis sistemas?</summary><div class="cuerpo">No. Te pido muestras: un mail que mandás siempre, una planilla, un documento. Los accesos son después, y sólo si decidís que lo quieras instalado.</div></details>
+      <details><summary>Ya compré automatización una vez y se rompió.</summary><div class="cuerpo">Pasa seguido, y casi siempre es lo mismo: se automatizó algo antes de entender el proceso, o quedó armado en la cuenta de otro. Por eso primero se mide y se mapea, y lo que se instala queda en tus cuentas.</div></details>
+      <details><summary>¿Y si en cuatro horas no llegás?</summary><div class="cuerpo">Entonces la pieza era muy grande y elijo una más chica. Las horas no se estiran. Prefiero mostrarte algo chico andando que algo grande a medio hacer.</div></details>
+      <details><summary>¿Qué me llevo si después no trabajamos juntos?</summary><div class="cuerpo">El mapa de tu entrega proceso por proceso, el número medido de horas por semana, y la pieza corriendo para que la veas andar. Son tuyos igual.</div></details>
+    </div>
+  </div>
+</section>
+
+<!-- ═══ cierre ═══ -->
+<section class="cierre">
+  <div class="env centro">
+    <span class="rotulo reveal">Agendá tu llamada</span>
+    <h2 class="reveal">Reservá tus quince minutos</h2>
+    <p class="sub reveal">Te hago las cuatro preguntas y te digo el número. Si esto no es para vos, te lo digo ahí mismo.</p>
+    <div class="tarjeta reveal">
+      <div class="hueco agenda">
+        <p><b>Acá va el calendario.</b> Falta el link público de agendamiento: sin eso el botón no lleva a ningún lado.</p>
+      </div>
+    </div>
+    <p class="friccion">Valoramos tu tiempo y el nuestro. Si vas a agendar para no venir, por favor no agendes.</p>
+  </div>
+</section>
+
+<footer>
+  <div class="env">
+    <p>© 2026 · systemás</p>
+    <p><a href="mailto:hola@systemas.com">hola@systemás.com</a></p>
+  </div>
+</footer>
+
+<div class="pie-cta" id="pie">
+  <div class="caja">
+    <p>Te digo cuántas horas por semana se te van <em>a mano</em>. En quince minutos.</p>
+    <a class="boton rayo" href="#agendar">Agendar</a>
+  </div>
+</div>
+
+<script>
+const io=new IntersectionObserver(function(es){
+  for(let i=0;i<es.length;i++){ if(es[i].isIntersecting){ es[i].target.classList.add('vista'); io.unobserve(es[i].target); } }
+},{threshold:.14,rootMargin:'0px 0px -6% 0px'});
+document.querySelectorAll('.reveal').forEach(function(el,i){el.style.transitionDelay=(i%3)*80+'ms';io.observe(el)});
+
+/* la píldora de abajo aparece cuando pasaste el primer calendario y se va en el cierre */
+const pie=document.getElementById('pie');
+const cierre=document.querySelector('.cierre');
+function mirar(){
+  const y=window.scrollY, vh=window.innerHeight;
+  const fin=cierre.offsetTop-vh*0.75;
+  pie.classList.toggle('vista', y>vh*0.9 && y<fin);
+}
+addEventListener('scroll',mirar,{passive:true});
+addEventListener('resize',mirar);
+mirar();
+</script>
+</body>
+</html>
