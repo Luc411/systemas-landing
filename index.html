@@ -320,7 +320,11 @@ const AGENDA = {
   } else if (AGENDA.link) {
     huecos.forEach(function(el){
       el.innerHTML = '<a class="boton rayo" href="'+AGENDA.link+'" target="_blank" rel="noopener">Elegí día y horario</a>';
+      el.style.minHeight = '0'; el.style.paddingBlock = '3.2rem';
     });
+  } else {
+    /* sin calendario todavía: que el hueco no sea un agujero gris gigante */
+    huecos.forEach(function(el){ el.style.minHeight = '0'; el.style.paddingBlock = '3.2rem'; });
   }
   if (AGENDA.link && !AGENDA.insertar) {
     document.querySelectorAll('a[href="#agendar"]').forEach(function(a){
