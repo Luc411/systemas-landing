@@ -185,7 +185,7 @@ footer a:hover{color:var(--electrico)}
   <div class="env">
     <div class="tarjeta">
       <div class="hueco agenda">
-        <p><b>Acá va el calendario.</b> Falta el link público de agendamiento: sin eso el botón no lleva a ningún lado.</p>
+        <p><b>Estoy terminando de abrir la agenda.</b> Mientras tanto escribime a <a href="mailto:hola@xn--systems-mwa.com" style="color:var(--azul)">hola@systemás.com</a> y coordinamos.</p>
       </div>
     </div>
     <p class="friccion">Valoramos tu tiempo y el nuestro. Si vas a agendar para no venir, por favor no agendes.</p>
@@ -267,7 +267,7 @@ footer a:hover{color:var(--electrico)}
     <p class="sub reveal">Te hago las cuatro preguntas y te digo el número. Si esto no es para vos, te lo digo ahí mismo.</p>
     <div class="tarjeta reveal">
       <div class="hueco agenda">
-        <p><b>Acá va el calendario.</b> Falta el link público de agendamiento: sin eso el botón no lleva a ningún lado.</p>
+        <p><b>Estoy terminando de abrir la agenda.</b> Mientras tanto escribime a <a href="mailto:hola@xn--systems-mwa.com" style="color:var(--azul)">hola@systemás.com</a> y coordinamos.</p>
       </div>
     </div>
     <p class="friccion">Valoramos tu tiempo y el nuestro. Si vas a agendar para no venir, por favor no agendes.</p>
@@ -289,6 +289,46 @@ footer a:hover{color:var(--electrico)}
 </div>
 
 <script>
+/* ══════════════════════════════════════════════════════════════════════
+   EL CALENDARIO · pegá los dos links acá y la página se acomoda sola.
+   Salen de: Google Calendar → Horarios de citas → Compartir.
+     link     = el corto, "https://calendar.app.google/XXXXXXXX"
+     insertar = el largo del código para insertar, termina en "?gv=true"
+   Si los dejás vacíos, se ve el cartel gris y nada se rompe.
+   ══════════════════════════════════════════════════════════════════════ */
+const AGENDA = {
+  link:     "",
+  insertar: ""
+};
+
+(function(){
+  const huecos = document.querySelectorAll('.hueco.agenda');
+  if (AGENDA.insertar) {
+    huecos.forEach(function(el){
+      const f = document.createElement('iframe');
+      f.src = AGENDA.insertar;
+      f.title = 'Elegí día y horario';
+      f.loading = 'lazy';
+      f.setAttribute('frameborder','0');
+      f.style.cssText = 'width:100%;height:100%;border:0;border-radius:12px;display:block';
+      el.replaceChildren(f);
+      el.style.padding = '0';
+      el.style.background = '#fff';
+      el.style.minHeight = 'clamp(600px,68vw,740px)';
+      el.style.display = 'block';
+    });
+  } else if (AGENDA.link) {
+    huecos.forEach(function(el){
+      el.innerHTML = '<a class="boton rayo" href="'+AGENDA.link+'" target="_blank" rel="noopener">Elegí día y horario</a>';
+    });
+  }
+  if (AGENDA.link && !AGENDA.insertar) {
+    document.querySelectorAll('a[href="#agendar"]').forEach(function(a){
+      a.href = AGENDA.link; a.target = '_blank'; a.rel = 'noopener';
+    });
+  }
+})();
+
 const io=new IntersectionObserver(function(es){
   for(let i=0;i<es.length;i++){ if(es[i].isIntersecting){ es[i].target.classList.add('vista'); io.unobserve(es[i].target); } }
 },{threshold:.14,rootMargin:'0px 0px -6% 0px'});
