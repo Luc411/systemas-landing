@@ -210,6 +210,9 @@ textarea.entrada{min-height:92px;resize:vertical}
   font-size:26px;font-weight:800;background:rgba(11,106,112,.1);color:var(--azul)}
 .fin-caja h3{font-size:clamp(1.2rem,2.4vw,1.5rem);margin-bottom:.6rem}
 .fin-caja p{color:var(--humo);font-size:15px;margin:0 auto 1.3rem;max-width:44ch}
+.gcal-marco{border:1.5px solid var(--linea);border-radius:14px;overflow:hidden;background:#fff}
+.gcal-marco iframe{display:block;width:100%;height:720px;border:0}
+@media(max-width:640px){.gcal-marco iframe{height:860px}}
 
 .reveal{opacity:0;transform:translateY(20px);transition:opacity .7s cubic-bezier(.2,.7,.3,1),transform .7s cubic-bezier(.2,.7,.3,1)}
 .reveal.vista{opacity:1;transform:none}
@@ -442,12 +445,26 @@ const VIDEO = { insertar: "" };
       api('landing_enviar_formulario', { p: datos }).then(function(r){
         if (!r || !r.ok) throw new Error(r && r.motivo);
         estado.formulario = r.id;
-        if (r.califica) pasoHorarios(); else noCalifica();
+        if (!r.califica) noCalifica();
+        else if (r.agenda) pasoGoogle(r.agenda);
+        else pasoHorarios();
       }).catch(function(){
         b.disabled = false; b.textContent = 'Ver horarios disponibles';
         aviso.innerHTML = 'No se pudo enviar. Probá de nuevo o escribime a ' + MAIL + '.';
       });
     });
+  }
+
+  /* ── paso 2 con la agenda de Google (horarios de citas de Luca). Google le
+     manda al que agenda el mail con la invitación y el link de Meet. El link
+     sólo llega desde Supabase cuando el form califica: no está en la página. ── */
+  function pasoGoogle(url){
+    if (!/^https:\/\/calendar\.google\.com\/calendar\/appointments\//.test(url)) return pasoHorarios();
+    app.innerHTML =
+      '<div class="paso-tit"><h3>Elegí día y horario</h3><span class="paso-n">Paso 2 de 2</span></div>' +
+      '<p class="zona">Quince minutos por videollamada. Al confirmar te llega la invitación a tu mail, con el link de la llamada.</p>' +
+      '<div class="gcal-marco"><iframe title="Agenda de Luca" loading="lazy" src="' + esc(url) + '"></iframe></div>';
+    subir();
   }
 
   function noCalifica(){
