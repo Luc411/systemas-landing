@@ -3,8 +3,8 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>systemás — instalá la entrega que hoy hacés a mano</title>
-<meta name="description" content="Te digo cuántas horas por semana se te van entregando a mano, y te armo una de esas cosas funcionando. 15 minutos, sin costo.">
+<title>systemás — el onboarding de tus clientes, funcionando sin vos</title>
+<meta name="description" content="Te digo cuántas horas por semana se te van en trabajo manual y te dejo una parte funcionando. Llamada de 15 minutos, sin costo.">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
@@ -210,6 +210,10 @@ textarea.entrada{min-height:92px;resize:vertical}
   font-size:26px;font-weight:800;background:rgba(11,106,112,.1);color:var(--azul)}
 .fin-caja h3{font-size:clamp(1.2rem,2.4vw,1.5rem);margin-bottom:.6rem}
 .fin-caja p{color:var(--humo);font-size:15px;margin:0 auto 1.3rem;max-width:44ch}
+.inicio-agenda{text-align:center;padding:clamp(1.2rem,3.5vw,2.2rem) .5rem}
+.inicio-agenda h3{font-size:clamp(1.25rem,2.6vw,1.6rem);margin-bottom:.6rem}
+.inicio-agenda p{color:var(--humo);font-size:15.5px;margin:0 auto 1.4rem;max-width:42ch}
+#agendar{scroll-margin-top:84px}
 .gcal-marco{border:1.5px solid var(--linea);border-radius:14px;overflow:hidden;background:#fff}
 .gcal-marco iframe{display:block;width:100%;height:720px;border:0}
 @media(max-width:640px){.gcal-marco iframe{height:860px}}
@@ -232,8 +236,8 @@ textarea.entrada{min-height:92px;resize:vertical}
 <div class="hero">
   <div class="env centro">
     <span class="pico"><span>Para coaches, infoproductores y agencias</span></span>
-    <h1>Instalá la entrega que hoy hacés <em>a mano</em></h1>
-    <p class="sub">Vendés servicios digitales y cada cliente nuevo te pasa por las manos. Recuperá esas horas, sin cambiar de herramientas ni contratar a nadie.</p>
+    <h1>El onboarding de cada cliente nuevo, funcionando <em>sin vos</em></h1>
+    <p class="sub">Vendés servicios digitales y cada cliente que entra te consume horas de trabajo manual. Lo dejamos funcionando con las herramientas que ya usás, sin contratar a nadie.</p>
   </div>
 </div>
 
@@ -243,15 +247,15 @@ textarea.entrada{min-height:92px;resize:vertical}
     <div class="tarjeta">
       <div class="agenda-app" id="agenda-app"></div>
     </div>
-    <p class="friccion">Valoramos tu tiempo y el nuestro. Si vas a agendar para no venir, por favor no agendes.</p>
+    <p class="friccion">Si reservás un horario, te espero. Si no vas a poder, cancelalo desde la invitación y lo libero para otra persona.</p>
   </div>
 </div>
 
 <!-- ═══ el video ═══ -->
 <section class="gris" id="video" hidden style="display:none">
   <div class="env centro">
-    <span class="rotulo reveal">En un minuto</span>
-    <h2 class="reveal">Te lo cuento yo, y decidís</h2>
+    <span class="rotulo reveal">En 1 minuto</span>
+    <h2 class="reveal">Te lo explico yo y decidís</h2>
     <div class="tarjeta reveal" style="margin-top:clamp(1.8rem,3.5vw,2.4rem)">
       <div class="hueco video"></div>
     </div>
@@ -262,14 +266,14 @@ textarea.entrada{min-height:92px;resize:vertical}
 <section>
   <div class="env centro">
     <span class="rotulo reveal">Para quién es</span>
-    <h2 class="reveal">Las cuatro tienen que dar que sí</h2>
+    <h2 class="reveal">Es para vos si se cumplen las 4</h2>
     <ul class="reglas reveal" style="text-align:left">
       <li><span class="tic">✓</span><span>Vendés <b>servicios digitales</b>: coaching, formación o servicios de agencia.</span></li>
-      <li><span class="tic">✓</span><span><b>Ya vendés</b>: entran clientes nuevos todos los meses.</span></li>
-      <li><span class="tic">✓</span><span>Cada cliente nuevo pasa por una <b>puesta en marcha</b>.</span></li>
-      <li><span class="tic">✓</span><span>Y esa puesta en marcha <b>la hacés a mano</b>, vos.</span></li>
+      <li><span class="tic">✓</span><span><b>Ya tenés ventas</b>: te entran clientes nuevos todos los meses.</span></li>
+      <li><span class="tic">✓</span><span>Cada cliente nuevo pasa por un <b>onboarding</b>.</span></li>
+      <li><span class="tic">✓</span><span>Y ese onboarding <b>se hace a mano</b>, lo hagas vos o tu equipo.</span></li>
     </ul>
-    <p class="chico reveal" style="margin-top:1.4rem">Si alguna da que no, te lo digo en la primera llamada y no te hago perder el tiempo.</p>
+    <p class="chico reveal" style="margin-top:1.4rem">Si alguna no se cumple, te lo digo antes de la llamada y no perdemos tiempo.</p>
   </div>
 </section>
 
@@ -277,19 +281,19 @@ textarea.entrada{min-height:92px;resize:vertical}
 <section class="gris">
   <div class="env centro">
     <span class="rotulo reveal">La consultoría</span>
-    <h2 class="reveal">Cuatro momentos. En el último la ves andando</h2>
+    <h2 class="reveal">4 pasos. En el último lo ves funcionando</h2>
     <ol class="pasos reveal" style="text-align:left">
-      <li><span class="num">01</span><h3>La llamada corta</h3>
-        <p>Te digo el número ahí mismo: cuántas horas por semana se te van a mano.</p>
+      <li><span class="num">01</span><h3>Llamada inicial</h3>
+        <p>En la misma llamada te digo cuántas horas por semana se te van en trabajo manual.</p>
         <span class="reloj">15 minutos</span></li>
-      <li><span class="num">02</span><h3>El relevamiento</h3>
-        <p>Mapeamos la entrega entera y elegimos una sola cosa.</p>
+      <li><span class="num">02</span><h3>Revisamos tu entrega</h3>
+        <p>Repasamos juntos todo lo que pasa desde que entra un cliente y elegimos una sola cosa para resolver.</p>
         <span class="reloj">90 minutos</span></li>
-      <li><span class="num">03</span><h3>La construyo</h3>
-        <p>Cuatro horas, y no se estiran. Si no entra, elijo una más chica.</p>
+      <li><span class="num">03</span><h3>La construyo yo</h3>
+        <p>Tengo 4 horas y no se estiran. Si no alcanzan, elijo algo más chico.</p>
         <span class="reloj">4 horas</span></li>
-      <li><span class="num">04</span><h3>La ves corriendo</h3>
-        <p>Compartimos pantalla y la hacés andar vos.</p>
+      <li><span class="num">04</span><h3>La ves funcionando</h3>
+        <p>Compartimos pantalla y la probás vos mismo.</p>
         <span class="reloj">45 minutos</span></li>
     </ol>
   </div>
@@ -301,13 +305,13 @@ textarea.entrada{min-height:92px;resize:vertical}
     <span class="rotulo reveal">Preguntas frecuentes</span>
     <h2 class="reveal">Preguntas antes de agendar</h2>
     <div class="faq reveal" style="text-align:left">
-      <details><summary>¿Por qué no me cobrás nada?</summary><div class="cuerpo">Porque prefiero mostrarte algo funcionando antes que mandarte un presupuesto. Si te sirve, hablamos de instalarlo en tus cuentas. Si no, te quedás con el mapa y el número igual.</div></details>
-      <details><summary>¿Cuánto tiempo mío se lleva?</summary><div class="cuerpo">Quince minutos la primera llamada, noventa el relevamiento y cuarenta y cinco la demo. Las cuatro horas de construcción las pongo yo, vos no estás.</div></details>
-      <details><summary>No tengo los procesos escritos.</summary><div class="cuerpo">Nadie los tiene. La consultoría no espera los procesos: los saca. Que no estén escritos es justamente el problema del que estamos hablando.</div></details>
-      <details><summary>¿Me vas a pedir las claves de mis sistemas?</summary><div class="cuerpo">No. Te pido muestras: un mail que mandás siempre, una planilla, un documento. Los accesos son después, y sólo si decidís que lo quieras instalado.</div></details>
-      <details><summary>Ya compré automatización una vez y se rompió.</summary><div class="cuerpo">Pasa seguido, y casi siempre es lo mismo: se automatizó algo antes de entender el proceso, o quedó armado en la cuenta de otro. Por eso primero se mide y se mapea, y lo que se instala queda en tus cuentas.</div></details>
-      <details><summary>¿Y si en cuatro horas no llegás?</summary><div class="cuerpo">Entonces la pieza era muy grande y elijo una más chica. Las horas no se estiran. Prefiero mostrarte algo chico andando que algo grande a medio hacer.</div></details>
-      <details><summary>¿Qué me llevo si después no trabajamos juntos?</summary><div class="cuerpo">El mapa de tu entrega proceso por proceso, el número medido de horas por semana, y la pieza corriendo para que la veas andar. Son tuyos igual.</div></details>
+      <details><summary>¿Por qué no me cobrás nada?</summary><div class="cuerpo">Porque prefiero mostrarte algo funcionando antes que mandarte un presupuesto. Si te sirve, hablamos de dejarlo instalado en tus cuentas. Si no, te quedás igual con el mapa de tu entrega y las horas medidas.</div></details>
+      <details><summary>¿Cuánto tiempo me lleva a mí?</summary><div class="cuerpo">15 minutos la primera llamada, 90 la revisión y 45 la demostración. Las 4 horas de construcción las pongo yo: no hace falta que estés.</div></details>
+      <details><summary>No tengo los procesos escritos.</summary><div class="cuerpo">Casi nadie los tiene. No hace falta traerlos escritos: los sacamos juntos en la revisión. Que no estén escritos ya es parte del problema.</div></details>
+      <details><summary>¿Me vas a pedir las claves de mis sistemas?</summary><div class="cuerpo">No. Te pido ejemplos: un mail que mandás siempre, una planilla, un documento. Los accesos vienen después, y sólo si decidís instalarlo.</div></details>
+      <details><summary>Ya compré automatización una vez y se rompió.</summary><div class="cuerpo">Pasa seguido, y casi siempre por lo mismo: se automatizó algo antes de entender el proceso, o quedó armado en la cuenta de otro. Por eso primero medimos y revisamos, y lo que se instala queda en tus cuentas.</div></details>
+      <details><summary>¿Y si en 4 horas no llegás?</summary><div class="cuerpo">Entonces lo que elegimos era muy grande y elijo algo más chico. Las horas no se estiran: prefiero mostrarte algo chico funcionando que algo grande a medio hacer.</div></details>
+      <details><summary>¿Qué me llevo si después no trabajamos juntos?</summary><div class="cuerpo">El mapa de tu entrega paso por paso, las horas por semana medidas y lo que construí, funcionando. Es tuyo igual.</div></details>
     </div>
   </div>
 </section>
@@ -316,12 +320,12 @@ textarea.entrada{min-height:92px;resize:vertical}
 <section class="cierre">
   <div class="env centro">
     <span class="rotulo reveal">Agendá tu llamada</span>
-    <h2 class="reveal">Reservá tus quince minutos</h2>
-    <p class="sub reveal">Cinco preguntas cortas y elegís el horario. Si esto no es para vos, te lo digo ahí mismo.</p>
+    <h2 class="reveal">Reservá tu llamada de 15 minutos</h2>
+    <p class="sub reveal">Respondés 5 preguntas cortas y elegís el horario. Si no es para vos, te lo digo en el momento.</p>
     <div class="reveal" style="margin-top:clamp(1.8rem,3.5vw,2.4rem)">
-      <a class="boton rayo" href="#agendar">Ver horarios disponibles</a>
+      <a class="boton rayo" href="#agendar">Quiero agendar</a>
     </div>
-    <p class="friccion">Valoramos tu tiempo y el nuestro. Si vas a agendar para no venir, por favor no agendes.</p>
+    <p class="friccion">Si reservás un horario, te espero. Si no vas a poder, cancelalo desde la invitación y lo libero para otra persona.</p>
   </div>
 </section>
 
@@ -334,7 +338,7 @@ textarea.entrada{min-height:92px;resize:vertical}
 
 <div class="pie-cta" id="pie">
   <div class="caja">
-    <p>Te digo cuántas horas por semana se te van <em>a mano</em>. En quince minutos.</p>
+    <p>En 15 minutos te digo cuántas horas por semana hacés <em>a mano</em>.</p>
     <a class="boton rayo" href="#agendar">Agendar</a>
   </div>
 </div>
@@ -357,7 +361,7 @@ const VIDEO = { insertar: "" };
   if (!VIDEO.insertar) { sec.remove(); return; }
   const f = document.createElement('iframe');
   f.src = VIDEO.insertar;
-  f.title = 'Te lo cuento yo, en un minuto';
+  f.title = 'Te lo explico yo, en 1 minuto';
   f.loading = 'lazy';
   f.allow = 'accelerometer; clipboard-write; encrypted-media; picture-in-picture; fullscreen';
   f.setAttribute('allowfullscreen','');
@@ -424,7 +428,7 @@ const VIDEO = { insertar: "" };
           '<textarea class="entrada" id="f-tarea" name="tarea" maxlength="1000" required></textarea></div>' +
         '<div class="trampa" aria-hidden="true"><input name="web" tabindex="-1" autocomplete="off"></div>' +
         '<p class="aviso-form" id="f-aviso"></p>' +
-        '<button class="boton" type="submit">Ver horarios disponibles</button>' +
+        '<button class="boton" type="submit">Ver horarios</button>' +
       '</form>';
     const f = document.getElementById('f-cal');
     f.addEventListener('submit', function(ev){
@@ -438,7 +442,7 @@ const VIDEO = { insertar: "" };
         onboarding: d.get('onboarding'), tarea: String(d.get('tarea')||'').trim()
       };
       if (datos.instagram.length < 3 || !datos.vende || !datos.clientes_mes || !datos.onboarding || datos.tarea.length < 3) {
-        aviso.textContent = 'Completá las cinco preguntas para seguir.'; return;
+        aviso.textContent = 'Completá las 5 preguntas para seguir.'; return;
       }
       aviso.textContent = '';
       const b = f.querySelector('button'); b.disabled = true; b.textContent = 'Un segundo…';
@@ -449,7 +453,7 @@ const VIDEO = { insertar: "" };
         else if (r.agenda) pasoGoogle(r.agenda);
         else pasoHorarios();
       }).catch(function(){
-        b.disabled = false; b.textContent = 'Ver horarios disponibles';
+        b.disabled = false; b.textContent = 'Ver horarios';
         aviso.innerHTML = 'No se pudo enviar. Probá de nuevo o escribime a ' + MAIL + '.';
       });
     });
@@ -462,7 +466,7 @@ const VIDEO = { insertar: "" };
     if (!/^https:\/\/calendar\.google\.com\/calendar\/appointments\//.test(url)) return pasoHorarios();
     app.innerHTML =
       '<div class="paso-tit"><h3>Elegí día y horario</h3><span class="paso-n">Paso 2 de 2</span></div>' +
-      '<p class="zona">La llamada es de quince minutos; te reservo media hora por si nos extendemos. Al confirmar te llega la invitación a tu mail, con el link de Google Meet.</p>' +
+      '<p class="zona">La llamada es de 15 minutos, pero te reservo 30 por si nos extendemos. Cuando confirmás, te llega la invitación al mail con el link de Google Meet.</p>' +
       '<div class="gcal-marco"><iframe title="Agenda de Luca" loading="lazy" src="' + esc(url) + '"></iframe></div>';
     subir();
   }
@@ -470,7 +474,7 @@ const VIDEO = { insertar: "" };
   function noCalifica(){
     app.innerHTML = '<div class="fin-caja"><div class="icono">✓</div>' +
       '<h3>Gracias por contarme</h3>' +
-      '<p>Por lo que me contás, hoy esta consultoría no es para vos, y prefiero no hacerte perder quince minutos. Si algo cambia, escribime a ' + MAIL + '.</p></div>';
+      '<p>Por lo que me contás, hoy esta consultoría no es para vos, y prefiero no hacerte perder 15 minutos. Si algo cambia, escribime a ' + MAIL + '.</p></div>';
     subir();
   }
 
@@ -493,7 +497,7 @@ const VIDEO = { insertar: "" };
       app.innerHTML =
         '<div class="paso-tit"><h3>Elegí día y horario</h3><span class="paso-n">Paso 2 de 2</span></div>' +
         (mensaje ? '<p class="aviso-form">' + mensaje + '</p>' : '') +
-        '<p class="zona">Quince minutos por videollamada. Los horarios están en tu hora local.</p>' +
+        '<p class="zona">15 minutos por videollamada. Los horarios están en tu hora local.</p>' +
         '<div class="dias">' + Object.keys(porDia).map(function(dia){
           return '<div class="dia"><h4>' + esc(dia) + '</h4><div class="horas">' + porDia[dia].map(function(h){
             return '<button type="button" class="hora" aria-pressed="false" data-inicio="' + h.inicio + '">' + fHora.format(new Date(h.inicio)) + '</button>';
@@ -555,7 +559,7 @@ const VIDEO = { insertar: "" };
     const gcal = 'https://calendar.google.com/calendar/render?action=TEMPLATE' +
       '&text=' + encodeURIComponent('Llamada con Luca · systemás') +
       '&dates=' + z(ini) + '/' + z(fin) +
-      '&details=' + encodeURIComponent('Quince minutos. Te paso el link de la videollamada por WhatsApp o mail.');
+      '&details=' + encodeURIComponent('15 minutos. Te paso el link de la videollamada por WhatsApp o mail.');
     app.innerHTML = '<div class="fin-caja"><div class="icono">✓</div>' +
       '<h3>Listo, ' + esc(nombre.split(' ')[0]) + '. Nos vemos el ' + esc(fDia.format(ini)) + ' a las ' + fHora.format(ini) + ' h</h3>' +
       '<p>Te mando el link de la videollamada por WhatsApp o mail antes de la llamada.</p>' +
@@ -563,7 +567,17 @@ const VIDEO = { insertar: "" };
     subir();
   }
 
-  pasoForm();
+  /* el form se abre sólo cuando la persona elige agendar (26-sep) */
+  let abierto = false;
+  function abrir(){ if (abierto) return; abierto = true; pasoForm(); }
+  function pasoInicio(){
+    app.innerHTML = '<div class="inicio-agenda"><h3>Agendá una llamada de 15 minutos</h3>' +
+      '<p>Respondés 5 preguntas cortas y después elegís el horario. No tiene costo.</p>' +
+      '<button class="boton rayo" type="button" id="abrir-form">Quiero agendar</button></div>';
+    document.getElementById('abrir-form').addEventListener('click', abrir);
+  }
+  document.querySelectorAll('a[href="#agendar"]').forEach(function(a){ a.addEventListener('click', abrir); });
+  pasoInicio();
 })();
 
 const io=new IntersectionObserver(function(es){
