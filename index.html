@@ -157,6 +157,60 @@ footer .env{display:flex;flex-wrap:wrap;gap:1rem;justify-content:space-between;a
 footer a{color:rgba(255,255,255,.5);text-decoration:none}
 footer a:hover{color:var(--electrico)}
 
+/* ── la agenda: form corto → horarios → datos → listo ── */
+.agenda-app{text-align:left;padding:clamp(.6rem,2vw,1.4rem) clamp(.4rem,2vw,1.2rem)}
+.agenda-app .paso-tit{display:flex;align-items:center;justify-content:space-between;gap:1rem;margin-bottom:1.3rem}
+.agenda-app .paso-tit h3{font-size:clamp(1.15rem,2.2vw,1.4rem)}
+.agenda-app .paso-n{font-weight:700;font-size:11px;letter-spacing:.13em;text-transform:uppercase;color:var(--azul);
+  background:rgba(11,106,112,.08);border-radius:40px;padding:.45rem .8rem;white-space:nowrap}
+.campo{border:0;margin:0 0 1.35rem;padding:0;min-width:0}
+.campo>legend,.campo>label.et{display:block;font-weight:600;font-size:15px;line-height:1.35;margin-bottom:.6rem;color:var(--tinta)}
+.opciones{display:grid;gap:.5rem}
+@media(min-width:640px){.opciones.dos{grid-template-columns:1fr 1fr}}
+.opciones.cuatro{grid-template-columns:repeat(2,1fr)}
+@media(min-width:640px){.opciones.cuatro{grid-template-columns:repeat(4,1fr)}}
+.op{position:relative;display:flex;align-items:center;gap:.7rem;cursor:pointer;background:var(--papel);
+  border:1.5px solid var(--linea);border-radius:12px;padding:.8rem 1rem;font-size:14.5px;line-height:1.35;
+  transition:border-color .15s,background .15s}
+.op:hover{border-color:#B9C9C9}
+.op input{position:absolute;opacity:0;pointer-events:none}
+.op::before{content:"";flex:0 0 auto;width:16px;height:16px;border-radius:50%;border:1.5px solid #9AAAAC;background:#fff;transition:all .15s}
+.op:has(input:checked){border-color:var(--azul);background:rgba(11,106,112,.06)}
+.op:has(input:checked)::before{border:5px solid var(--azul)}
+.op:has(input:focus-visible){outline:2px solid var(--azul);outline-offset:2px}
+.entrada{width:100%;font:inherit;font-size:15.5px;color:var(--tinta);background:var(--papel);
+  border:1.5px solid var(--linea);border-radius:12px;padding:.8rem 1rem;transition:border-color .15s}
+.entrada:focus{outline:none;border-color:var(--azul);background:#fff}
+textarea.entrada{min-height:92px;resize:vertical}
+.con-arroba{position:relative}
+.con-arroba span{position:absolute;left:1rem;top:50%;translate:0 -50%;color:var(--humo);font-weight:600}
+.con-arroba .entrada{padding-left:2.1rem}
+.trampa{position:absolute;left:-9999px;width:1px;height:1px;overflow:hidden}
+.agenda-app .boton{border:0;cursor:pointer;font-family:inherit;width:100%}
+@media(min-width:640px){.agenda-app .boton{width:auto}}
+.agenda-app .boton[disabled]{opacity:.55;cursor:wait;transform:none}
+.aviso-form{font-size:14px;color:var(--rojo);margin:-.4rem 0 1rem;min-height:1em}
+.dias{display:grid;gap:1.1rem;margin-bottom:1.4rem}
+.dia h4{font-weight:600;font-size:14px;color:var(--humo);margin-bottom:.55rem}
+.dia h4::first-letter{text-transform:uppercase}
+.horas{display:flex;flex-wrap:wrap;gap:.5rem}
+.hora{font:inherit;font-weight:600;font-size:15px;cursor:pointer;color:var(--azul);background:#fff;
+  border:1.5px solid rgba(11,106,112,.35);border-radius:10px;padding:.65rem 1.1rem;transition:all .15s}
+.hora:hover{border-color:var(--azul);background:rgba(11,106,112,.06)}
+.hora[aria-pressed="true"]{background:var(--azul);border-color:var(--azul);color:#fff}
+.zona{font-size:13px;color:var(--humo);margin:-.6rem 0 1.2rem}
+.datos{display:grid;gap:.8rem;margin-bottom:1.2rem}
+@media(min-width:760px){.datos{grid-template-columns:repeat(3,1fr)}}
+.datos label{display:block;font-weight:600;font-size:14px;margin-bottom:.4rem}
+.resumen-hora{display:inline-flex;align-items:center;gap:.5rem;font-weight:600;font-size:15px;
+  background:rgba(11,106,112,.08);color:var(--azul);border-radius:10px;padding:.6rem .9rem;margin-bottom:1.1rem}
+.resumen-hora::first-letter{text-transform:uppercase}
+.fin-caja{text-align:center;padding:clamp(1.5rem,4vw,2.6rem) .5rem}
+.fin-caja .icono{width:56px;height:56px;border-radius:50%;display:grid;place-items:center;margin:0 auto 1.1rem;
+  font-size:26px;font-weight:800;background:rgba(11,106,112,.1);color:var(--azul)}
+.fin-caja h3{font-size:clamp(1.2rem,2.4vw,1.5rem);margin-bottom:.6rem}
+.fin-caja p{color:var(--humo);font-size:15px;margin:0 auto 1.3rem;max-width:44ch}
+
 .reveal{opacity:0;transform:translateY(20px);transition:opacity .7s cubic-bezier(.2,.7,.3,1),transform .7s cubic-bezier(.2,.7,.3,1)}
 .reveal.vista{opacity:1;transform:none}
 @media(prefers-reduced-motion:reduce){.reveal{opacity:1;transform:none;transition:none}}
@@ -174,9 +228,9 @@ footer a:hover{color:var(--electrico)}
 <!-- ═══ hero ═══ -->
 <div class="hero">
   <div class="env centro">
-    <span class="pico"><span>Para agencias de servicios por internet</span></span>
+    <span class="pico"><span>Para coaches, infoproductores y agencias</span></span>
     <h1>Instalá la entrega que hoy hacés <em>a mano</em></h1>
-    <p class="sub">Y recuperá las horas que se te van cada semana, sin cambiar de herramientas ni contratar a nadie.</p>
+    <p class="sub">Vendés servicios digitales y cada cliente nuevo te pasa por las manos. Recuperá esas horas, sin cambiar de herramientas ni contratar a nadie.</p>
   </div>
 </div>
 
@@ -184,23 +238,19 @@ footer a:hover{color:var(--electrico)}
 <div class="montada" id="agendar">
   <div class="env">
     <div class="tarjeta">
-      <div class="hueco agenda">
-        <p><b>Estoy terminando de abrir la agenda.</b> Mientras tanto escribime a <a href="mailto:hola@xn--systems-mwa.com" style="color:var(--azul)">hola@systemás.com</a> y coordinamos.</p>
-      </div>
+      <div class="agenda-app" id="agenda-app"></div>
     </div>
     <p class="friccion">Valoramos tu tiempo y el nuestro. Si vas a agendar para no venir, por favor no agendes.</p>
   </div>
 </div>
 
 <!-- ═══ el video ═══ -->
-<section class="gris">
+<section class="gris" id="video" hidden style="display:none">
   <div class="env centro">
     <span class="rotulo reveal">En un minuto</span>
     <h2 class="reveal">Te lo cuento yo, y decidís</h2>
     <div class="tarjeta reveal" style="margin-top:clamp(1.8rem,3.5vw,2.4rem)">
-      <div class="hueco video">
-        <p><b>Acá va el video.</b> Un minuto, cámara al frente, sin edición.</p>
-      </div>
+      <div class="hueco video"></div>
     </div>
   </div>
 </section>
@@ -211,10 +261,10 @@ footer a:hover{color:var(--electrico)}
     <span class="rotulo reveal">Para quién es</span>
     <h2 class="reveal">Las cuatro tienen que dar que sí</h2>
     <ul class="reglas reveal" style="text-align:left">
-      <li><span class="tic">✓</span><span>Cobrás por un servicio que se <b>entrega por internet</b>.</span></li>
-      <li><span class="tic">✓</span><span>Son <b>tres o más</b> trabajando.</span></li>
-      <li><span class="tic">✓</span><span>Cada cliente pasa por una <b>puesta en marcha</b>.</span></li>
-      <li><span class="tic">✓</span><span>Y <b>vos seguís metido</b> adentro de esa puesta en marcha.</span></li>
+      <li><span class="tic">✓</span><span>Vendés <b>servicios digitales</b>: coaching, formación o servicios de agencia.</span></li>
+      <li><span class="tic">✓</span><span><b>Ya vendés</b>: entran clientes nuevos todos los meses.</span></li>
+      <li><span class="tic">✓</span><span>Cada cliente nuevo pasa por una <b>puesta en marcha</b>.</span></li>
+      <li><span class="tic">✓</span><span>Y esa puesta en marcha <b>la hacés a mano</b>, vos.</span></li>
     </ul>
     <p class="chico reveal" style="margin-top:1.4rem">Si alguna da que no, te lo digo en la primera llamada y no te hago perder el tiempo.</p>
   </div>
@@ -264,11 +314,9 @@ footer a:hover{color:var(--electrico)}
   <div class="env centro">
     <span class="rotulo reveal">Agendá tu llamada</span>
     <h2 class="reveal">Reservá tus quince minutos</h2>
-    <p class="sub reveal">Te hago las cuatro preguntas y te digo el número. Si esto no es para vos, te lo digo ahí mismo.</p>
-    <div class="tarjeta reveal">
-      <div class="hueco agenda">
-        <p><b>Estoy terminando de abrir la agenda.</b> Mientras tanto escribime a <a href="mailto:hola@xn--systems-mwa.com" style="color:var(--azul)">hola@systemás.com</a> y coordinamos.</p>
-      </div>
+    <p class="sub reveal">Cinco preguntas cortas y elegís el horario. Si esto no es para vos, te lo digo ahí mismo.</p>
+    <div class="reveal" style="margin-top:clamp(1.8rem,3.5vw,2.4rem)">
+      <a class="boton rayo" href="#agendar">Ver horarios disponibles</a>
     </div>
     <p class="friccion">Valoramos tu tiempo y el nuestro. Si vas a agendar para no venir, por favor no agendes.</p>
   </div>
@@ -289,48 +337,216 @@ footer a:hover{color:var(--electrico)}
 </div>
 
 <script>
-/* ══════════════════════════════════════════════════════════════════════
-   EL CALENDARIO · pegá los dos links acá y la página se acomoda sola.
-   Salen de: Google Calendar → Horarios de citas → Compartir.
-     link     = el corto, "https://calendar.app.google/XXXXXXXX"
-     insertar = el largo del código para insertar, termina en "?gv=true"
-   Si los dejás vacíos, se ve el cartel gris y nada se rompe.
-   ══════════════════════════════════════════════════════════════════════ */
-const AGENDA = {
-  link:     "",
-  insertar: ""
-};
+
+/* ═════════════════════════════════════════════════════════════════════
+   EL VIDEO · pegá acá el src del iframe y la sección aparece sola.
+     YouTube → Compartir → Insertar → lo que va dentro de src="..."
+              ej: "https://www.youtube.com/embed/XXXXXXXXXXX"
+     Loom    → Share → Embed → "https://www.loom.com/embed/XXXXXXXX"
+   Mientras esté vacío, la sección entera NO se muestra: la página es pública
+   y un hueco que dice "acá va el video" lo lee cualquiera.
+   ═════════════════════════════════════════════════════════════════════ */
+const VIDEO = { insertar: "" };
 
 (function(){
-  const huecos = document.querySelectorAll('.hueco.agenda');
-  if (AGENDA.insertar) {
-    huecos.forEach(function(el){
-      const f = document.createElement('iframe');
-      f.src = AGENDA.insertar;
-      f.title = 'Elegí día y horario';
-      f.loading = 'lazy';
-      f.setAttribute('frameborder','0');
-      f.style.cssText = 'width:100%;height:100%;border:0;border-radius:12px;display:block';
-      el.replaceChildren(f);
-      el.style.padding = '0';
-      el.style.background = '#fff';
-      el.style.minHeight = 'clamp(600px,68vw,740px)';
-      el.style.display = 'block';
-    });
-  } else if (AGENDA.link) {
-    huecos.forEach(function(el){
-      el.innerHTML = '<a class="boton rayo" href="'+AGENDA.link+'" target="_blank" rel="noopener">Elegí día y horario</a>';
-      el.style.minHeight = '0'; el.style.paddingBlock = '3.2rem';
-    });
-  } else {
-    /* sin calendario todavía: que el hueco no sea un agujero gris gigante */
-    huecos.forEach(function(el){ el.style.minHeight = '0'; el.style.paddingBlock = '3.2rem'; });
+  const sec = document.getElementById('video');
+  if (!sec) return;
+  if (!VIDEO.insertar) { sec.remove(); return; }
+  const f = document.createElement('iframe');
+  f.src = VIDEO.insertar;
+  f.title = 'Te lo cuento yo, en un minuto';
+  f.loading = 'lazy';
+  f.allow = 'accelerometer; clipboard-write; encrypted-media; picture-in-picture; fullscreen';
+  f.setAttribute('allowfullscreen','');
+  f.setAttribute('frameborder','0');
+  f.style.cssText = 'width:100%;height:100%;border:0;border-radius:12px;display:block';
+  const h = sec.querySelector('.hueco.video');
+  h.replaceChildren(f);
+  h.style.padding = '0';
+  h.style.background = '#000';
+  sec.removeAttribute('hidden');
+  sec.style.display = '';
+})();
+
+
+/* ══════════════════════════════════════════════════════════════════════
+   LA AGENDA · form corto → horarios → datos → listo (26-sep-2026)
+   Los horarios salen del Google Calendar real de Luca: el servidor de casa
+   los publica cada 2 minutos en Supabase, y carga cada reserva en el
+   calendario. Quién califica lo decide Supabase, no esta página.
+   La clave de abajo es la pública (anon): sólo deja ver horarios, mandar
+   el form y reservar. No lee nada.
+   ══════════════════════════════════════════════════════════════════════ */
+(function(){
+  const URL_API = "https://nvtjjzqzzfxegdhfehmo.supabase.co/rest/v1/rpc/";
+  const CLAVE = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im52dGpqenF6emZ4ZWdkaGZlaG1vIiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODQxNTI0MjMsImV4cCI6MjA5OTcyODQyM30.I6ILCnqRYjdxcjgIE0Z_3YIYa0FZdD5cEm6NfuDIxkY";
+  const MAIL = '<a href="mailto:hola@xn--systems-mwa.com" style="color:var(--azul)">hola@systemás.com</a>';
+  const app = document.getElementById('agenda-app');
+  if (!app) return;
+  const estado = { formulario: null, horario: null };
+
+  function api(fn, args){
+    return fetch(URL_API + fn, {
+      method: 'POST',
+      headers: { apikey: CLAVE, Authorization: 'Bearer ' + CLAVE, 'Content-Type': 'application/json' },
+      body: JSON.stringify(args || {})
+    }).then(function(r){ if (!r.ok) throw new Error('http ' + r.status); return r.json(); });
   }
-  if (AGENDA.link && !AGENDA.insertar) {
-    document.querySelectorAll('a[href="#agendar"]').forEach(function(a){
-      a.href = AGENDA.link; a.target = '_blank'; a.rel = 'noopener';
+  function esc(t){ const d = document.createElement('div'); d.textContent = t; return d.innerHTML; }
+  function opciones(nombre, lista, clase){
+    return '<div class="opciones ' + (clase||'') + '">' + lista.map(function(o){
+      return '<label class="op"><input type="radio" name="' + nombre + '" value="' + o[0] + '" required>' + o[1] + '</label>';
+    }).join('') + '</div>';
+  }
+  function subir(){ const t = app.getBoundingClientRect().top + scrollY - 90; if (scrollY > t) scrollTo({top: t, behavior: 'smooth'}); }
+
+  const fDia = new Intl.DateTimeFormat('es-AR', { weekday: 'long', day: 'numeric', month: 'long' });
+  const fHora = new Intl.DateTimeFormat('es-AR', { hour: '2-digit', minute: '2-digit', hourCycle: 'h23' });
+  function diaTxt(d){ const t = fDia.format(d); return t.charAt(0).toUpperCase() + t.slice(1); }
+
+  /* ── paso 1: el form ── */
+  function pasoForm(){
+    app.innerHTML =
+      '<div class="paso-tit"><h3>Contame de tu negocio</h3><span class="paso-n">Paso 1 de 2</span></div>' +
+      '<form id="f-cal" novalidate>' +
+        '<div class="campo"><label class="et" for="f-ig">Tu Instagram</label>' +
+          '<div class="con-arroba"><span>@</span><input class="entrada" id="f-ig" name="instagram" autocomplete="off" maxlength="60" required></div></div>' +
+        '<fieldset class="campo"><legend>¿Qué vendés?</legend>' +
+          opciones('vende', [['coaching','Coaching'],['formacion','Cursos o formación'],['agencia','Servicios de agencia'],['otro','Otro']], 'dos') + '</fieldset>' +
+        '<fieldset class="campo"><legend>¿Cuántos clientes nuevos te entraron el último mes?</legend>' +
+          opciones('clientes_mes', [['0','0'],['1-3','1 a 3'],['4-10','4 a 10'],['10+','Más de 10']], 'cuatro') + '</fieldset>' +
+        '<fieldset class="campo"><legend>¿Cómo gestionás hoy el onboarding de un cliente nuevo?</legend>' +
+          opciones('onboarding', [['yo_manual','Lo hago yo, de forma manual'],['equipo_manual','Lo hace alguien de mi equipo, de forma manual'],['parcial','Está automatizado en parte, pero requiere mantenimiento'],['completo','Está automatizado por completo']], 'dos') + '</fieldset>' +
+        '<div class="campo"><label class="et" for="f-tarea">¿Qué tarea operativa te consume más tiempo por semana?</label>' +
+          '<textarea class="entrada" id="f-tarea" name="tarea" maxlength="1000" required></textarea></div>' +
+        '<div class="trampa" aria-hidden="true"><input name="web" tabindex="-1" autocomplete="off"></div>' +
+        '<p class="aviso-form" id="f-aviso"></p>' +
+        '<button class="boton" type="submit">Ver horarios disponibles</button>' +
+      '</form>';
+    const f = document.getElementById('f-cal');
+    f.addEventListener('submit', function(ev){
+      ev.preventDefault();
+      const d = new FormData(f);
+      const aviso = document.getElementById('f-aviso');
+      if (d.get('web')) return;                          /* la trampa: sólo la llena un robot */
+      const datos = {
+        instagram: '@' + String(d.get('instagram')||'').trim().replace(/^@+/, ''),
+        vende: d.get('vende'), clientes_mes: d.get('clientes_mes'),
+        onboarding: d.get('onboarding'), tarea: String(d.get('tarea')||'').trim()
+      };
+      if (datos.instagram.length < 3 || !datos.vende || !datos.clientes_mes || !datos.onboarding || datos.tarea.length < 3) {
+        aviso.textContent = 'Completá las cinco preguntas para seguir.'; return;
+      }
+      aviso.textContent = '';
+      const b = f.querySelector('button'); b.disabled = true; b.textContent = 'Un segundo…';
+      api('landing_enviar_formulario', { p: datos }).then(function(r){
+        if (!r || !r.ok) throw new Error(r && r.motivo);
+        estado.formulario = r.id;
+        if (r.califica) pasoHorarios(); else noCalifica();
+      }).catch(function(){
+        b.disabled = false; b.textContent = 'Ver horarios disponibles';
+        aviso.innerHTML = 'No se pudo enviar. Probá de nuevo o escribime a ' + MAIL + '.';
+      });
     });
   }
+
+  function noCalifica(){
+    app.innerHTML = '<div class="fin-caja"><div class="icono">✓</div>' +
+      '<h3>Gracias por contarme</h3>' +
+      '<p>Por lo que me contás, hoy esta consultoría no es para vos, y prefiero no hacerte perder quince minutos. Si algo cambia, escribime a ' + MAIL + '.</p></div>';
+    subir();
+  }
+
+  /* ── paso 2: el horario y los datos ── */
+  function pasoHorarios(mensaje){
+    app.innerHTML = '<div class="paso-tit"><h3>Elegí día y horario</h3><span class="paso-n">Paso 2 de 2</span></div><p class="chico">Buscando horarios…</p>';
+    subir();
+    api('landing_ver_horarios').then(function(lista){
+      if (!lista || !lista.length) {
+        app.innerHTML = '<div class="fin-caja"><div class="icono">…</div><h3>Estoy acomodando la agenda</h3>' +
+          '<p>Ahora mismo no tengo horarios para mostrarte. Escribime a ' + MAIL + ' y te paso uno.</p></div>';
+        return;
+      }
+      const porDia = {};
+      lista.forEach(function(h){
+        const ini = new Date(h.inicio);
+        const k = diaTxt(ini);
+        (porDia[k] = porDia[k] || []).push(h);
+      });
+      app.innerHTML =
+        '<div class="paso-tit"><h3>Elegí día y horario</h3><span class="paso-n">Paso 2 de 2</span></div>' +
+        (mensaje ? '<p class="aviso-form">' + mensaje + '</p>' : '') +
+        '<p class="zona">Quince minutos por videollamada. Los horarios están en tu hora local.</p>' +
+        '<div class="dias">' + Object.keys(porDia).map(function(dia){
+          return '<div class="dia"><h4>' + esc(dia) + '</h4><div class="horas">' + porDia[dia].map(function(h){
+            return '<button type="button" class="hora" aria-pressed="false" data-inicio="' + h.inicio + '">' + fHora.format(new Date(h.inicio)) + '</button>';
+          }).join('') + '</div></div>';
+        }).join('') + '</div>' +
+        '<div id="f-datos"></div>';
+      app.querySelectorAll('.hora').forEach(function(b){
+        b.addEventListener('click', function(){
+          app.querySelectorAll('.hora').forEach(function(x){ x.setAttribute('aria-pressed', 'false'); });
+          b.setAttribute('aria-pressed', 'true');
+          estado.horario = b.dataset.inicio;
+          pasoDatos();
+        });
+      });
+    }).catch(function(){
+      app.innerHTML = '<div class="fin-caja"><h3>No pude cargar los horarios</h3><p>Probá recargar la página o escribime a ' + MAIL + '.</p></div>';
+    });
+  }
+
+  function pasoDatos(){
+    const cont = document.getElementById('f-datos');
+    const ini = new Date(estado.horario);
+    cont.innerHTML =
+      '<div class="resumen-hora">' + esc(diaTxt(ini)) + ' · ' + fHora.format(ini) + ' h</div>' +
+      '<form id="f-res" novalidate><div class="datos">' +
+        '<div><label for="r-nom">Nombre</label><input class="entrada" id="r-nom" name="nombre" autocomplete="name" maxlength="120" required></div>' +
+        '<div><label for="r-mail">Mail</label><input class="entrada" id="r-mail" name="email" type="email" autocomplete="email" maxlength="200" required></div>' +
+        '<div><label for="r-wa">WhatsApp</label><input class="entrada" id="r-wa" name="whatsapp" type="tel" autocomplete="tel" maxlength="40" placeholder="+54 9 ..." required></div>' +
+      '</div><p class="aviso-form" id="r-aviso"></p>' +
+      '<button class="boton rayo" type="submit">Confirmar la llamada</button></form>';
+    cont.querySelector('#r-nom').focus({ preventScroll: true });
+    cont.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+    const f = document.getElementById('f-res');
+    f.addEventListener('submit', function(ev){
+      ev.preventDefault();
+      const d = new FormData(f), aviso = document.getElementById('r-aviso');
+      const nombre = String(d.get('nombre')||'').trim(), email = String(d.get('email')||'').trim(), wa = String(d.get('whatsapp')||'').trim();
+      if (nombre.length < 2) { aviso.textContent = 'Poné tu nombre.'; return; }
+      if (!/^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(email)) { aviso.textContent = 'Revisá el mail.'; return; }
+      if (wa.replace(/\D/g,'').length < 8) { aviso.textContent = 'Revisá el WhatsApp, con código de país.'; return; }
+      aviso.textContent = '';
+      const b = f.querySelector('button'); b.disabled = true; b.textContent = 'Reservando…';
+      api('landing_reservar', { p_formulario: estado.formulario, p_inicio: estado.horario, p_nombre: nombre, p_email: email, p_whatsapp: wa })
+        .then(function(r){
+          if (r && r.ok) return listo(nombre);
+          if (r && r.motivo === 'ocupado') return pasoHorarios('Ese horario se acaba de ocupar. Elegí otro.');
+          if (r && r.motivo === 'ya_reservo') return listo(nombre);
+          throw new Error(r && r.motivo);
+        }).catch(function(){
+          b.disabled = false; b.textContent = 'Confirmar la llamada';
+          aviso.innerHTML = 'No se pudo reservar. Probá de nuevo o escribime a ' + MAIL + '.';
+        });
+    });
+  }
+
+  function listo(nombre){
+    const ini = new Date(estado.horario), fin = new Date(ini.getTime() + 15*60000);
+    const z = function(d){ return d.toISOString().replace(/[-:]/g,'').replace(/\.\d{3}/,''); };
+    const gcal = 'https://calendar.google.com/calendar/render?action=TEMPLATE' +
+      '&text=' + encodeURIComponent('Llamada con Luca · systemás') +
+      '&dates=' + z(ini) + '/' + z(fin) +
+      '&details=' + encodeURIComponent('Quince minutos. Te paso el link de la videollamada por WhatsApp o mail.');
+    app.innerHTML = '<div class="fin-caja"><div class="icono">✓</div>' +
+      '<h3>Listo, ' + esc(nombre.split(' ')[0]) + '. Nos vemos el ' + esc(fDia.format(ini)) + ' a las ' + fHora.format(ini) + ' h</h3>' +
+      '<p>Te mando el link de la videollamada por WhatsApp o mail antes de la llamada.</p>' +
+      '<a class="boton" href="' + gcal + '" target="_blank" rel="noopener">Agregar a mi calendario</a></div>';
+    subir();
+  }
+
+  pasoForm();
 })();
 
 const io=new IntersectionObserver(function(es){
