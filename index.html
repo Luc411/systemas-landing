@@ -13,8 +13,8 @@
   --lucca:"Poppins","Century Gothic","Avenir Next",system-ui,sans-serif;
   --papel:#FBFAF7; --papel2:#F2F0EB; --blanco:#FEFEFD;
   --tinta:#102327; --humo:#5F6E70; --linea:#E3E0D8;
-  --marina:#06282E; --azul:#0B6A70; --electrico:#35E0D0;
-  --noche:#04171B; --rojo:#E23A2E;
+  --marina:#074435; --azul:#0B6A70; --electrico:#35E0D0;
+  --noche:#03241C; --rojo:#E23A2E;
   --r:14px;
 }
 *{box-sizing:border-box;margin:0;padding:0}
@@ -54,18 +54,18 @@ section{padding-block:clamp(3.2rem,6vw,5rem)}
   padding:1rem 1.7rem;border-radius:40px;min-height:50px;
   box-shadow:0 10px 30px -10px rgba(11,106,112,.55);transition:transform .2s,box-shadow .2s,background .2s}
 .boton:hover{background:#095157;transform:translateY(-2px);box-shadow:0 14px 36px -10px rgba(11,106,112,.7)}
-.boton.rayo{background:var(--electrico);color:#052226;box-shadow:0 10px 32px -10px rgba(53,224,208,.75)}
+.boton.rayo{background:var(--electrico);color:#03241C;box-shadow:0 10px 32px -10px rgba(53,224,208,.75)}
 .boton.rayo:hover{background:#63EADC}
 
 /* ── barra flotante ── */
 .barra{position:fixed;top:14px;left:0;right:0;z-index:60}
 .barra .caja{width:min(1080px,92vw);margin-inline:auto;display:flex;align-items:center;
-  justify-content:space-between;gap:1rem;background:rgba(4,23,27,.78);backdrop-filter:blur(16px);
+  justify-content:space-between;gap:1rem;background:rgba(3,36,28,.78);backdrop-filter:blur(16px);
   border:1px solid rgba(255,255,255,.09);border-radius:40px;padding:.5rem .5rem .5rem 1.4rem}
 .marca{display:flex;align-items:center;gap:.6rem;font-weight:700;font-size:17px;letter-spacing:-.03em;
   color:#fff;text-decoration:none}
 .marca .punto{width:26px;height:26px;border-radius:50%;background:var(--electrico);display:grid;
-  place-items:center;font-weight:800;font-size:12px;color:#04171B}
+  place-items:center;font-weight:800;font-size:12px;color:#03241C}
 .barra .boton{padding:.7rem 1.25rem;font-size:14px;min-height:42px;box-shadow:none}
 .corto{display:inline}.largo{display:none}
 @media(min-width:620px){.corto{display:none}.largo{display:inline}}
@@ -78,7 +78,7 @@ section{padding-block:clamp(3.2rem,6vw,5rem)}
                    linear-gradient(90deg,rgba(255,255,255,.05) 1px,transparent 1px);
   background-size:64px 64px}
 .hero::after{content:"";position:absolute;left:50%;top:-30%;width:120%;height:120%;translate:-50% 0;
-  background:radial-gradient(45% 40% at 50% 45%,rgba(53,224,208,.2) 0%,rgba(6,40,46,0) 70%)}
+  background:radial-gradient(45% 40% at 50% 45%,rgba(53,224,208,.2) 0%,rgba(7,68,53,0) 70%)}
 .hero .env{position:relative;z-index:2}
 .hero h1{color:#fff;max-width:20ch}
 .hero h1 em{font-style:normal;color:var(--electrico)}
@@ -87,7 +87,7 @@ section{padding-block:clamp(3.2rem,6vw,5rem)}
 /* ── la tarjeta que se monta sobre la banda ── */
 .montada{position:relative;z-index:10;margin-top:clamp(-8rem,-11vw,-5.5rem);padding-bottom:clamp(2.5rem,5vw,3.5rem)}
 .tarjeta{background:var(--blanco);border:1px solid var(--linea);border-radius:22px;
-  box-shadow:0 30px 70px -30px rgba(6,40,46,.4),0 8px 20px -12px rgba(6,40,46,.2);
+  box-shadow:0 30px 70px -30px rgba(7,68,53,.4),0 8px 20px -12px rgba(7,68,53,.2);
   padding:clamp(1rem,2vw,1.6rem)}
 .hueco{border-radius:14px;background:var(--papel2);display:grid;place-items:center;text-align:center;padding:2rem}
 .hueco.agenda{min-height:clamp(360px,46vw,470px)}
@@ -122,7 +122,7 @@ section{padding-block:clamp(3.2rem,6vw,5rem)}
 /* ── preguntas ── */
 .faq{display:grid;gap:.7rem;margin-top:clamp(1.8rem,3.5vw,2.4rem)}
 .faq details{background:var(--marina);border-radius:var(--r);overflow:hidden;transition:background .2s}
-.faq details[open]{background:#0A363E}
+.faq details[open]{background:#0A5443}
 .faq summary{cursor:pointer;list-style:none;display:flex;justify-content:space-between;align-items:center;
   gap:1.2rem;padding:1.1rem 1.4rem;color:#fff;font-weight:600;font-size:15.5px;line-height:1.35}
 .faq summary::-webkit-details-marker{display:none}
@@ -143,7 +143,7 @@ section{padding-block:clamp(3.2rem,6vw,5rem)}
 .pie-cta{position:fixed;left:0;right:0;bottom:14px;z-index:55;display:flex;justify-content:center;
   padding-inline:1rem;opacity:0;transform:translateY(18px);pointer-events:none;transition:opacity .4s,transform .4s}
 .pie-cta.vista{opacity:1;transform:none;pointer-events:auto}
-.pie-cta .caja{display:flex;align-items:center;gap:1.2rem;background:rgba(4,23,27,.93);
+.pie-cta .caja{display:flex;align-items:center;gap:1.2rem;background:rgba(3,36,28,.93);
   backdrop-filter:blur(16px);border:1px solid rgba(255,255,255,.09);border-radius:40px;
   padding:.55rem .55rem .55rem 1.5rem;max-width:min(880px,100%)}
 .pie-cta p{color:#fff;font-size:14.5px;line-height:1.35;font-weight:500;max-width:36ch}
