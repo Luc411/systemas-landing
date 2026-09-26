@@ -462,7 +462,7 @@ const VIDEO = { insertar: "" };
     if (!/^https:\/\/calendar\.google\.com\/calendar\/appointments\//.test(url)) return pasoHorarios();
     app.innerHTML =
       '<div class="paso-tit"><h3>Elegí día y horario</h3><span class="paso-n">Paso 2 de 2</span></div>' +
-      '<p class="zona">Quince minutos por videollamada. Al confirmar te llega la invitación a tu mail, con el link de la llamada.</p>' +
+      '<p class="zona">La llamada es de quince minutos; te reservo media hora por si nos extendemos. Al confirmar te llega la invitación a tu mail, con el link de Google Meet.</p>' +
       '<div class="gcal-marco"><iframe title="Agenda de Luca" loading="lazy" src="' + esc(url) + '"></iframe></div>';
     subir();
   }
