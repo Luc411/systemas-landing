@@ -1,0 +1,278 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>systemás · Instagram Inbox</title>
+<meta name="robots" content="noindex">
+<link rel="icon" href="../favicon-32.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+:root{--papel:#FBFAF7;--blanco:#FEFEFD;--tinta:#102327;--humo:#5F6E70;--linea:#E3E0D8;--marina:#074435;--verde:#0E7F39;--electrico:#1ED760;--rojo:#E23A2E}
+*{box-sizing:border-box}
+body{margin:0;background:var(--papel);color:var(--tinta);font:15px/1.45 Poppins,system-ui,sans-serif}
+header{background:var(--marina);color:#fff;padding:14px 24px;display:flex;align-items:center;gap:14px}
+header .marca{font-weight:700;font-size:20px;letter-spacing:-.3px}
+header .marca span{color:var(--electrico)}
+header .sub{opacity:.75;font-size:13px}
+header .der{margin-left:auto;display:flex;align-items:center;gap:12px}
+main{max-width:1100px;margin:0 auto;padding:24px 16px 60px}
+.btn{border:0;border-radius:10px;padding:10px 16px;font:600 14px Poppins,sans-serif;cursor:pointer;background:var(--verde);color:#fff}
+.btn.sec{background:#fff;color:var(--tinta);border:1px solid var(--linea)}
+.btn.chico{padding:6px 11px;font-size:13px}
+.btn:disabled{opacity:.5;cursor:default}
+.tarjeta{background:var(--blanco);border:1px solid var(--linea);border-radius:14px;padding:18px}
+.portada{max-width:560px;margin:60px auto;text-align:center}
+.portada h1{font-size:30px;margin:0 0 10px}
+.portada p{color:var(--humo)}
+.portada ul{text-align:left;color:var(--humo);margin:18px auto 26px;max-width:420px}
+.ig{background:linear-gradient(45deg,#f09433,#dc2743,#bc1888);font-size:16px;padding:13px 22px}
+.perfil{display:flex;align-items:center;gap:16px;margin-bottom:18px}
+.perfil img{width:64px;height:64px;border-radius:50%;object-fit:cover;border:2px solid var(--linea)}
+.perfil .n{font-weight:700;font-size:18px}
+.perfil .d{color:var(--humo);font-size:13px}
+.cifras{display:flex;gap:22px;margin-left:auto}
+.cifras b{display:block;font-size:18px}
+.cifras small{color:var(--humo)}
+.pestanas{display:flex;gap:6px;margin:6px 0 16px;border-bottom:1px solid var(--linea)}
+.pestanas button{background:none;border:0;padding:10px 14px;font:600 14px Poppins;color:var(--humo);cursor:pointer;border-bottom:3px solid transparent}
+.pestanas button.on{color:var(--marina);border-color:var(--verde)}
+.dos{display:grid;grid-template-columns:300px 1fr;gap:16px}
+.lista{max-height:560px;overflow:auto;padding:6px}
+.item{padding:10px 12px;border-radius:10px;cursor:pointer;border:1px solid transparent}
+.item:hover{background:#f3f1ec}
+.item.on{background:#eaf5ee;border-color:#cfe6d6}
+.item small{color:var(--humo);display:block}
+.chat{display:flex;flex-direction:column;height:560px}
+.mensajes{flex:1;overflow:auto;display:flex;flex-direction:column;gap:8px;padding:6px}
+.burbuja{max-width:70%;padding:9px 13px;border-radius:16px;background:#efede8}
+.burbuja.mio{align-self:flex-end;background:var(--verde);color:#fff}
+.burbuja small{display:block;opacity:.65;font-size:11px;margin-top:2px}
+.caja{display:flex;gap:8px;margin-top:10px}
+.caja input{flex:1;border:1px solid var(--linea);border-radius:10px;padding:10px 12px;font:14px Poppins}
+.posts{display:grid;grid-template-columns:repeat(2,1fr);gap:8px}
+.post{border:2px solid transparent;border-radius:10px;overflow:hidden;cursor:pointer;position:relative;background:#ddd;aspect-ratio:1}
+.post.on{border-color:var(--verde)}
+.post img{width:100%;height:100%;object-fit:cover;display:block}
+.post span{position:absolute;bottom:4px;left:4px;background:rgba(0,0,0,.6);color:#fff;font-size:12px;border-radius:6px;padding:1px 6px}
+.comentario{border-bottom:1px solid var(--linea);padding:12px 4px}
+.comentario .u{font-weight:600}
+.comentario .r{margin:6px 0 0 18px;color:var(--humo);font-size:13px}
+.acciones{display:flex;gap:6px;margin-top:8px;flex-wrap:wrap}
+.metricas{display:grid;grid-template-columns:repeat(auto-fill,minmax(170px,1fr));gap:12px}
+.metrica b{display:block;font-size:26px}
+.metrica small{color:var(--humo)}
+.aviso{padding:10px 14px;border-radius:10px;margin:10px 0;font-size:14px}
+.aviso.ok{background:#e8f6ec;color:#0b5a2a}
+.aviso.mal{background:#fdecea;color:#8a1c14}
+.vacio{color:var(--humo);padding:20px;text-align:center}
+.oculto{display:none}
+@media (max-width:760px){.dos{grid-template-columns:1fr}.cifras{display:none}}
+</style>
+</head>
+<body>
+<header>
+  <div class="marca">system<span>ás</span></div>
+  <div class="sub">Instagram Inbox</div>
+  <div class="der" id="arriba"></div>
+</header>
+<main id="raiz"></main>
+
+<script>
+const API = "https://nvtjjzqzzfxegdhfehmo.supabase.co/functions/v1/systemas-ig";
+const $ = (s, r = document) => r.querySelector(s);
+const esc = (t) => String(t ?? "").replace(/[&<>"]/g, (c) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;" }[c]));
+const fecha = (t) => t ? new Date(t).toLocaleString("en-US", { month: "short", day: "numeric", hour: "2-digit", minute: "2-digit" }) : "";
+
+const h = new URLSearchParams(location.hash.slice(1));
+if (h.get("s")) { sessionStorage.setItem("sesion", h.get("s")); history.replaceState(null, "", location.pathname); }
+let sesion = sessionStorage.getItem("sesion");
+let yo = null;
+
+async function api(ruta, cuerpo) {
+  const r = await fetch(API + ruta, {
+    method: cuerpo ? "POST" : "GET",
+    headers: { "x-sesion": sesion || "", ...(cuerpo ? { "content-type": "application/json" } : {}) },
+    body: cuerpo ? JSON.stringify(cuerpo) : undefined,
+  });
+  const d = await r.json();
+  if (r.status === 401) { sessionStorage.removeItem("sesion"); sesion = null; portada(); throw new Error(d.error); }
+  if (d.error) throw new Error(d.error);
+  return d;
+}
+function aviso(dondeSel, texto, ok = true) {
+  const d = document.createElement("div");
+  d.className = "aviso " + (ok ? "ok" : "mal");
+  d.textContent = texto;
+  $(dondeSel).prepend(d);
+  setTimeout(() => d.remove(), 6000);
+}
+
+function portada() {
+  $("#arriba").innerHTML = "";
+  $("#raiz").innerHTML = `
+    <div class="portada tarjeta">
+      <h1>Every DM and comment, one inbox.</h1>
+      <p>systemás helps small businesses answer their Instagram customers on time.</p>
+      <ul>
+        <li>Read and reply to your Instagram direct messages.</li>
+        <li>See the comments on your posts, reply publicly or send a private reply.</li>
+        <li>Track the reach and engagement of your account and posts.</li>
+      </ul>
+      <button class="btn ig" id="entrar">Log in with Instagram</button>
+      ${h.get("error") ? `<div class="aviso mal">${esc(h.get("error"))}</div>` : ""}
+    </div>`;
+  $("#entrar").onclick = () => { location.href = API + "/login"; };
+}
+
+async function panel() {
+  $("#raiz").innerHTML = `<div class="vacio">Loading your account…</div>`;
+  yo = await api("/me");
+  $("#arriba").innerHTML = `<span>@${esc(yo.username)}</span><button class="btn sec chico" id="salir">Log out</button>`;
+  $("#salir").onclick = async () => { await api("/logout", {}); sessionStorage.removeItem("sesion"); sesion = null; portada(); };
+  $("#raiz").innerHTML = `
+    <div class="tarjeta perfil">
+      <img src="${esc(yo.profile_picture_url || "../icono-512.png")}" alt="">
+      <div><div class="n">${esc(yo.name || yo.username)}</div><div class="d">@${esc(yo.username)} · ${esc(yo.account_type || "")}</div></div>
+      <div class="cifras">
+        <div><b>${yo.followers_count ?? "–"}</b><small>followers</small></div>
+        <div><b>${yo.follows_count ?? "–"}</b><small>following</small></div>
+        <div><b>${yo.media_count ?? "–"}</b><small>posts</small></div>
+      </div>
+    </div>
+    <div class="pestanas">
+      <button data-p="inbox" class="on">Messages</button>
+      <button data-p="comentarios">Comments</button>
+      <button data-p="metricas">Insights</button>
+    </div>
+    <div id="vista"></div>`;
+  document.querySelectorAll(".pestanas button").forEach((b) => b.onclick = () => {
+    document.querySelectorAll(".pestanas button").forEach((x) => x.classList.toggle("on", x === b));
+    ({ inbox, comentarios, metricas })[b.dataset.p]();
+  });
+  inbox();
+}
+
+// ---------- Messages ----------
+async function inbox() {
+  $("#vista").innerHTML = `<div class="dos"><div class="tarjeta lista" id="convs"><div class="vacio">Loading conversations…</div></div>
+    <div class="tarjeta chat"><div class="mensajes" id="msjs"><div class="vacio">Choose a conversation.</div></div>
+    <div class="caja"><input id="texto" placeholder="Write a reply…" disabled><button class="btn" id="enviar" disabled>Send</button></div></div></div>`;
+  const d = await api("/conversations");
+  const convs = d.data || [];
+  if (!convs.length) { $("#convs").innerHTML = `<div class="vacio">No conversations yet.</div>`; return; }
+  $("#convs").innerHTML = "";
+  for (const c of convs) {
+    const otro = (c.participants?.data || []).find((p) => p.id !== yo.user_id && p.username !== yo.username) || {};
+    const el = document.createElement("div");
+    el.className = "item";
+    el.innerHTML = `<b>@${esc(otro.username || otro.id)}</b><small>${fecha(c.updated_time)}</small>`;
+    el.onclick = () => { document.querySelectorAll("#convs .item").forEach((x) => x.classList.remove("on")); el.classList.add("on"); abrirChat(c.id, otro); };
+    $("#convs").append(el);
+  }
+}
+async function abrirChat(conv, otro) {
+  $("#msjs").innerHTML = `<div class="vacio">Loading messages…</div>`;
+  const d = await api("/messages?conv=" + encodeURIComponent(conv));
+  const ms = (d.messages?.data || []).slice().reverse();
+  $("#msjs").innerHTML = ms.map((m) => {
+    const mio = m.from?.id === yo.user_id || m.from?.username === yo.username;
+    return `<div class="burbuja ${mio ? "mio" : ""}">${esc(m.message || "(attachment)")}<small>${mio ? "You" : "@" + esc(m.from?.username)} · ${fecha(m.created_time)}</small></div>`;
+  }).join("") || `<div class="vacio">No messages.</div>`;
+  $("#msjs").scrollTop = 1e9;
+  $("#texto").disabled = $("#enviar").disabled = false;
+  $("#enviar").onclick = async () => {
+    const t = $("#texto").value.trim();
+    if (!t) return;
+    $("#enviar").disabled = true;
+    try { await api("/send", { recipient_id: otro.id, text: t }); $("#texto").value = ""; aviso("#vista", "Message sent to @" + (otro.username || otro.id)); await abrirChat(conv, otro); }
+    catch (e) { aviso("#vista", e.message, false); }
+    $("#enviar").disabled = false;
+  };
+}
+
+// ---------- Comments ----------
+async function comentarios() {
+  $("#vista").innerHTML = `<div class="dos"><div class="tarjeta lista"><div class="posts" id="posts"><div class="vacio">Loading posts…</div></div></div>
+    <div class="tarjeta lista" id="coms"><div class="vacio">Choose a post to see its comments.</div></div></div>`;
+  const d = await api("/media");
+  const posts = d.data || [];
+  $("#posts").innerHTML = posts.length ? "" : `<div class="vacio">No posts yet.</div>`;
+  for (const p of posts) {
+    const el = document.createElement("div");
+    el.className = "post";
+    el.innerHTML = `<img src="${esc(p.thumbnail_url || p.media_url)}" alt=""><span>💬 ${p.comments_count ?? 0}</span>`;
+    el.onclick = () => { document.querySelectorAll(".post").forEach((x) => x.classList.remove("on")); el.classList.add("on"); verComentarios(p); };
+    $("#posts").append(el);
+  }
+}
+async function verComentarios(p) {
+  $("#coms").innerHTML = `<div class="vacio">Loading comments…</div>`;
+  const d = await api("/comments?media=" + p.id);
+  const cs = d.data || [];
+  $("#coms").innerHTML = `<div style="color:var(--humo);font-size:13px;margin-bottom:6px">${esc((p.caption || "").slice(0, 90))}</div>` +
+    (cs.length ? "" : `<div class="vacio">No comments on this post.</div>`);
+  for (const c of cs) {
+    const el = document.createElement("div");
+    el.className = "comentario";
+    el.innerHTML = `<span class="u">@${esc(c.username)}</span> ${esc(c.text)} <small style="color:var(--humo)">· ${fecha(c.timestamp)}</small>
+      ${(c.replies?.data || []).map((r) => `<div class="r">↳ <b>@${esc(r.username)}</b> ${esc(r.text)}</div>`).join("")}
+      <div class="caja"><input placeholder="Write a reply…"></div>
+      <div class="acciones">
+        <button class="btn chico" data-a="publica">Reply publicly</button>
+        <button class="btn chico sec" data-a="privada">Send private reply (DM)</button>
+        <button class="btn chico sec" data-a="ocultar">Hide comment</button>
+      </div>`;
+    const input = $("input", el);
+    el.querySelectorAll("button").forEach((b) => b.onclick = async () => {
+      const t = input.value.trim();
+      if (b.dataset.a !== "ocultar" && !t) { input.focus(); return; }
+      b.disabled = true;
+      try {
+        if (b.dataset.a === "publica") { await api("/reply-comment", { comment_id: c.id, text: t }); aviso("#coms", "Public reply posted."); }
+        if (b.dataset.a === "privada") { await api("/private-reply", { comment_id: c.id, text: t }); aviso("#coms", "Private reply sent to @" + c.username + " by DM."); }
+        if (b.dataset.a === "ocultar") { await api("/hide-comment", { comment_id: c.id, hide: true }); aviso("#coms", "Comment hidden."); }
+        input.value = "";
+        if (b.dataset.a === "publica") verComentarios(p);
+      } catch (e) { aviso("#coms", e.message, false); }
+      b.disabled = false;
+    });
+    $("#coms").append(el);
+  }
+}
+
+// ---------- Insights ----------
+const NOMBRES = { reach: "Accounts reached", views: "Views", accounts_engaged: "Accounts engaged", total_interactions: "Interactions",
+  likes: "Likes", comments: "Comments", follows_and_unfollows: "Follows", saved: "Saves", shares: "Shares", follower_count: "New followers" };
+function tarjetas(lista) {
+  return `<div class="metricas">${lista.map(([n, v]) => `<div class="tarjeta metrica"><b>${v ?? "–"}</b><small>${esc(NOMBRES[n] || n)}</small></div>`).join("")}</div>`;
+}
+async function metricas() {
+  $("#vista").innerHTML = `<div class="tarjeta"><h3 style="margin-top:0">Account · today</h3><div id="mcuenta"><div class="vacio">Loading insights…</div></div></div>
+    <div class="tarjeta" style="margin-top:16px"><h3 style="margin-top:0">Posts</h3><div class="dos"><div class="posts" id="mposts"></div><div id="mpost"><div class="vacio">Choose a post to see its insights.</div></div></div></div>`;
+  const d = await api("/insights");
+  const filas = (d.cuenta?.data || []).map((m) => [m.name, m.total_value?.value ?? m.values?.at(-1)?.value]);
+  const seg = d.seguidores?.data?.[0];
+  if (seg) filas.push(["follower_count", seg.values?.at(-1)?.value]);
+  $("#mcuenta").innerHTML = filas.length ? tarjetas(filas) : `<div class="vacio">${esc(d.cuenta?.error || "No data yet.")}</div>`;
+  const ps = (await api("/media")).data || [];
+  for (const p of ps) {
+    const el = document.createElement("div");
+    el.className = "post";
+    el.innerHTML = `<img src="${esc(p.thumbnail_url || p.media_url)}" alt="">`;
+    el.onclick = async () => {
+      document.querySelectorAll("#mposts .post").forEach((x) => x.classList.remove("on")); el.classList.add("on");
+      $("#mpost").innerHTML = `<div class="vacio">Loading…</div>`;
+      try { const m = await api("/media-insights?media=" + p.id); $("#mpost").innerHTML = tarjetas((m.data || []).map((x) => [x.name, x.values?.[0]?.value])); }
+      catch (e) { $("#mpost").innerHTML = `<div class="aviso mal">${esc(e.message)}</div>`; }
+    };
+    $("#mposts").append(el);
+  }
+}
+
+sesion ? panel().catch((e) => { $("#raiz").innerHTML = `<div class="aviso mal">${esc(e.message)}</div>`; }) : portada();
+</script>
+</body>
+</html>
