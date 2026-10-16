@@ -215,10 +215,11 @@ async function verComentarios(p) {
   $("#coms").innerHTML = `<div style="color:var(--humo);font-size:13px;margin-bottom:6px">${esc((p.caption || "").slice(0, 90))}</div>` +
     (cs.length ? "" : `<div class="vacio">No comments on this post.</div>`);
   for (const c of cs) {
+    c.username = c.username || c.from?.username || "instagram_user";
     const el = document.createElement("div");
     el.className = "comentario";
     el.innerHTML = `<span class="u">@${esc(c.username)}</span> ${esc(c.text)} <small style="color:var(--humo)">· ${fecha(c.timestamp)}</small>
-      ${(c.replies?.data || []).map((r) => `<div class="r">↳ <b>@${esc(r.username)}</b> ${esc(r.text)}</div>`).join("")}
+      ${(c.replies?.data || []).map((r) => `<div class="r">↳ <b>@${esc(r.username || "you")}</b> ${esc(r.text)}</div>`).join("")}
       <div class="caja"><input placeholder="Write a reply…"></div>
       <div class="acciones">
         <button class="btn chico" data-a="publica">Reply publicly</button>
