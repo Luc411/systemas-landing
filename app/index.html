@@ -69,6 +69,16 @@ main{max-width:1100px;margin:0 auto;padding:24px 16px 60px}
 .aviso.mal{background:#fdecea;color:#8a1c14}
 .vacio{color:var(--humo);padding:20px;text-align:center}
 .oculto{display:none}
+.buscar{width:100%;border:1px solid var(--linea);border-radius:10px;padding:9px 12px;font:14px Poppins;margin-bottom:8px}
+.humano{display:flex;align-items:center;gap:8px;font-size:13px;color:var(--humo);margin-top:8px}
+.nuevo{display:flex;gap:8px;margin:4px 0 12px}
+.nuevo input{flex:1;border:1px solid var(--linea);border-radius:10px;padding:9px 12px;font:14px Poppins}
+.etiqueta{font-size:11px;font-weight:600;background:#fff3cd;color:#7a5b00;border-radius:6px;padding:1px 7px;margin-left:6px}
+.comentario.escondido{opacity:.6}
+.form label{display:block;font-weight:600;font-size:13px;margin:12px 0 4px}
+.form input,.form textarea{width:100%;border:1px solid var(--linea);border-radius:10px;padding:10px 12px;font:14px Poppins}
+.form textarea{min-height:90px;resize:vertical}
+.vista-previa{width:100%;aspect-ratio:1;object-fit:cover;border-radius:12px;background:#eee;border:1px solid var(--linea)}
 @media (max-width:760px){.dos{grid-template-columns:1fr}.cifras{display:none}}
 </style>
 </head>
@@ -120,6 +130,7 @@ function portada() {
         <li>Read and reply to your Instagram direct messages.</li>
         <li>See the comments on your posts, reply publicly or send a private reply.</li>
         <li>Track the reach and engagement of your account and posts.</li>
+        <li>Publish a photo to your feed with its caption.</li>
       </ul>
       <button class="btn ig" id="entrar">Log in with Instagram</button>
       ${h.get("error") ? `<div class="aviso mal">${esc(h.get("error"))}</div>` : ""}
@@ -146,19 +157,22 @@ async function panel() {
       <button data-p="inbox" class="on">Messages</button>
       <button data-p="comentarios">Comments</button>
       <button data-p="metricas">Insights</button>
+      <button data-p="publicar">Publish</button>
     </div>
     <div id="vista"></div>`;
   document.querySelectorAll(".pestanas button").forEach((b) => b.onclick = () => {
     document.querySelectorAll(".pestanas button").forEach((x) => x.classList.toggle("on", x === b));
-    ({ inbox, comentarios, metricas })[b.dataset.p]();
+    ({ inbox, comentarios, metricas, publicar })[b.dataset.p]();
   });
   inbox();
 }
 
 // ---------- Messages ----------
 async function inbox() {
-  $("#vista").innerHTML = `<div class="dos"><div class="tarjeta lista" id="convs"><div class="vacio">Loading conversations…</div></div>
+  $("#vista").innerHTML = `<div class="dos"><div class="tarjeta lista"><input id="buscar" class="buscar" placeholder="Search by username…">
+    <div id="convs"><div class="vacio">Loading conversations…</div></div></div>
     <div class="tarjeta chat"><div class="mensajes" id="msjs"><div class="vacio">Choose a conversation.</div></div>
+    <label class="humano"><input type="checkbox" id="humano"> Reply as a human agent (up to 7 days after the customer's last message)</label>
     <div class="caja"><input id="texto" placeholder="Write a reply…" disabled><button class="btn" id="enviar" disabled>Send</button></div></div></div>`;
   const d = await api("/conversations");
   const convs = d.data || [];
@@ -168,10 +182,15 @@ async function inbox() {
     const otro = (c.participants?.data || []).find((p) => p.id !== yo.user_id && p.username !== yo.username) || {};
     const el = document.createElement("div");
     el.className = "item";
+    el.dataset.u = String(otro.username || otro.id || "").toLowerCase();
     el.innerHTML = `<b>@${esc(otro.username || otro.id)}</b><small>${fecha(c.updated_time)}</small>`;
     el.onclick = () => { document.querySelectorAll("#convs .item").forEach((x) => x.classList.remove("on")); el.classList.add("on"); abrirChat(c.id, otro); };
     $("#convs").append(el);
   }
+  $("#buscar").oninput = () => {
+    const q = $("#buscar").value.trim().toLowerCase().replace(/^@/, "");
+    document.querySelectorAll("#convs .item").forEach((x) => x.classList.toggle("oculto", !!q && !x.dataset.u.includes(q)));
+  };
 }
 async function abrirChat(conv, otro) {
   $("#msjs").innerHTML = `<div class="vacio">Loading messages…</div>`;
@@ -187,7 +206,8 @@ async function abrirChat(conv, otro) {
     const t = $("#texto").value.trim();
     if (!t) return;
     $("#enviar").disabled = true;
-    try { await api("/send", { recipient_id: otro.id, text: t }); $("#texto").value = ""; aviso("#vista", "Message sent to @" + (otro.username || otro.id)); await abrirChat(conv, otro); }
+    const humano = $("#humano").checked;
+    try { await api("/send", { recipient_id: otro.id, text: t, human_agent: humano }); $("#texto").value = ""; aviso("#vista", (humano ? "Human agent reply sent to @" : "Message sent to @") + (otro.username || otro.id)); await abrirChat(conv, otro); }
     catch (e) { aviso("#vista", e.message, false); }
     $("#enviar").disabled = false;
   };
@@ -212,36 +232,77 @@ async function verComentarios(p) {
   $("#coms").innerHTML = `<div class="vacio">Loading comments…</div>`;
   const d = await api("/comments?media=" + p.id);
   const cs = d.data || [];
-  $("#coms").innerHTML = `<div style="color:var(--humo);font-size:13px;margin-bottom:6px">${esc((p.caption || "").slice(0, 90))}</div>` +
+  $("#coms").innerHTML = `<div style="color:var(--humo);font-size:13px;margin-bottom:6px">${esc((p.caption || "").slice(0, 90))}</div>
+    <div class="nuevo"><input id="nuevoTexto" placeholder="Write a new comment on this post…"><button class="btn chico" id="nuevoBtn">Post comment</button></div>` +
     (cs.length ? "" : `<div class="vacio">No comments on this post.</div>`);
+  $("#nuevoBtn").onclick = async () => {
+    const t = $("#nuevoTexto").value.trim();
+    if (!t) { $("#nuevoTexto").focus(); return; }
+    $("#nuevoBtn").disabled = true;
+    try { await api("/create-comment", { media_id: p.id, text: t }); await verComentarios(p); aviso("#coms", "New comment posted on your post."); }
+    catch (e) { aviso("#coms", e.message, false); $("#nuevoBtn").disabled = false; }
+  };
   for (const c of cs) {
     c.username = c.username || c.from?.username || "instagram_user";
     const el = document.createElement("div");
-    el.className = "comentario";
-    el.innerHTML = `<span class="u">@${esc(c.username)}</span> ${esc(c.text)} <small style="color:var(--humo)">· ${fecha(c.timestamp)}</small>
+    el.className = "comentario" + (c.hidden ? " escondido" : "");
+    el.innerHTML = `<span class="u">@${esc(c.username)}</span> ${esc(c.text)}${c.hidden ? `<span class="etiqueta">Hidden</span>` : ""} <small style="color:var(--humo)">· ${fecha(c.timestamp)}</small>
       ${(c.replies?.data || []).map((r) => `<div class="r">↳ <b>@${esc(r.username || "you")}</b> ${esc(r.text)}</div>`).join("")}
       <div class="caja"><input placeholder="Write a reply…"></div>
       <div class="acciones">
         <button class="btn chico" data-a="publica">Reply publicly</button>
         <button class="btn chico sec" data-a="privada">Send private reply (DM)</button>
-        <button class="btn chico sec" data-a="ocultar">Hide comment</button>
+        <button class="btn chico sec" data-a="ocultar">${c.hidden ? "Unhide comment" : "Hide comment"}</button>
+        <button class="btn chico sec" data-a="borrar" style="color:var(--rojo)">Delete comment</button>
       </div>`;
     const input = $("input", el);
     el.querySelectorAll("button").forEach((b) => b.onclick = async () => {
       const t = input.value.trim();
-      if (b.dataset.a !== "ocultar" && !t) { input.focus(); return; }
+      if ((b.dataset.a === "publica" || b.dataset.a === "privada") && !t) { input.focus(); return; }
+      if (b.dataset.a === "borrar" && !confirm("Delete this comment from Instagram?")) return;
       b.disabled = true;
       try {
-        if (b.dataset.a === "publica") { await api("/reply-comment", { comment_id: c.id, text: t }); aviso("#coms", "Public reply posted."); }
+        if (b.dataset.a === "publica") { await api("/reply-comment", { comment_id: c.id, text: t }); }
         if (b.dataset.a === "privada") { await api("/private-reply", { comment_id: c.id, text: t }); aviso("#coms", "Private reply sent to @" + c.username + " by DM."); }
-        if (b.dataset.a === "ocultar") { await api("/hide-comment", { comment_id: c.id, hide: true }); aviso("#coms", "Comment hidden."); }
+        if (b.dataset.a === "ocultar") { await api("/hide-comment", { comment_id: c.id, hide: !c.hidden }); }
+        if (b.dataset.a === "borrar") { await api("/delete-comment", { comment_id: c.id }); }
         input.value = "";
-        if (b.dataset.a === "publica") verComentarios(p);
+        if (b.dataset.a !== "privada") {
+          await verComentarios(p);
+          aviso("#coms", ({ publica: "Public reply posted.", ocultar: c.hidden ? "Comment is visible again." : "Comment hidden.", borrar: "Comment deleted." })[b.dataset.a]);
+        }
       } catch (e) { aviso("#coms", e.message, false); }
       b.disabled = false;
     });
     $("#coms").append(el);
   }
+}
+
+// ---------- Publish ----------
+async function publicar() {
+  $("#vista").innerHTML = `<div class="dos"><div class="tarjeta"><img id="previa" class="vista-previa" alt=""></div>
+    <div class="tarjeta form"><h3 style="margin-top:0">Publish a photo to your feed</h3>
+      <label for="url">Image URL (public JPEG)</label><input id="url" placeholder="https://…/photo.jpg">
+      <label for="pie">Caption</label><textarea id="pie" placeholder="Write a caption…"></textarea>
+      <div class="acciones" style="margin-top:14px"><button class="btn" id="publicarBtn">Publish to Instagram</button></div>
+      <div id="limite" style="color:var(--humo);font-size:13px;margin-top:10px"></div>
+      <div id="resultado"></div></div></div>`;
+  $("#url").oninput = () => { $("#previa").src = $("#url").value.trim(); };
+  api("/publishing-limit").then((d) => {
+    const x = d.data?.[0];
+    if (x) $("#limite").textContent = `Posts published in the last 24 hours: ${x.quota_usage ?? 0} of ${x.config?.quota_total ?? 100}.`;
+  }).catch(() => {});
+  $("#publicarBtn").onclick = async () => {
+    const u = $("#url").value.trim();
+    if (!u) { $("#url").focus(); return; }
+    $("#publicarBtn").disabled = true;
+    $("#resultado").innerHTML = `<div class="vacio">Publishing…</div>`;
+    try {
+      const r = await api("/publish", { image_url: u, caption: $("#pie").value });
+      $("#resultado").innerHTML = `<div class="aviso ok">Published on Instagram · ${fecha(r.timestamp)}<br><a href="${esc(r.permalink)}" target="_blank" rel="noopener">${esc(r.permalink)}</a></div>`;
+    } catch (e) { $("#resultado").innerHTML = `<div class="aviso mal">${esc(e.message)}</div>`; }
+    $("#publicarBtn").disabled = false;
+  };
 }
 
 // ---------- Insights ----------
