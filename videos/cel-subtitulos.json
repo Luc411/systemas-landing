@@ -1,0 +1,124 @@
+{
+ "cel-01-whatsapp": [
+  [
+   0,
+   "Te escriben *a las 23:14.*"
+  ],
+  [
+   4.8,
+   "El asistente contesta *en minutos.*"
+  ],
+  [
+   10.73,
+   "Le pregunta *lo necesario.*"
+  ],
+  [
+   17.33,
+   "Le ofrece *tus horarios libres.*"
+  ],
+  [
+   23.6,
+   "Y el turno queda *en tu agenda.*"
+  ]
+ ],
+ "cel-02-instagram": [
+  [
+   0,
+   "Te escriben por Instagram *a las 7:52.*"
+  ],
+  [
+   4.8,
+   "El asistente contesta *en minutos.*"
+  ],
+  [
+   10.73,
+   "Le pregunta *lo necesario.*"
+  ],
+  [
+   17.33,
+   "Le ofrece *tus horarios libres.*"
+  ],
+  [
+   23.6,
+   "Y el turno queda *en tu calendario.*"
+  ]
+ ],
+ "cel-03-filtrar": [
+  [
+   0,
+   "Al que *solo pregunta,* le contesta amable."
+  ],
+  [
+   6.47,
+   "Al que va en serio, *le pregunta lo necesario.*"
+  ],
+  [
+   12.73,
+   "Y le *deja el turno.*"
+  ],
+  [
+   19,
+   "A tu agenda llegan *los que quieren el turno.*"
+  ]
+ ],
+ "cel-04-agenda": [
+  [
+   0,
+   "Cada turno aparece *en tu agenda.*"
+  ],
+  [
+   6.47,
+   "Con *todos los datos.*"
+  ],
+  [
+   13.73,
+   "Y si querés, *lo movés vos.*"
+  ]
+ ],
+ "cel-05-recordatorio-y-reagenda": [
+  [
+   0,
+   "El día antes, *le recuerda el turno.*"
+  ],
+  [
+   6.13,
+   "Si no puede, *le ofrece otro horario.*"
+  ],
+  [
+   12.4,
+   "Y el hueco *se vuelve a llenar.*"
+  ],
+  [
+   17.67,
+   "Tu agenda *no queda con huecos.*"
+  ]
+ ],
+ "cel-06-lo-medico": [
+  [
+   0,
+   "Si le preguntan *algo médico...*"
+  ],
+  [
+   5.8,
+   "...el asistente *te pregunta a vos.*"
+  ],
+  [
+   13.4,
+   "Y le responde *lo que vos dijiste.*"
+  ]
+ ],
+ "cel-07-cuando-ya-es-cliente": [
+  [
+   0,
+   "A los 6 meses, *le avisa que le toca el control.*"
+  ],
+  [
+   7.13,
+   "Hace el seguimiento *del tratamiento.*"
+  ],
+  [
+   13.73,
+   "Y los turnos de vuelta *quedan en tu agenda.*"
+  ]
+ ]
+}

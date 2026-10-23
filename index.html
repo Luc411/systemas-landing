@@ -3,16 +3,17 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>systemás</title>
+<title>systemás · propuesta B</title>
 <script>/* Instagram le agrega ?utm_…&fbclid=… al link: se limpia de la barra (la página no lo usa) */
 if (location.search) try { history.replaceState(null, "", location.pathname + location.hash); } catch (e) {}</script>
-<meta name="description" content="Automatizamos las tareas de la entrega de tu servicio para que tomes más clientes trabajando menos. Consultoría sin costo.">
+<meta name="description" content="Un asistente con IA que responde cada consulta de tu consultorio en minutos, de día, de noche y el fin de semana, y deja el turno puesto en tu calendario.">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="icon" href="favicon.ico" sizes="any">
 <link rel="icon" type="image/png" sizes="32x32" href="favicon-32.png">
 <link rel="apple-touch-icon" href="apple-touch-icon.png">
 <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Google+Sans:wght@400;500&family=Google+Sans+Text:wght@400;500&display=swap" rel="stylesheet">
 <style>
 :root{
   --lucca:"Poppins","Century Gothic","Avenir Next",system-ui,sans-serif;
@@ -20,6 +21,7 @@ if (location.search) try { history.replaceState(null, "", location.pathname + lo
   --tinta:#102327; --humo:#5F6E70; --linea:#E3E0D8;
   --marina:#074435; --azul:#0E7F39; --electrico:#1ED760;
   --noche:#03241C; --rojo:#E23A2E;
+  --agua:linear-gradient(170deg,#3A8F6E 0%,#2F7A5F 100%);
   --r:14px;
 }
 *{box-sizing:border-box;margin:0;padding:0}
@@ -39,16 +41,11 @@ p{max-width:60ch}
 .chico{font-size:14px;line-height:1.55;color:var(--humo)}
 section{padding-block:clamp(3.2rem,6vw,5rem)}
 
-/* el rótulo: un tachón de marcador, no una píldora */
-.pico{position:relative;display:inline-block;font-weight:800;font-size:clamp(10px,1.05vw,12.5px);
-  line-height:1;letter-spacing:.1em;text-transform:uppercase;color:#fff;
-  padding:.85rem clamp(1.2rem,2.1vw,1.9rem);rotate:-1.6deg;margin-bottom:1.7rem;max-width:100%}
-.pico span{position:relative;z-index:2}
-.pico::before,.pico::after{content:"";position:absolute;inset:-8% -4%;
-  background-repeat:no-repeat;background-size:100% 100%}
-.pico::before{background-image:url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 420 52' preserveAspectRatio='none'><path fill='%23E23A2E' d='M11 18C58 5 132 13 203 8c58-4 127 4 205 9 7 8 5 18-2 26-66 8-158 1-244 6-66 4-121-1-153-8-8-7-9-16 2-23z'/></svg>")}
-.pico::after{rotate:1.4deg;opacity:.92;filter:drop-shadow(0 12px 22px rgba(226,58,46,.6));
-  background-image:url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 420 52' preserveAspectRatio='none'><path fill='%23E23A2E' d='M6 24C74 11 143 21 219 13c66-7 133 1 196 9 5 7 2 17-6 24-70 9-160 2-248 8-63 4-116-2-150-9-6-7-4-16-5-21z'/></svg>")}
+/* el rótulo: el mismo resaltador verde de las piezas (historias y carruseles) */
+.pico{display:inline-block;font-weight:700;font-size:clamp(1.05rem,1.9vw,1.3rem);line-height:1.3;
+  letter-spacing:-.01em;color:#fff;margin-bottom:1.5rem;max-width:100%}
+.pico span{background-image:linear-gradient(transparent 62%,rgba(30,215,96,.75) 62%,rgba(30,215,96,.75) 92%,transparent 92%);
+  -webkit-box-decoration-break:clone;box-decoration-break:clone;padding-inline:.08em}
 .rotulo{display:inline-flex;align-items:center;gap:.5rem;font-weight:600;font-size:12.5px;line-height:1;
   letter-spacing:.06em;color:var(--azul);margin-bottom:1rem}
 .rotulo::before{content:"";width:6px;height:6px;border-radius:50%;background:var(--azul)}
@@ -73,17 +70,27 @@ section{padding-block:clamp(3.2rem,6vw,5rem)}
   place-items:center;font-weight:800;font-size:12px;color:#03241C}
 .barra .boton{padding:.7rem 1.25rem;font-size:14px;min-height:42px;box-shadow:none}
 .corto{display:inline}.largo{display:none}
+/* links a las secciones: sólo en compu, en el medio entre el nombre y el botón */
+.barra-nav{display:none;align-items:center;gap:.15rem}
+.barra-nav a{font-size:14px;font-weight:500;line-height:1;color:var(--humo);text-decoration:none;padding:.6rem .85rem;border-radius:99px;
+  transition:color .2s ease,background-color .2s ease}
+.barra-nav a:hover{color:var(--tinta);background:rgba(16,35,39,.06)}
+.barra-nav a:focus-visible{color:var(--tinta);outline:2px solid #0E7F39;outline-offset:1px}
+@media(min-width:960px){.barra-nav{display:flex}}
+#como-funciona,#para-quien,#preguntas{scroll-margin-top:84px}
 @media(min-width:620px){.corto{display:none}.largo{display:inline}}
 
 /* ── el hero, banda de color ── */
-.hero{position:relative;background:var(--marina);color:#fff;overflow:hidden;
+.hero{position:relative;background:var(--agua);color:#fff;overflow:hidden;
   padding:clamp(7rem,12vw,9.5rem) 0 clamp(7rem,13vw,10rem)}
-.hero::before{content:"";position:absolute;inset:0;opacity:.5;
-  background-image:linear-gradient(rgba(255,255,255,.05) 1px,transparent 1px),
-                   linear-gradient(90deg,rgba(255,255,255,.05) 1px,transparent 1px);
-  background-size:64px 64px}
+.hero::before{content:"";position:absolute;inset:0;
+  background-image:linear-gradient(rgba(255,255,255,.11) 1.5px,transparent 1.5px),
+                   linear-gradient(90deg,rgba(255,255,255,.11) 1.5px,transparent 1.5px);
+  background-size:54px 54px;background-position:-1px -1px;
+  -webkit-mask-image:radial-gradient(ellipse at 50% 45%,#000 30%,transparent 90%);
+          mask-image:radial-gradient(ellipse at 50% 45%,#000 30%,transparent 90%)}
 .hero::after{content:"";position:absolute;left:50%;top:-30%;width:120%;height:120%;translate:-50% 0;
-  background:radial-gradient(45% 40% at 50% 45%,rgba(30,215,96,.2) 0%,rgba(7,68,53,0) 70%)}
+  background:radial-gradient(45% 40% at 50% 45%,rgba(30,215,96,.14) 0%,rgba(47,122,95,0) 70%)}
 .hero .env{position:relative;z-index:2}
 .hero h1{color:#fff;max-width:20ch}
 .hero h1 em{font-style:normal;color:var(--electrico);text-shadow:0 0 18px rgba(30,215,96,.45),0 0 3px rgba(30,215,96,.35)}
@@ -104,8 +111,8 @@ section{padding-block:clamp(3.2rem,6vw,5rem)}
 
 /* ── bloques de contenido ── */
 .gris{background:var(--papel2)}
-.reglas{list-style:none;display:grid;gap:.7rem;margin-top:clamp(1.8rem,3.5vw,2.4rem)}
-@media(min-width:760px){.reglas{grid-template-columns:1fr 1fr;gap:.8rem 1.2rem}}
+.reglas-viejo{list-style:none;display:grid;gap:.7rem;margin-top:clamp(1.8rem,3.5vw,2.4rem)}
+@media(min-width:760px){.reglas-viejo{grid-template-columns:1fr 1fr;gap:.8rem 1.2rem}}
 .reglas li{display:grid;grid-template-columns:auto 1fr;gap:.9rem;align-items:start;
   background:var(--blanco);border:1px solid var(--linea);border-radius:var(--r);padding:1.05rem 1.2rem;
   font-size:15.5px;line-height:1.4}
@@ -113,6 +120,24 @@ section{padding-block:clamp(3.2rem,6vw,5rem)}
   display:grid;place-items:center;font-weight:800;font-size:12px;margin-top:.06em}
 .reglas b{font-weight:600}
 
+/* ── cómo funciona: cada parte con su video, grande ── */
+.partes{list-style:none;display:grid;gap:clamp(3.5rem,8vw,7rem);margin-top:clamp(2.6rem,5vw,4rem);text-align:left}
+.parte{display:grid;gap:1.6rem;align-items:center}
+@media(min-width:900px){.parte{grid-template-columns:minmax(0,.8fr) minmax(0,1.2fr);gap:clamp(2.5rem,5vw,4.5rem)}
+  .parte:nth-child(odd):not(.doble){grid-template-columns:minmax(0,1.2fr) minmax(0,.8fr)}
+  .parte:nth-child(odd):not(.doble) .parte-txt{order:2}}
+.parte.doble{grid-template-columns:1fr;text-align:center}
+.parte.doble .parte-txt p{margin-inline:auto}
+.parte h3{font-size:clamp(1.5rem,3vw,2.15rem);font-weight:700;letter-spacing:-.035em;line-height:1.12;margin-bottom:.8rem}
+.parte p{margin-inline:0;color:var(--humo);font-size:clamp(15.5px,1.6vw,17.5px);line-height:1.55;max-width:40ch}
+.parte-vid{display:grid;gap:clamp(1.2rem,3vw,2.4rem);justify-items:center}
+.parte-vid.dos{grid-template-columns:1fr 1fr}
+.clip{width:100%;max-width:620px;margin:0}
+.parte-vid.dos .clip{max-width:520px}
+.clip video{display:block;width:100%;height:auto;aspect-ratio:1080/1350;background:#fff}
+.clip figcaption{font-weight:600;font-size:12px;letter-spacing:.1em;text-transform:uppercase;color:var(--azul);
+  text-align:center;margin-top:.9rem}
+@media(max-width:899px){.parte-vid.dos{grid-template-columns:1fr}}
 .pasos{list-style:none;display:grid;gap:1rem;margin-top:clamp(1.8rem,3.5vw,2.4rem)}
 @media(min-width:860px){.pasos{grid-template-columns:repeat(4,1fr)}}
 .pasos li{background:var(--blanco);border:1px solid var(--linea);border-radius:var(--r);
@@ -137,7 +162,7 @@ section{padding-block:clamp(3.2rem,6vw,5rem)}
 .faq .cuerpo{padding:0 1.4rem 1.3rem;color:rgba(255,255,255,.72);font-size:14.5px;line-height:1.55;max-width:68ch}
 
 /* ── cierre oscuro ── */
-.cierre{background:var(--noche);color:#fff;padding-block:clamp(3.5rem,7vw,5.5rem)}
+.cierre{background:var(--agua);color:#fff;padding-block:clamp(3.5rem,7vw,5.5rem)}
 .cierre h2{color:#fff}
 .cierre .rotulo{color:rgba(255,255,255,.62)}
 .cierre .sub{color:rgba(255,255,255,.62);margin-top:1rem}
@@ -161,13 +186,13 @@ footer{background:var(--noche);color:rgba(255,255,255,.5);padding-block:2rem;
 footer .env{display:flex;flex-wrap:wrap;gap:1rem;justify-content:space-between;align-items:center;font-size:13.5px}
 footer a{color:rgba(255,255,255,.5);text-decoration:none}
 footer a:hover{color:var(--electrico)}
-footer .titular{flex-basis:100%;font-size:10.5px;color:rgba(255,255,255,.32);margin-top:-.4rem}
+footer .titular{flex-basis:100%;font-size:12px;color:rgba(255,255,255,.32);margin-top:-.4rem}
 
 /* ── la agenda: form corto → horarios → datos → listo ── */
 .agenda-app{text-align:left;padding:clamp(.6rem,2vw,1.4rem) clamp(.4rem,2vw,1.2rem)}
 .agenda-app .paso-tit{display:flex;align-items:center;justify-content:space-between;gap:1rem;margin-bottom:1.3rem}
 .agenda-app .paso-tit h3{font-size:clamp(1.15rem,2.2vw,1.4rem)}
-.agenda-app .paso-n{font-weight:700;font-size:11px;letter-spacing:.13em;text-transform:uppercase;color:var(--azul);
+.agenda-app .paso-n{font-weight:700;font-size:12px;letter-spacing:.13em;text-transform:uppercase;color:var(--azul);
   background:rgba(14,127,57,.08);border-radius:40px;padding:.45rem .8rem;white-space:nowrap}
 .campo{border:0;margin:0 0 1.35rem;padding:0;min-width:0}
 .campo>legend,.campo>label.et{display:block;font-weight:600;font-size:15px;line-height:1.35;margin-bottom:.6rem;color:var(--tinta)}
@@ -227,6 +252,293 @@ textarea.entrada{min-height:92px;resize:vertical}
 .reveal{opacity:0;transform:translateY(20px);transition:opacity .7s cubic-bezier(.2,.7,.3,1),transform .7s cubic-bezier(.2,.7,.3,1)}
 .reveal.vista{opacity:1;transform:none}
 @media(prefers-reduced-motion:reduce){.reveal{opacity:1;transform:none;transition:none}}
+
+/* ═══ hero blanco: el verde resalta, lo claro pasa a negro ═══ */
+@property --hl{syntax:'<number>';inherits:false;initial-value:.6}
+.hero{background:#fff;color:var(--tinta);border-bottom:1px solid var(--linea)}
+.hero::before,.hero::after{display:none}
+.hero h1{color:var(--tinta)}
+.hero .sub{color:var(--humo)}
+.pico{color:#074435}
+.pico span{background-image:linear-gradient(transparent 58%,rgba(30,215,96,.6) 58%,rgba(30,215,96,.6) 94%,transparent 94%)}
+/* tanda 14b: la frase del título va pintada con el verde brillante de los botones, sin barra debajo.
+   Un borde oscuro finito la hace leer sobre el blanco; con el mouse encima, un resplandor verde entra suave */
+.hero h1 em{font-style:normal;color:#1ED760;background:none;padding:0;
+  text-shadow:0 1px 0 rgba(3,36,28,.30),0 0 1px rgba(3,36,28,.45);
+  transition:text-shadow .28s ease}
+.hero h1 em:hover,.hero h1.toque em{
+  text-shadow:0 1px 0 rgba(3,36,28,.30),0 0 1px rgba(3,36,28,.45),0 0 14px rgba(30,215,96,.55),0 0 30px rgba(30,215,96,.30)}
+@media(hover:none){.hero h1 em{
+  text-shadow:0 1px 0 rgba(3,36,28,.30),0 0 1px rgba(3,36,28,.45),0 0 12px rgba(30,215,96,.32)}}
+.hero .env{position:relative;z-index:2}
+.capa{position:absolute;inset:0;pointer-events:none;z-index:1}
+.barra .caja{background:rgba(255,255,255,.8);border-color:rgba(16,35,39,.08);
+  box-shadow:0 12px 30px -20px rgba(7,68,53,.45)}
+.marca{color:var(--tinta)}
+
+/* B · puntos que se encienden y se agrandan alrededor del cursor + un brillo verde que lo sigue con retardo
+   (Aceternity Hero Highlight + Spotlight), resaltador que se llena al cargar (Aceternity Highlight), videos con
+   borde de brillo que gira (Magic UI Shine Border) e inclinación 3D al pasar el mouse (Aceternity 3D Card) */
+.capa.puntos{background-image:radial-gradient(rgba(7,68,53,.2) 1.3px,transparent 1.7px);background-size:24px 24px;
+  -webkit-mask-image:radial-gradient(ellipse at 50% 42%,#000 35%,transparent 92%);mask-image:radial-gradient(ellipse at 50% 42%,#000 35%,transparent 92%)}
+.capa.vivos{--mx:50%;--my:40%;opacity:0;transition:opacity .5s ease;
+  background-image:radial-gradient(#1ED760 1.9px,transparent 2.4px);background-size:24px 24px;
+  -webkit-mask-image:radial-gradient(240px circle at var(--mx) var(--my),#000 0%,transparent 72%);
+          mask-image:radial-gradient(240px circle at var(--mx) var(--my),#000 0%,transparent 72%)}
+.capa.halo{opacity:0;transition:opacity .6s ease}
+.capa.halo i{position:absolute;left:0;top:0;width:560px;height:560px;margin:-280px 0 0 -280px;border-radius:50%;
+  background:radial-gradient(closest-side,rgba(30,215,96,.20),rgba(30,215,96,.07) 55%,transparent);filter:blur(10px);will-change:transform}
+.hero.encendida .capa.vivos,.hero.encendida .capa.halo{opacity:1}
+/* borde con brillo */
+.brillo{position:relative;border-radius:24px;padding:10px;background:#fff;transform-style:preserve-3d;
+  box-shadow:0 50px 100px -50px rgba(7,68,53,.55),0 30px 80px -40px rgba(30,215,96,.45);
+  transition:transform .5s cubic-bezier(.2,.7,.3,1);will-change:transform}
+.brillo::before{content:"";position:absolute;inset:0;border-radius:inherit;padding:2.5px;pointer-events:none;
+  background-image:radial-gradient(transparent,transparent,#1ED760,#0E7F39,transparent,transparent);
+  background-size:300% 300%;animation:brillo 14s linear infinite;
+  -webkit-mask:linear-gradient(#fff 0 0) content-box,linear-gradient(#fff 0 0);-webkit-mask-composite:xor;
+  mask:linear-gradient(#fff 0 0) content-box,linear-gradient(#fff 0 0);mask-composite:exclude}
+@keyframes brillo{0%{background-position:0% 0%}50%{background-position:100% 100%}to{background-position:0% 0%}}
+.brillo video{border-radius:15px}
+.brillo .reflejo{position:absolute;inset:10px;border-radius:15px;pointer-events:none;opacity:0;transition:opacity .4s;
+  background:radial-gradient(420px circle at var(--gx,50%) var(--gy,50%),rgba(255,255,255,.22),transparent 60%)}
+.brillo.en .reflejo{opacity:1}
+@media(prefers-reduced-motion:reduce){.brillo::before,.hero h1 em{animation:none}.brillo{transition:none}
+  .capa.vivos,.capa.halo{transition:none}.hero h1 em{transition:none}}
+
+/* ═══ tanda 11 ═══ */
+/* aviso de cancelar: recién en el paso de elegir horario */
+.aviso-cancelar{display:flex;gap:.6rem;align-items:flex-start;margin:0 0 1.1rem;padding:.75rem .95rem;border-radius:12px;
+  background:rgba(30,215,96,.09);border:1px solid rgba(14,127,57,.18);font-size:13.5px;line-height:1.45;color:var(--tinta)}
+.aviso-cancelar svg{flex:none;width:18px;height:18px;margin-top:.1em;fill:none;stroke:var(--azul);stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round}
+/* "para vos": bento con ícono grande y borde que se enciende siguiendo el mouse */
+.bento{list-style:none;display:grid;gap:14px;margin-top:clamp(1.8rem,3.5vw,2.6rem);text-align:left}
+@media(min-width:760px){.bento{grid-template-columns:repeat(5,1fr);grid-auto-rows:auto}
+  .bento .c1{grid-column:span 3}.bento .c2{grid-column:span 2}.bento .c3{grid-column:span 2}.bento .c4{grid-column:span 3}}
+.celda{--mx:50%;--my:50%;position:relative;isolation:isolate;overflow:hidden;border-radius:22px;padding:1.5rem 1.5rem 1.4rem;
+  background:#fff;border:1px solid var(--linea);display:flex;flex-direction:column;justify-content:flex-start;align-items:flex-start;gap:1rem;
+  box-shadow:0 1px 0 rgba(255,255,255,.8) inset,0 24px 50px -36px rgba(7,68,53,.45);transition:transform .35s cubic-bezier(.2,.7,.3,1),box-shadow .35s}
+.celda::before{content:"";position:absolute;inset:0;border-radius:inherit;padding:1.5px;z-index:-1;pointer-events:none;opacity:0;transition:opacity .35s;
+  background:radial-gradient(260px circle at var(--mx) var(--my),#1ED760,rgba(30,215,96,.25) 45%,transparent 70%);
+  -webkit-mask:linear-gradient(#fff 0 0) content-box,linear-gradient(#fff 0 0);-webkit-mask-composite:xor;
+  mask:linear-gradient(#fff 0 0) content-box,linear-gradient(#fff 0 0);mask-composite:exclude}
+.celda::after{content:"";position:absolute;inset:0;z-index:-2;pointer-events:none;opacity:0;transition:opacity .35s;
+  background:radial-gradient(320px circle at var(--mx) var(--my),rgba(30,215,96,.10),transparent 70%)}
+.celda:hover::before,.celda:hover::after,.celda.viva::before,.celda.viva::after{opacity:1}
+.celda:hover{transform:translateY(-3px);box-shadow:0 30px 60px -36px rgba(7,68,53,.55)}
+.celda .ico{width:64px;height:64px;border-radius:18px;display:grid;place-items:center;
+  background:linear-gradient(150deg,#1ED760,#0E7F39);box-shadow:0 14px 28px -12px rgba(14,127,57,.7),inset 0 1px 0 rgba(255,255,255,.35)}
+.celda .ico svg{width:32px;height:32px;fill:none;stroke:#fff;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}
+.celda p{font-size:clamp(17px,1.7vw,20px);line-height:1.35;letter-spacing:-.01em;color:var(--tinta);max-width:30ch;margin:0!important;text-align:left!important;align-self:flex-start}
+.celda b{font-weight:700;color:#074435}
+.celda.c1{background:linear-gradient(160deg,#fff 40%,#EEFBF2)}
+.celda.c4{background:linear-gradient(200deg,#fff 40%,#EEFBF2)}
+/* cómo funciona: el video dentro de un iPhone */
+.clip{max-width:340px}
+.parte-vid.dos .clip{max-width:320px}
+/* tanda 12: sin borde verde ni giro; sólo el iPhone con su sombra */
+.brillo{border-radius:52px;padding:0;background:none;box-shadow:none;transform:none!important;transition:none}
+.brillo::before,.brillo .reflejo{display:none}
+.iphone{position:relative;border-radius:52px;padding:11px;
+  background:linear-gradient(145deg,#4a4d52,#1d1f22 18%,#2b2d31 50%,#141518 82%,#3d4045);
+  box-shadow:inset 0 0 0 1.5px #5b5e63,inset 0 0 0 3px #101113,0 40px 70px -35px rgba(3,36,28,.6)}
+.iphone .pantalla{position:relative;border-radius:42px;overflow:hidden;background:#000;aspect-ratio:720/1560;box-shadow:0 0 0 1.5px #000}
+.iphone video{display:block;width:100%;height:100%;object-fit:cover;aspect-ratio:auto;border-radius:0;background:#000}
+.iphone .isla{position:absolute;top:2.2%;left:50%;width:32%;height:3.9%;translate:-50% 0;border-radius:40px;background:#000;
+  box-shadow:inset 0 0 0 1px rgba(255,255,255,.04)}
+.iphone .isla::after{content:"";position:absolute;right:13%;top:50%;width:11%;aspect-ratio:1;translate:0 -50%;border-radius:50%;
+  background:radial-gradient(circle at 35% 35%,#2b3a5a,#0b0f18 60%)}
+.iphone .barra-inicio{position:absolute;bottom:1.1%;left:50%;width:36%;height:.55%;min-height:4px;translate:-50% 0;border-radius:9px;background:rgba(0,0,0,.55)}
+.iphone .boton-lado{position:absolute;width:3px;background:linear-gradient(90deg,#2a2c30,#55585d);border-radius:2px}
+.iphone .l1{left:-3px;top:17%;height:5%}.iphone .l2{left:-3px;top:26%;height:9%}.iphone .l3{left:-3px;top:37%;height:9%}
+.iphone .r1{right:-3px;top:28%;height:14%;background:linear-gradient(270deg,#2a2c30,#55585d)}
+.subt{min-height:2.9em;margin-top:1.1rem;text-align:center;text-transform:none;letter-spacing:-.01em;font-size:clamp(15px,1.5vw,17px);
+  font-weight:600;line-height:1.35;color:var(--tinta);transition:opacity .25s}
+.subt.cambia{opacity:0}
+.subt mark{background:linear-gradient(transparent 58%,rgba(30,215,96,.6) 58%,rgba(30,215,96,.6) 94%,transparent 94%);color:#074435}
+.clip .app{display:block;text-align:center;margin-top:.35rem;font-weight:600;font-size:11.5px;letter-spacing:.12em;text-transform:uppercase;color:var(--azul)}
+@media(min-width:900px){.parte{grid-template-columns:minmax(0,1fr) minmax(0,1fr)}
+  .parte:nth-child(odd):not(.doble){grid-template-columns:minmax(0,1fr) minmax(0,1fr)}}
+@media(max-width:899px){.parte-vid.dos{grid-template-columns:1fr}.clip,.parte-vid.dos .clip{max-width:300px}}
+@media(prefers-reduced-motion:reduce){.celda,.celda::before,.celda::after,.subt{transition:none}}
+
+/* ═══ tanda 13: un solo iPhone + panel de cajitas ("Features With Panel" de ScrollX UI, MIT) ═══ */
+.fwp{display:grid;grid-template-columns:1fr;gap:28px;margin-top:clamp(2rem,4vw,3rem);text-align:left}
+.fwp-lado{order:-1;display:flex;justify-content:center}
+.fwp-tel{margin:0;width:min(230px,62vw)}
+.fwp-tel .subt{margin-top:14px;min-height:2.6em}
+.fwp-lista{list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:4px}
+.fwp-item{position:relative;border-radius:14px;box-shadow:0 0 0 1px transparent;transition:box-shadow .2s,background-color .2s;overflow:hidden}
+.fwp-item:hover{background:rgba(30,215,96,.05)}
+.fwp-item.activa{box-shadow:0 0 0 2px #1ED760,0 18px 40px -30px rgba(14,127,57,.6);background:var(--blanco,#fff)}
+.fwp-cab{all:unset;box-sizing:border-box;display:flex;align-items:center;gap:16px;width:100%;padding:14px 16px;cursor:pointer}
+.fwp-cab:focus-visible{outline:2px solid #0E7F39;outline-offset:-2px;border-radius:14px}
+.fwp-num{width:28px;height:28px;flex:none;border-radius:50%;display:grid;place-items:center;font-size:12px;font-weight:600;
+  background:#ECEBE5;color:#6B7570;transition:background-color .2s,color .2s}
+.fwp-item.activa .fwp-num{background:#1ED760;color:#03241C}
+.fwp-tit{font-size:15.5px;font-weight:600;color:#6B7570;transition:color .2s;line-height:1.3}
+.fwp-item.activa .fwp-tit{color:var(--tinta)}
+.fwp-cuerpo{display:grid;grid-template-rows:0fr;opacity:0;transition:grid-template-rows .35s cubic-bezier(.4,0,.2,1),opacity .35s}
+.fwp-item.activa .fwp-cuerpo{grid-template-rows:1fr;opacity:1}
+.fwp-dentro{overflow:hidden;padding:0 16px 0 60px}
+.fwp-dentro p{margin:0 0 16px;font-size:14.5px;line-height:1.5;color:var(--suave,#5B6662);max-width:46ch}
+.fwp-app{display:inline-flex;gap:4px;padding:3px;border-radius:99px;background:#F1F0EA;margin:-4px 0 16px}
+.fwp-app button{all:unset;cursor:pointer;font-size:12.5px;font-weight:600;padding:5px 12px;border-radius:99px;color:#6B7570}
+.fwp-app button[aria-pressed="true"]{background:#fff;color:#03241C;box-shadow:0 1px 3px rgba(0,0,0,.12)}
+.fwp-app button:focus-visible{outline:2px solid #0E7F39}
+.fwp-prog{position:absolute;left:0;right:0;bottom:0;height:3px;background:transparent}
+.fwp-item.activa .fwp-prog{background:rgba(30,215,96,.18)}
+.fwp-prog i{display:block;height:100%;width:0;background:#1ED760}
+.fwp-num svg{width:15px;height:15px;fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}
+@media(min-width:900px){
+  .fwp{grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:64px;align-items:start}
+  .fwp-lado{order:0;position:sticky;top:96px}
+  .fwp-tel{width:min(320px,calc((100vh - 230px) * .48))}
+}
+@media(prefers-reduced-motion:reduce){.fwp-item,.fwp-cuerpo,.fwp-num,.fwp-tit{transition:none}}
+
+/* ═══ tanda 14 ═══ */
+.fwp-prog i{width:100%!important;transform:scaleX(0);transform-origin:0 50%;will-change:transform}
+.fwp-item{cursor:pointer}
+@media(max-width:899px){
+  /* celular primero: el teléfono arriba y las cajitas en una fila que se desliza con el dedo */
+  .fwp{gap:18px;margin-top:1.6rem}
+  .fwp-tel{width:min(198px,52vw,calc((100vh - 380px) * .48))}
+  .fwp-tel .subt{margin-top:10px;font-size:15px}
+  .fwp-lista{position:relative;flex-direction:row;overflow-x:auto;scroll-snap-type:x mandatory;gap:10px;
+    padding:4px 4vw 12px;margin-inline:-4vw;align-items:flex-start;scrollbar-width:none;overscroll-behavior-x:contain;-webkit-overflow-scrolling:touch}
+  .fwp-lista::-webkit-scrollbar{display:none}
+  .fwp-item{flex:0 0 min(80vw,310px);scroll-snap-align:center;background:var(--blanco);box-shadow:0 0 0 1px var(--linea)}
+  .fwp-item:hover{background:var(--blanco)}
+  .fwp-cuerpo{grid-template-rows:1fr;opacity:1}
+  .fwp-cab{min-height:54px;padding:12px 14px;gap:12px}
+  .fwp-tit{font-size:15.5px}
+  .fwp-dentro{padding:0 14px}
+  .fwp-dentro p{font-size:14.5px;margin-bottom:14px}
+  .fwp-item:not(.activa) .fwp-dentro p{color:#8A9592}
+  .fwp-app{margin:-2px 0 14px}
+  .fwp-app button{padding:9px 16px;font-size:14px}
+  .fwp-desliza{display:block}
+}
+@media(min-width:900px){.fwp-desliza{display:none!important}}
+.fwp-desliza{font-size:13px;color:var(--humo);text-align:center;margin-top:-6px}
+/* tarjeta del hero: texto y botón a la izquierda, calendario chico a la derecha (abajo en celular) */
+.inicio-agenda.con-cal{display:grid;gap:1.4rem;text-align:left;align-items:center;padding:clamp(.5rem,2vw,1rem) .2rem}
+@media(min-width:760px){.inicio-agenda.con-cal{grid-template-columns:minmax(0,.8fr) minmax(0,1.5fr);gap:clamp(1.6rem,3.4vw,3rem)}}
+.inicio-agenda.con-cal p{margin:0 0 1.3rem;max-width:40ch}
+.mini-cal{container-type:inline-size;font-family:"Google Sans Text","Google Sans",Roboto,Arial,sans-serif;
+  color:#1f1f1f;background:#fff;border:1px solid #c4c7c5;border-radius:8px;padding:18px 18px 16px;
+  -webkit-font-smoothing:antialiased}
+.mini-cal *{font-family:inherit}
+.gc{display:grid;gap:16px}
+@container (min-width:540px){.gc{grid-template-columns:minmax(0,190px) minmax(0,1fr);gap:22px}
+  .gc-perfil{border-right:1px solid #e3e3e3;padding-right:18px}}
+.gc-cab{display:flex;align-items:center;gap:12px;margin-bottom:12px}
+.gc-foto{width:40px;height:40px;border-radius:50%;flex:none;background:#e3e3e3;object-fit:cover}
+.gc-nombre{font-family:"Google Sans",Roboto,Arial,sans-serif;font-size:16px;font-weight:500;color:#1f1f1f;line-height:1.25}
+.mini-cal p.gc-titulo{font-family:"Google Sans",Roboto,Arial,sans-serif;font-size:18px;font-weight:400;line-height:1.3;color:#1f1f1f;margin:0 0 12px;max-width:none}
+.mini-cal p.gc-dato{display:flex;align-items:center;gap:10px;font-size:14px;line-height:1.35;color:#1f1f1f;margin:0 0 9px;max-width:none}
+.mini-cal p.gc-dato svg{width:20px;height:20px;flex:none;fill:#444746}
+.mini-cal p.gc-dato img{width:20px;height:20px;flex:none}
+.mini-cal p.gc-sel{font-family:"Google Sans",Roboto,Arial,sans-serif;font-size:15px;font-weight:400;color:#1f1f1f;margin:0 0 8px;max-width:none}
+.gc-mes{display:flex;align-items:center;justify-content:space-between;margin:0 0 4px}
+.gc-mes span{font-family:"Google Sans",Roboto,Arial,sans-serif;font-size:14px;font-weight:500;color:#1f1f1f;padding-left:4px}
+.gc-flechas{display:flex;gap:2px}
+.gc-flecha{all:unset;box-sizing:border-box;width:36px;height:36px;border-radius:50%;display:grid;place-items:center;cursor:pointer}
+.gc-flecha svg{width:20px;height:20px;fill:#444746}
+.gc-flecha:hover{background:rgba(68,71,70,.08)}
+.gc-flecha[disabled]{cursor:default;opacity:.38;background:none}
+.gc-flecha:focus-visible{outline:2px solid #0b57d0;outline-offset:1px}
+.gc-grilla{display:grid;grid-template-columns:repeat(7,minmax(0,1fr));row-gap:2px;text-align:center;margin-bottom:12px}
+.gc-dow{font-size:11px;font-weight:500;color:#1f1f1f;padding:6px 0 4px}
+.gc-d{display:grid;place-items:center;height:36px;font-size:12.5px;font-weight:500;color:#444746;text-decoration:line-through}
+.gc-d.fuera{color:#8f9190}
+.gc-d i{font-style:normal;display:grid;place-items:center;width:32px;height:32px;border-radius:50%}
+button.gc-d{all:unset;box-sizing:border-box;display:grid;place-items:center;height:36px;cursor:pointer;
+  font-size:12.5px;font-weight:500;text-decoration:none;color:#004a77}
+button.gc-d i{background:#c2e7ff;transition:background .15s}
+button.gc-d:hover i{background:#a8dcff}
+button.gc-d[aria-pressed="true"] i{background:#0b57d0;color:#fff}
+button.gc-d:focus-visible i{outline:2px solid #0b57d0;outline-offset:2px}
+.mini-cal p.gc-dia{font-family:"Google Sans",Roboto,Arial,sans-serif;font-size:14px;font-weight:500;color:#1f1f1f;margin:0 0 10px;max-width:none}
+.gc-horas{display:grid;grid-template-columns:repeat(auto-fill,minmax(92px,1fr));gap:8px}
+.gc-hora{all:unset;box-sizing:border-box;cursor:pointer;text-align:center;height:40px;line-height:38px;border:1px solid #747775;border-radius:20px;
+  font-family:"Google Sans",Roboto,Arial,sans-serif;font-size:14px;font-weight:500;color:#0b57d0;transition:background .15s,border-color .15s}
+.gc-hora:hover{background:rgba(11,87,208,.08);border-color:#0b57d0}
+.gc-hora:focus-visible{outline:2px solid #0b57d0;outline-offset:2px}
+.mini-cal p.gc-pie{font-size:12px;line-height:1.45;color:#444746;margin:12px 0 0;max-width:none}
+.mini-cal p.gc-sin{font-size:14px;color:#444746;margin:6px 0 0;max-width:none}
+.elegido{display:block;font-size:14.5px;line-height:1.45;color:var(--tinta);
+  background:rgba(30,215,96,.12);border-radius:12px;padding:.75rem .95rem;margin:-.3rem 0 1.3rem}
+.elegido b{font-weight:600}
+@media(max-width:700px){footer{padding-bottom:96px}}
+@media(max-width:420px){
+  .agenda-app .paso-tit{flex-wrap:wrap;gap:.5rem}
+  .op{font-size:14.5px;min-height:48px}
+  .entrada{font-size:16px}
+}
+
+/* ═══ tanda 15: "Es para vos si", nota para leer con resaltador ═══ */
+.nota{max-width:36rem;margin:0 auto;text-align:left}
+@media(min-width:900px){.nota{max-width:68rem}
+  .nota-txt{column-count:2;column-gap:clamp(2.5rem,4vw,4rem);column-fill:balance}
+  .nota-txt p{orphans:2;widows:2}}
+.nota .rotulo{margin-bottom:.9rem}
+.nota h2{margin:0 0 1.6rem;max-width:none}
+.vos-tit em{font-style:normal;color:#1ED760;
+  text-shadow:0 1px 0 rgba(3,36,28,.30),0 0 1px rgba(3,36,28,.45);transition:text-shadow .28s ease}
+.vos-tit em:hover,.vos-tit em:active{
+  text-shadow:0 1px 0 rgba(3,36,28,.30),0 0 1px rgba(3,36,28,.45),0 0 14px rgba(30,215,96,.55),0 0 30px rgba(30,215,96,.30)}
+@media(hover:none){.vos-tit em{text-shadow:0 1px 0 rgba(3,36,28,.30),0 0 1px rgba(3,36,28,.45),0 0 12px rgba(30,215,96,.32)}}
+.nota-txt p{font-size:18px;line-height:1.75;color:var(--tinta);margin:0 0 1.15em;max-width:none;letter-spacing:-.003em;text-wrap:pretty}
+.nota-txt p.nota-fin{color:var(--humo);margin-bottom:0}
+@media(max-width:600px){.nota-txt p{font-size:17px;line-height:1.72}}
+/* el resaltador: una franja detrás de las palabras que se pinta de izquierda a derecha (misma mecánica que el original) */
+mark.rs{color:#074435;background-color:transparent;padding:0 .08em;
+  background-image:linear-gradient(transparent 58%,rgba(30,215,96,.6) 58%,rgba(30,215,96,.6) 94%,transparent 94%);background-repeat:no-repeat;
+  background-position:left center;background-size:100% 100%;
+  -webkit-box-decoration-break:clone;box-decoration-break:clone}
+.js-rs mark.rs{background-size:0% 100%;transition:background-size 1s cubic-bezier(.22,1,.36,1)}
+.js-rs mark.rs.pintado{background-size:100% 100%}
+@media(prefers-reduced-motion:reduce){.js-rs mark.rs{background-size:100% 100%;transition:none}}
+/* ═══ tanda 17: "Es para vos si" se lee al bajar, con la mecánica de la landing de STN ═══ */
+mark.rs{font-weight:700}
+.nota .rotulo,.vos-cab .rotulo{margin-bottom:.9rem}
+.vos-pista{display:none}
+.vos.vos-anim .vos-pista{display:block;position:relative}
+.vos.vos-anim .nota-cab{display:none}
+.vos.vos-anim .nota{position:relative;z-index:1}
+.vos-pega{position:sticky;top:22vh}
+.vos-cab{max-width:68rem;margin:0 auto}
+.vos-cab h2{margin:0 0 clamp(1.1rem,2.8vh,1.8rem);max-width:none}
+/* el cuadrito: una tarjeta como las otras de la landing, apenas más clara que el fondo, con el texto en el medio */
+.vos-tarjeta{position:relative;max-width:68rem;margin:0 auto;display:grid;place-items:center;
+  min-height:clamp(270px,32vh,330px);padding:clamp(1.8rem,4.5vh,2.6rem) clamp(1.4rem,4vw,3.5rem) clamp(2.6rem,6vh,3.4rem);
+  background:var(--blanco);border:1px solid var(--linea);border-radius:22px;
+  box-shadow:0 30px 70px -40px rgba(7,68,53,.28),0 8px 20px -14px rgba(7,68,53,.14)}
+.vos-caja{position:relative;width:min(100%,54rem);height:calc(4.35em + 4px);overflow:hidden;
+  font-size:clamp(24px,2.25vw,32px);line-height:1.45;letter-spacing:-.015em;
+  -webkit-mask-image:linear-gradient(transparent 0,#000 5%,#000 95%,transparent 100%);mask-image:linear-gradient(transparent 0,#000 5%,#000 95%,transparent 100%)}
+.vos-rollo{position:absolute;left:0;right:0;top:0;will-change:transform;transition:transform .45s cubic-bezier(.22,1,.36,1)}
+.vos-rollo p{margin:0;font-size:1em;line-height:inherit;font-weight:500;color:var(--tinta);text-align:center;max-width:none}
+/* de a renglón: el del medio encendido entero, el de arriba al 0.3 y los que vienen al 0.15 */
+.vos-rollo .rw{opacity:.15;transition:opacity .35s ease}
+.vos-rollo .rw.lit{opacity:1}
+.vos-rollo .rw.pasado{opacity:.3}
+/* el acento: negrita y el mismo marcador a media altura de la landing, que se pinta cuando su renglón se enciende */
+.vos-rollo .ac{font-weight:700;color:var(--tinta);
+  background-image:linear-gradient(transparent 58%,rgba(30,215,96,.6) 58%,rgba(30,215,96,.6) 94%,transparent 94%);background-repeat:no-repeat;
+  background-position:left center;background-size:0% 100%;transition:background-size .4s ease,color .4s ease}
+.vos-rollo .rw.lit .ac,.vos-rollo .rw.pasado .ac{background-size:100% 100%;color:#074435}
+/* la barrita de avance, abajo de la tarjeta */
+.vos-barrita{position:absolute;left:50%;bottom:clamp(1.2rem,3.2vh,1.8rem);translate:-50% 0;width:min(calc(100% - 2.8rem),54rem);height:3px;
+  border-radius:3px;background:rgba(16,35,39,.07);overflow:hidden}
+.vos-barrita i{display:block;height:100%;width:100%;background:#1ED760;transform-origin:left center;transform:scaleX(0);transition:transform .3s ease}
+@media(max-width:600px){
+  .vos-tarjeta{min-height:clamp(240px,38vh,340px);padding:1.6rem 1.1rem 2.4rem;border-radius:18px}
+  .vos-caja{font-size:22px;line-height:1.45}
+  .vos-barrita{width:calc(100% - 2.2rem);bottom:1.2rem}
+}
 </style>
 </head>
 <body>
@@ -234,16 +546,22 @@ textarea.entrada{min-height:92px;resize:vertical}
 <header class="barra">
   <div class="caja">
     <a class="marca" href="#">systemás</a>
-    <a class="boton rayo" href="#agendar"><span class="corto">Agendar</span><span class="largo">Agendar la consultoría</span></a>
+    <nav class="barra-nav" aria-label="Secciones de la página">
+      <a href="#como-funciona">Cómo funciona</a>
+      <a href="#para-quien">Para quién es</a>
+      <a href="#preguntas">Preguntas frecuentes</a>
+    </nav>
+    <a class="boton rayo" href="#agendar"><span class="corto">Agendar</span><span class="largo">Agendar una llamada</span></a>
   </div>
 </header>
 
 <!-- ═══ hero ═══ -->
 <div class="hero">
+  <div class="capa puntos" aria-hidden="true"></div><div class="capa halo" aria-hidden="true"><i></i></div><div class="capa vivos" aria-hidden="true"></div>
   <div class="env centro">
-    <span class="pico"><span>Para coaches, infoproductores y agencias</span></span>
-    <h1>Multiplicá tu capacidad operativa <em>trabajando menos</em></h1>
-    <p class="sub">Cada cliente que entra te suma horas de tareas repetidas: onboarding, mails, planillas, seguimiento. Automatizamos esas tareas de la entrega de tu servicio para que ganes tiempo y puedas tomar más clientes, con las herramientas que ya usás y sin contratar a nadie.</p>
+    <span class="pico"><span>Para profesionales de la salud</span></span>
+    <h1>Llená el calendario <em>sin estar pegado al celular</em></h1>
+    <p class="sub">Cada consulta de Instagram y WhatsApp respondida en minutos, también de noche, y el turno puesto en tu calendario sin que toques el celular.</p>
   </div>
 </div>
 
@@ -253,7 +571,6 @@ textarea.entrada{min-height:92px;resize:vertical}
     <div class="tarjeta">
       <div class="agenda-app" id="agenda-app"></div>
     </div>
-    <p class="friccion">Si reservás un horario, te espero. Si no vas a poder, cancelalo desde la invitación y lo libero para otra persona.</p>
   </div>
 </div>
 
@@ -268,51 +585,86 @@ textarea.entrada{min-height:92px;resize:vertical}
   </div>
 </section>
 
-<!-- ═══ para quién es ═══ -->
-<section>
+<!-- ═══ los cuatro momentos ═══ -->
+<section class="gris" id="como-funciona">
   <div class="env centro">
-    <span class="rotulo reveal">Para quién es</span>
-    <h2 class="reveal">Es para vos si se cumplen las 4</h2>
-    <ul class="reglas reveal" style="text-align:left">
-      <li><span class="tic">✓</span><span>Vendés <b>servicios digitales</b>: coaching, formación o servicios de agencia.</span></li>
-      <li><span class="tic">✓</span><span><b>Ya tenés ventas</b>: te entran clientes nuevos todos los meses.</span></li>
-      <li><span class="tic">✓</span><span>Cada cliente nuevo pasa por un <b>onboarding</b>.</span></li>
-      <li><span class="tic">✓</span><span>Y ese onboarding <b>se hace a mano</b>, lo hagas vos o tu equipo.</span></li>
-    </ul>
-    <p class="chico reveal" style="margin-top:1.4rem">Si alguna no se cumple, te lo digo antes de la llamada y no perdemos tiempo.</p>
+    <span class="rotulo reveal">Cómo funciona</span>
+    <h2 class="reveal">Lo que hace por vos, todos los días</h2>
+    <div class="fwp reveal">
+      <ul class="fwp-lista">
+        <li class="fwp-item" data-i="0"><button type="button" class="fwp-cab" aria-controls="fwp-tel" aria-expanded="false"><span class="fwp-num" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M7.9 20A9 9 0 1 0 4 16.1L2 22Z"/></svg></span><span class="fwp-tit">Responde en minutos</span></button><div class="fwp-cuerpo"><div class="fwp-dentro"><p>A cualquier hora, también a la noche y el fin de semana. Por WhatsApp y por Instagram, con la forma de hablar de tu consultorio.</p><div class="fwp-app" role="group" aria-label="Elegí la app"><button type="button" data-sub="0">WhatsApp</button><button type="button" data-sub="1">Instagram</button></div></div></div><span class="fwp-prog" aria-hidden="true"><i></i></span></li><li class="fwp-item" data-i="1"><button type="button" class="fwp-cab" aria-controls="fwp-tel" aria-expanded="false"><span class="fwp-num" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M22 3H2l8 9.46V19l4 2v-8.54L22 3z"/></svg></span><span class="fwp-tit">Filtra a los que preguntan por preguntar</span></button><div class="fwp-cuerpo"><div class="fwp-dentro"><p>Pregunta qué necesita y con qué obra social se atiende, antes de ofrecer un turno. A tu calendario llegan los que quieren el turno.</p></div></div><span class="fwp-prog" aria-hidden="true"><i></i></span></li><li class="fwp-item" data-i="2"><button type="button" class="fwp-cab" aria-controls="fwp-tel" aria-expanded="false"><span class="fwp-num" aria-hidden="true"><svg viewBox="0 0 24 24"><rect width="18" height="18" x="3" y="4" rx="2"/><path d="M16 2v4M8 2v4M3 10h18"/></svg></span><span class="fwp-tit">Deja el turno en tu calendario</span></button><div class="fwp-cuerpo"><div class="fwp-dentro"><p>Ofrece los horarios que tenés libres. Cuando elige uno, queda puesto con todos sus datos, y si querés lo movés vos.</p></div></div><span class="fwp-prog" aria-hidden="true"><i></i></span></li><li class="fwp-item" data-i="3"><button type="button" class="fwp-cab" aria-controls="fwp-tel" aria-expanded="false"><span class="fwp-num" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M6 8a6 6 0 0 1 12 0c0 7 3 9 3 9H3s3-2 3-9"/><path d="M10.3 21a1.94 1.94 0 0 0 3.4 0"/></svg></span><span class="fwp-tit">Recuerda el turno</span></button><div class="fwp-cuerpo"><div class="fwp-dentro"><p>El día antes le escribe para que no falte. Si no puede venir, le ofrece otro horario y ese hueco se vuelve a llenar.</p></div></div><span class="fwp-prog" aria-hidden="true"><i></i></span></li><li class="fwp-item" data-i="4"><button type="button" class="fwp-cab" aria-controls="fwp-tel" aria-expanded="false"><span class="fwp-num" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M11 2v2M5 2v2"/><path d="M5 3H4a2 2 0 0 0-2 2v4a6 6 0 0 0 12 0V5a2 2 0 0 0-2-2h-1"/><path d="M8 15a6 6 0 0 0 12 0v-3"/><circle cx="20" cy="10" r="2"/></svg></span><span class="fwp-tit">Lo médico te lo pregunta a vos</span></button><div class="fwp-cuerpo"><div class="fwp-dentro"><p>Si le consultan algo médico, te escribe a vos. Le contestás corto y le responde a la persona lo que vos dijiste.</p></div></div><span class="fwp-prog" aria-hidden="true"><i></i></span></li><li class="fwp-item" data-i="5"><button type="button" class="fwp-cab" aria-controls="fwp-tel" aria-expanded="false"><span class="fwp-num" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M19 14c1.49-1.46 3-3.21 3-5.5A5.5 5.5 0 0 0 16.5 3c-1.76 0-3 .5-4.5 2-1.5-1.5-2.74-2-4.5-2A5.5 5.5 0 0 0 2 8.5c0 2.3 1.5 4.05 3 5.5l7 7Z"/></svg></span><span class="fwp-tit">Sigue cuando ya es tu cliente</span></button><div class="fwp-cuerpo"><div class="fwp-dentro"><p>Controles, seguimientos y turnos de vuelta, sin que vos te acuerdes.</p></div></div><span class="fwp-prog" aria-hidden="true"><i></i></span></li>
+      </ul>
+      <p class="fwp-desliza" aria-hidden="true">Deslizá para ver las 6 →</p>
+      <div class="fwp-lado">
+        <figure class="fwp-tel" id="fwp-tel">
+          <div class="iphone"><span class="boton-lado l1"></span><span class="boton-lado l2"></span><span class="boton-lado l3"></span><span class="boton-lado r1"></span>
+            <div class="pantalla"><video muted playsinline preload="none" poster="videos/cel-01-whatsapp.jpg" aria-label="Una consulta por WhatsApp a las 23:14 que el asistente responde en minutos"></video><span class="isla"></span><span class="barra-inicio"></span></div></div>
+          <figcaption class="subt fwp-subt" aria-live="off"></figcaption>
+        </figure>
+      </div>
+    </div>
+    <script type="application/json" id="fwp-datos">[[{"poster": "videos/cel-01-whatsapp.jpg", "src": "videos/cel-01-whatsapp.mp4", "aria": "Una consulta por WhatsApp a las 23:14 que el asistente responde en minutos", "subs": [[0, "Te escriben <mark>a las 23:14.</mark>"], [4.8, "El asistente contesta <mark>en minutos.</mark>"], [10.73, "Le pregunta <mark>lo necesario.</mark>"], [17.33, "Le ofrece <mark>tus horarios libres.</mark>"], [23.6, "Y el turno queda <mark>en tu calendario.</mark>"]], "app": "WhatsApp"}, {"poster": "videos/cel-02-instagram.jpg?v=14", "src": "videos/cel-02-instagram.mp4?v=14", "aria": "Otra consulta, por mensaje directo de Instagram a las 7:52, que termina con el turno puesto", "subs": [[0, "Te escriben por Instagram <mark>a las 7:52.</mark>"], [4.8, "El asistente contesta <mark>en minutos.</mark>"], [10.73, "Le pregunta <mark>lo necesario.</mark>"], [17.33, "Le ofrece <mark>tus horarios libres.</mark>"], [23.6, "Y el turno queda <mark>en tu calendario.</mark>"]], "app": "Instagram"}], [{"poster": "videos/cel-03-filtrar.jpg", "src": "videos/cel-03-filtrar.mp4", "aria": "Al que solo pregunta le contesta amable; al que va en serio le deja el turno", "subs": [[0, "Al que <mark>solo pregunta,</mark> le contesta amable."], [6.47, "Al que va en serio, <mark>le pregunta lo necesario.</mark>"], [12.73, "Y le <mark>deja el turno.</mark>"], [19, "A tu calendario llegan <mark>los que quieren el turno.</mark>"]], "app": ""}], [{"poster": "videos/cel-04-agenda.jpg", "src": "videos/cel-04-agenda.mp4", "aria": "El turno aparece en el calendario con sus datos y se puede mover", "subs": [[0, "Cada turno aparece <mark>en tu calendario.</mark>"], [6.47, "Con <mark>todos los datos.</mark>"], [13.73, "Y si querés, <mark>lo movés vos.</mark>"]], "app": ""}], [{"poster": "videos/cel-05-recordatorio-y-reagenda.jpg", "src": "videos/cel-05-recordatorio-y-reagenda.mp4", "aria": "Recordatorio del día antes, otro horario y el hueco que se vuelve a llenar", "subs": [[0, "El día antes, <mark>le recuerda el turno.</mark>"], [6.13, "Si no puede, <mark>le ofrece otro horario.</mark>"], [12.4, "Y el hueco <mark>se vuelve a llenar.</mark>"], [17.67, "Tu calendario <mark>no queda con huecos.</mark>"]], "app": ""}], [{"poster": "videos/cel-06-lo-medico.jpg", "src": "videos/cel-06-lo-medico.mp4", "aria": "El asistente consulta al profesional y le responde a la persona", "subs": [[0, "Si le preguntan <mark>algo médico...</mark>"], [5.8, "...el asistente <mark>te pregunta a vos.</mark>"], [13.4, "Y le responde <mark>lo que vos dijiste.</mark>"]], "app": ""}], [{"poster": "videos/cel-07-cuando-ya-es-cliente.jpg", "src": "videos/cel-07-cuando-ya-es-cliente.mp4", "aria": "Aviso del control a los 6 meses, seguimiento y turnos de vuelta en el calendario", "subs": [[0, "A los 6 meses, <mark>le avisa que le toca el control.</mark>"], [7.13, "Hace el seguimiento <mark>del tratamiento.</mark>"], [13.73, "Y los turnos de vuelta <mark>quedan en tu calendario.</mark>"]], "app": ""}]]</script>
   </div>
 </section>
 
-<!-- ═══ los cuatro momentos ═══ -->
-<section class="gris">
-  <div class="env centro">
-    <span class="rotulo reveal">La consultoría</span>
-    <h2 class="reveal">4 pasos. En el último lo ves funcionando</h2>
-    <ol class="pasos reveal" style="text-align:left">
-      <li><span class="num">01</span><h3>Llamada inicial</h3>
-        <p>En la misma llamada te digo cuántas horas por semana se te van en trabajo manual.</p></li>
-      <li><span class="num">02</span><h3>Revisamos tu entrega</h3>
-        <p>Repasamos juntos todo lo que pasa desde que entra un cliente y elegimos una sola cosa para resolver.</p></li>
-      <li><span class="num">03</span><h3>La construyo yo</h3>
-        <p>Tengo 4 horas y no se estiran. Si no alcanzan, elijo algo más chico.</p></li>
-      <li><span class="num">04</span><h3>La ves funcionando</h3>
-        <p>Compartimos pantalla y la probás vos mismo.</p></li>
-    </ol>
+<!-- ═══ para quién es (tanda 17b: se lee al bajar de a renglón dentro de una tarjeta, y al final queda el texto entero) ═══ -->
+<section class="vos" id="para-quien">
+  <div class="vos-pista">
+    <div class="vos-pega">
+      <div class="env">
+        <div class="vos-cab">
+          <span class="rotulo reveal">Para quién es</span>
+          <h2 class="reveal vos-tit"><em>Es para vos si</em></h2>
+        </div>
+        <div class="vos-tarjeta">
+        <div class="vos-caja" aria-hidden="true">
+          <div class="vos-rollo">
+            <p><span class="rw">Sos </span><span class="rw"><span class="ac">profesional </span></span><span class="rw"><span class="ac">de </span></span><span class="rw"><span class="ac">la </span></span><span class="rw"><span class="ac">salud</span> </span><span class="rw">y </span><span class="rw">casi </span><span class="rw">todos </span><span class="rw">tus </span><span class="rw">turnos </span><span class="rw">nuevos </span><span class="rw">empiezan </span><span class="rw">con </span><span class="rw"><span class="ac">un </span></span><span class="rw"><span class="ac">mensaje </span></span><span class="rw"><span class="ac">por </span></span><span class="rw"><span class="ac">WhatsApp </span></span><span class="rw"><span class="ac">o </span></span><span class="rw"><span class="ac">Instagram</span>.</span></p>
+            <p><span class="rw">Lo </span><span class="rw">que </span><span class="rw">pasa </span><span class="rw">después </span><span class="rw">se </span><span class="rw">llama </span><span class="rw"><span class="ac">prospección</span>, </span><span class="rw">el </span><span class="rw">proceso </span><span class="rw">que </span><span class="rw">convierte </span><span class="rw">a </span><span class="rw">una </span><span class="rw">persona </span><span class="rw">interesada </span><span class="rw">en </span><span class="rw">alguien </span><span class="rw">que </span><span class="rw">se </span><span class="rw">atiende </span><span class="rw">con </span><span class="rw">vos. </span><span class="rw">Tiene </span><span class="rw">etapas, </span><span class="rw">del </span><span class="rw">primer </span><span class="rw">contacto </span><span class="rw">al </span><span class="rw">seguimiento, </span><span class="rw">pero </span><span class="rw">conocerlas </span><span class="rw">no </span><span class="rw">alcanza, </span><span class="rw">también </span><span class="rw">hay </span><span class="rw">que </span><span class="rw">entender </span><span class="rw">la </span><span class="rw"><span class="ac">psicología </span></span><span class="rw"><span class="ac">de </span></span><span class="rw"><span class="ac">compra</span> </span><span class="rw">de </span><span class="rw">quien </span><span class="rw">te </span><span class="rw">escribe.</span></p>
+            <p><span class="rw">Quien </span><span class="rw">escribe </span><span class="rw">ya </span><span class="rw">buscó, </span><span class="rw">comparó </span><span class="rw">y </span><span class="rw">decidió </span><span class="rw">atenderse. </span><span class="rw">Su </span><span class="rw">intención </span><span class="rw">está </span><span class="rw">en </span><span class="rw">el </span><span class="rw">punto </span><span class="rw">más </span><span class="rw">alto </span><span class="rw">y </span><span class="rw">solo </span><span class="rw">le </span><span class="rw">falta </span><span class="rw">una </span><span class="rw">respuesta, </span><span class="rw">así </span><span class="rw">que </span><span class="rw">no </span><span class="rw">espera, </span><span class="rw">le </span><span class="rw">escribe </span><span class="rw">a </span><span class="rw">dos </span><span class="rw">o </span><span class="rw">tres </span><span class="rw">consultorios </span><span class="rw">más </span><span class="rw">y </span><span class="rw">se </span><span class="rw">queda </span><span class="rw">con </span><span class="rw">el </span><span class="rw">primero </span><span class="rw">que </span><span class="rw">contesta.</span></p>
+            <p><span class="rw">Un </span><span class="rw">estudio </span><span class="rw">de </span><span class="rw">Harvard </span><span class="rw">sobre </span><span class="rw">más </span><span class="rw">de </span><span class="rw">1 </span><span class="rw">millón </span><span class="rw">de </span><span class="rw">consultas </span><span class="rw">lo </span><span class="rw">midió. </span><span class="rw">Responder </span><span class="rw"><span class="ac">dentro </span></span><span class="rw"><span class="ac">de </span></span><span class="rw"><span class="ac">la </span></span><span class="rw"><span class="ac">primera </span></span><span class="rw"><span class="ac">hora </span></span><span class="rw"><span class="ac">da </span></span><span class="rw"><span class="ac">7 </span></span><span class="rw"><span class="ac">veces </span></span><span class="rw"><span class="ac">más </span></span><span class="rw"><span class="ac">chances</span> </span><span class="rw">de </span><span class="rw">que </span><span class="rw">la </span><span class="rw">consulta </span><span class="rw">avance, </span><span class="rw">y </span><span class="rw">responder </span><span class="rw">al </span><span class="rw">otro </span><span class="rw">día </span><span class="rw">da </span><span class="rw"><span class="ac">60 </span></span><span class="rw"><span class="ac">veces </span></span><span class="rw"><span class="ac">menos</span>. </span><span class="rw">El </span><span class="rw">interés </span><span class="rw">se </span><span class="rw">enfría </span><span class="rw">con </span><span class="rw">cada </span><span class="rw">hora.</span></p>
+            <p><span class="rw"><span class="ac">Te </span></span><span class="rw"><span class="ac">entran </span></span><span class="rw"><span class="ac">consultas </span></span><span class="rw"><span class="ac">todos </span></span><span class="rw"><span class="ac">los </span></span><span class="rw"><span class="ac">días</span> </span><span class="rw">y </span><span class="rw"><span class="ac">hoy </span></span><span class="rw"><span class="ac">las </span></span><span class="rw"><span class="ac">respondés </span></span><span class="rw"><span class="ac">vos </span></span><span class="rw"><span class="ac">o </span></span><span class="rw"><span class="ac">tu </span></span><span class="rw"><span class="ac">equipo, </span></span><span class="rw"><span class="ac">cuando </span></span><span class="rw"><span class="ac">se </span></span><span class="rw"><span class="ac">puede</span>, </span><span class="rw">a </span><span class="rw">la </span><span class="rw">noche </span><span class="rw">o </span><span class="rw">el </span><span class="rw">lunes </span><span class="rw">las </span><span class="rw">del </span><span class="rw">fin </span><span class="rw">de </span><span class="rw">semana. </span><span class="rw">Ahí </span><span class="rw">se </span><span class="rw">pierde </span><span class="rw">la </span><span class="rw">mayoría </span><span class="rw">de </span><span class="rw">los </span><span class="rw">turnos, </span><span class="rw">no </span><span class="rw">por </span><span class="rw">falta </span><span class="rw">de </span><span class="rw">demanda </span><span class="rw">sino </span><span class="rw">por </span><span class="rw"><span class="ac">el </span></span><span class="rw"><span class="ac">tiempo </span></span><span class="rw"><span class="ac">de </span></span><span class="rw"><span class="ac">respuesta</span>.</span></p>
+            <p><span class="rw">Con </span><span class="rw">los </span><span class="rw">que </span><span class="rw">dejan </span><span class="rw">de </span><span class="rw">contestar </span><span class="rw">pasa </span><span class="rw">lo </span><span class="rw">mismo. </span><span class="rw">La </span><span class="rw">mayoría </span><span class="rw">no </span><span class="rw">perdió </span><span class="rw">interés, </span><span class="rw">se </span><span class="rw">olvidó </span><span class="rw">o </span><span class="rw">lo </span><span class="rw">dejó </span><span class="rw">para </span><span class="rw">después. </span><span class="rw">Según </span><span class="rw">la </span><span class="rw">regla </span><span class="rw">del </span><span class="rw">7, </span><span class="rw">una </span><span class="rw">persona </span><span class="rw">necesita </span><span class="rw">escuchar </span><span class="rw">algo </span><span class="rw">entre </span><span class="rw">5 </span><span class="rw">y </span><span class="rw">7 </span><span class="rw">veces </span><span class="rw">antes </span><span class="rw">de </span><span class="rw">decidir, </span><span class="rw">y </span><span class="rw">un </span><span class="rw">análisis </span><span class="rw">de </span><span class="rw">11 </span><span class="rw">millones </span><span class="rw">de </span><span class="rw">mensajes </span><span class="rw">de </span><span class="rw">venta </span><span class="rw">mostró </span><span class="rw">que </span><span class="rw"><span class="ac">el </span></span><span class="rw"><span class="ac">primer </span></span><span class="rw"><span class="ac">seguimiento </span></span><span class="rw"><span class="ac">sube </span></span><span class="rw"><span class="ac">las </span></span><span class="rw"><span class="ac">respuestas </span></span><span class="rw"><span class="ac">casi </span></span><span class="rw"><span class="ac">un </span></span><span class="rw"><span class="ac">50%</span>. </span><span class="rw">Y </span><span class="rw"><span class="ac">cada </span></span><span class="rw"><span class="ac">día </span></span><span class="rw"><span class="ac">sin </span></span><span class="rw"><span class="ac">seguimiento </span></span><span class="rw"><span class="ac">la </span></span><span class="rw"><span class="ac">chance </span></span><span class="rw"><span class="ac">de </span></span><span class="rw"><span class="ac">respuesta </span></span><span class="rw"><span class="ac">baja </span></span><span class="rw"><span class="ac">a </span></span><span class="rw"><span class="ac">la </span></span><span class="rw"><span class="ac">mitad</span>, </span><span class="rw">50% </span><span class="rw">al </span><span class="rw">día </span><span class="rw">siguiente </span><span class="rw">y </span><span class="rw">25% </span><span class="rw">a </span><span class="rw">los </span><span class="rw">dos </span><span class="rw">días. </span><span class="rw">Sin </span><span class="rw">seguimiento </span><span class="rw">a </span><span class="rw">tiempo, </span><span class="rw">ese </span><span class="rw">turno </span><span class="rw">se </span><span class="rw">lo </span><span class="rw">lleva </span><span class="rw">otro.</span></p>
+            <p><span class="rw">Hoy, </span><span class="rw">además </span><span class="rw">de </span><span class="rw">atender, </span><span class="rw">hacés </span><span class="rw">un </span><span class="rw">trabajo </span><span class="rw">comercial </span><span class="rw">que </span><span class="rw">no </span><span class="rw">te </span><span class="rw">corresponde. </span><span class="rw">Con </span><span class="rw">un </span><span class="rw">sistema </span><span class="rw">de </span><span class="rw">prospección </span><span class="rw">cada </span><span class="rw">consulta </span><span class="rw">se </span><span class="rw">responde </span><span class="rw">en </span><span class="rw">minutos </span><span class="rw">y </span><span class="rw">a </span><span class="rw">cualquier </span><span class="rw">hora, </span><span class="rw">nadie </span><span class="rw">queda </span><span class="rw">sin </span><span class="rw">seguimiento </span><span class="rw">y </span><span class="rw">los </span><span class="rw">turnos </span><span class="rw">llegan </span><span class="rw">solos </span><span class="rw">a </span><span class="rw">tu </span><span class="rw">calendario. </span><span class="rw"><span class="ac">El </span></span><span class="rw"><span class="ac">sistema </span></span><span class="rw"><span class="ac">consigue </span></span><span class="rw"><span class="ac">los </span></span><span class="rw"><span class="ac">turnos </span></span><span class="rw"><span class="ac">y </span></span><span class="rw"><span class="ac">vos </span></span><span class="rw"><span class="ac">te </span></span><span class="rw"><span class="ac">dedicás </span></span><span class="rw"><span class="ac">a </span></span><span class="rw"><span class="ac">atender</span>.</span></p>
+            <p><span class="rw">El </span><span class="rw">resultado </span><span class="rw">es </span><span class="rw">que </span><span class="rw"><span class="ac">las </span></span><span class="rw"><span class="ac">consultas </span></span><span class="rw"><span class="ac">que </span></span><span class="rw"><span class="ac">hoy </span></span><span class="rw"><span class="ac">se </span></span><span class="rw"><span class="ac">te </span></span><span class="rw"><span class="ac">enfrían </span></span><span class="rw"><span class="ac">pasan </span></span><span class="rw"><span class="ac">a </span></span><span class="rw"><span class="ac">ser </span></span><span class="rw"><span class="ac">turnos </span></span><span class="rw"><span class="ac">en </span></span><span class="rw"><span class="ac">tu </span></span><span class="rw"><span class="ac">calendario</span>.</span></p>
+          </div>
+        </div>
+        <div class="vos-barrita" aria-hidden="true"><i></i></div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="env">
+    <div class="nota">
+      <div class="nota-cab">
+        <span class="rotulo reveal">Para quién es</span>
+        <h2 class="reveal vos-tit"><em>Es para vos si</em></h2>
+      </div>
+      <div class="nota-txt">
+      <p>Sos <mark class="rs">profesional de la salud</mark> y casi todos tus turnos nuevos empiezan con <mark class="rs">un mensaje por WhatsApp o Instagram</mark>.</p>
+      <p>Lo que pasa después se llama <mark class="rs">prospección</mark>, el proceso que convierte a una persona interesada en alguien que se atiende con vos. Tiene etapas, del primer contacto al seguimiento, pero conocerlas no alcanza, también hay que entender la <mark class="rs">psicología de compra</mark> de quien te escribe.</p>
+      <p>Quien escribe ya buscó, comparó y decidió atenderse. Su intención está en el punto más alto y solo le falta una respuesta, así que no espera, le escribe a dos o tres consultorios más y se queda con el primero que contesta.</p>
+      <p>Un estudio de Harvard sobre más de 1 millón de consultas lo midió. Responder <mark class="rs">dentro de la primera hora da 7 veces más chances</mark> de que la consulta avance, y responder al otro día da <mark class="rs">60 veces menos</mark>. El interés se enfría con cada hora.</p>
+      <p><mark class="rs">Te entran consultas todos los días</mark> y <mark class="rs">hoy las respondés vos o tu equipo, cuando se puede</mark>, a la noche o el lunes las del fin de semana. Ahí se pierde la mayoría de los turnos, no por falta de demanda sino por <mark class="rs">el tiempo de respuesta</mark>.</p>
+      <p>Con los que dejan de contestar pasa lo mismo. La mayoría no perdió interés, se olvidó o lo dejó para después. Según la regla del 7, una persona necesita escuchar algo entre 5 y 7 veces antes de decidir, y un análisis de 11 millones de mensajes de venta mostró que <mark class="rs">el primer seguimiento sube las respuestas casi un 50%</mark>. Y <mark class="rs">cada día sin seguimiento la chance de respuesta baja a la mitad</mark>, 50% al día siguiente y 25% a los dos días. Sin seguimiento a tiempo, ese turno se lo lleva otro.</p>
+      <p>Hoy, además de atender, hacés un trabajo comercial que no te corresponde. Con un sistema de prospección cada consulta se responde en minutos y a cualquier hora, nadie queda sin seguimiento y los turnos llegan solos a tu calendario. <mark class="rs">El sistema consigue los turnos y vos te dedicás a atender</mark>.</p>
+      <p>El resultado es que <mark class="rs">las consultas que hoy se te enfrían pasan a ser turnos en tu calendario</mark>.</p>
+      </div>
+    </div>
   </div>
 </section>
 
 <!-- ═══ preguntas ═══ -->
-<section>
+<section id="preguntas">
   <div class="env centro">
     <span class="rotulo reveal">Preguntas frecuentes</span>
     <h2 class="reveal">Preguntas antes de agendar</h2>
     <div class="faq reveal" style="text-align:left">
-      <details><summary>¿Por qué no me cobrás nada?</summary><div class="cuerpo">Porque prefiero mostrarte algo funcionando antes que mandarte un presupuesto. Si te sirve, hablamos de dejarlo instalado en tus cuentas. Si no, te quedás igual con el mapa de tu entrega y las horas medidas.</div></details>
-      <details><summary>¿Y si no tengo los procesos escritos?</summary><div class="cuerpo">Casi nadie los tiene. No hace falta traerlos escritos: los sacamos juntos en la revisión. Que no estén escritos ya es parte del problema.</div></details>
-      <details><summary>¿Me vas a pedir las claves de mis sistemas?</summary><div class="cuerpo">No. Te pido ejemplos: un mail que mandás siempre, una planilla, un documento. Los accesos vienen después, y sólo si decidís instalarlo.</div></details>
-      <details><summary>Ya pagué por automatizar y se rompió. ¿Por qué con vos sería distinto?</summary><div class="cuerpo">Pasa seguido, y casi siempre por lo mismo: se automatizó algo antes de entender el proceso, o quedó armado en la cuenta de otro. Por eso primero medimos y revisamos, y lo que se instala queda en tus cuentas.</div></details>
-      <details><summary>¿Y si en 4 horas no llegás?</summary><div class="cuerpo">Entonces lo que elegimos era muy grande y elijo algo más chico. Las horas no se estiran: prefiero mostrarte algo chico funcionando que algo grande a medio hacer.</div></details>
-      <details><summary>¿Qué me llevo si después no trabajamos juntos?</summary><div class="cuerpo">El mapa de tu entrega paso por paso, las horas por semana medidas y lo que construí, funcionando. Es tuyo igual.</div></details>
+      <details><summary>¿Se nota que es una IA?</summary><div class="cuerpo">Habla con la forma de hablar de tu consultorio, y lo probamos juntos antes de prenderlo. Si algo no te gusta cómo suena, se cambia.</div></details>
+      <details><summary>¿Y si le preguntan algo médico?</summary><div class="cuerpo">Contesta sólo lo que sabe: turnos, horarios, precios y obras sociales. Lo médico te lo pasa a vos para que lo respondas vos.</div></details>
+      <details><summary>¿Tengo que cambiar mi WhatsApp o mi calendario?</summary><div class="cuerpo">No. Lo armo sobre lo que ya usás: tu Instagram, tu WhatsApp y tu calendario. No tenés que aprender nada nuevo.</div></details>
+      <details><summary>¿Y si alguien saca turno y no viene?</summary><div class="cuerpo">El día antes le manda un recordatorio. Si no puede venir, le ofrece otro horario y ese hueco se puede volver a llenar.</div></details>
+      <details><summary>¿Qué pasa en la llamada?</summary><div class="cuerpo">Me contás cómo te llegan hoy las consultas y te muestro cómo quedaría en tu consultorio. Si no es para vos, te lo digo en el momento.</div></details>
     </div>
   </div>
 </section>
@@ -322,11 +674,10 @@ textarea.entrada{min-height:92px;resize:vertical}
   <div class="env centro">
     <span class="rotulo reveal">Agendá tu llamada</span>
     <h2 class="reveal">Reservá tu llamada</h2>
-    <p class="sub reveal">Respondés 5 preguntas cortas y elegís el horario. Si no es para vos, te lo digo en el momento.</p>
+    <p class="sub reveal">Respondés 5 preguntas cortas y elegís el horario. Te muestro cómo quedaría en tu consultorio.</p>
     <div class="reveal" style="margin-top:clamp(1.8rem,3.5vw,2.4rem)">
       <a class="boton rayo" href="#agendar">Quiero agendar</a>
     </div>
-    <p class="friccion">Si reservás un horario, te espero. Si no vas a poder, cancelalo desde la invitación y lo libero para otra persona.</p>
   </div>
 </section>
 
@@ -340,7 +691,7 @@ textarea.entrada{min-height:92px;resize:vertical}
 
 <div class="pie-cta" id="pie">
   <div class="caja">
-    <p>Multiplicá tu capacidad operativa <em>trabajando menos</em>.</p>
+    <p>Llená el calendario <em>sin estar pegado al celular</em>.</p>
     <a class="boton rayo" href="#agendar">Agendar</a>
   </div>
 </div>
@@ -392,7 +743,8 @@ const VIDEO = { insertar: "" };
   const MAIL = '<a href="mailto:hola@xn--systems-mwa.com" style="color:var(--azul)">hola@systemás.com</a>';
   const app = document.getElementById('agenda-app');
   if (!app) return;
-  const estado = { formulario: null, horario: null };
+  const estado = { formulario: null, horario: null, pre: null };
+  const AVISO_CANCELAR = '<p class="aviso-cancelar"><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="3.5" y="5" width="17" height="15" rx="3"/><path d="M3.5 10h17M8 3v4M16 3v4M9.5 14.5l5 0"/></svg><span>Si reservás un horario, te espero. Si no vas a poder, cancelalo desde la invitación y lo libero para otra persona.</span></p>';
 
   function api(fn, args){
     return fetch(URL_API + fn, {
@@ -417,16 +769,17 @@ const VIDEO = { insertar: "" };
   function pasoForm(){
     app.innerHTML =
       '<div class="paso-tit"><h3>Contame de tu negocio</h3><span class="paso-n">Paso 1 de 2</span></div>' +
+      (estado.pre ? '<p class="elegido">Elegiste el <b>' + esc(fDia.format(new Date(estado.pre))) + ' a las ' + fHora.format(new Date(estado.pre)) + ' h</b>. Lo confirmás después de estas preguntas.</p>' : '') +
       '<form id="f-cal" novalidate>' +
         '<div class="campo"><label class="et" for="f-ig">Tu Instagram</label>' +
           '<div class="con-arroba"><span>@</span><input class="entrada" id="f-ig" name="instagram" autocomplete="off" maxlength="60" required></div></div>' +
-        '<fieldset class="campo"><legend>¿Qué vendés?</legend>' +
-          opciones('vende', [['coaching','Coaching'],['formacion','Cursos o formación'],['agencia','Servicios de agencia'],['otro','Otro']], 'dos') + '</fieldset>' +
-        '<fieldset class="campo"><legend>¿Cuántos clientes nuevos te entraron el último mes?</legend>' +
-          opciones('clientes_mes', [['0','0'],['1-3','1 a 3'],['4-10','4 a 10'],['10+','Más de 10']], 'cuatro') + '</fieldset>' +
-        '<fieldset class="campo"><legend>¿Cómo gestionás hoy el onboarding de un cliente nuevo?</legend>' +
-          opciones('onboarding', [['yo_manual','Lo hago yo, de forma manual'],['equipo_manual','Lo hace alguien de mi equipo, de forma manual'],['parcial','Está automatizado en parte, pero requiere mantenimiento'],['completo','Está automatizado por completo']], 'dos') + '</fieldset>' +
-        '<div class="campo"><label class="et" for="f-tarea">¿Qué tarea operativa te consume más tiempo por semana?</label>' +
+        '<fieldset class="campo"><legend>¿A qué te dedicás?</legend>' +
+          opciones('vende', [['odontologia','Odontología'],['estetica','Estética o dermatología'],['salud','Otra especialidad de salud'],['otro','Otro rubro']], 'dos') + '</fieldset>' +
+        '<fieldset class="campo"><legend>¿Cuántas consultas te entran por día?</legend>' +
+          opciones('consultas_dia', [['0-3','Menos de 3'],['3-10','3 a 10'],['10-30','10 a 30'],['30+','Más de 30']], 'cuatro') + '</fieldset>' +
+        '<fieldset class="campo"><legend>¿Quién responde hoy los mensajes?</legend>' +
+          opciones('responde', [['yo','Yo, cuando puedo'],['equipo','Mi secretaria o alguien del equipo'],['automaticas','Tengo respuestas automáticas, pero no dan turno'],['asistente','Ya tengo un asistente que da turnos']], 'dos') + '</fieldset>' +
+        '<div class="campo"><label class="et" for="f-tarea">¿Qué es lo que más te pasa hoy con las consultas?</label>' +
           '<textarea class="entrada" id="f-tarea" name="tarea" maxlength="1000" required></textarea></div>' +
         '<div class="trampa" aria-hidden="true"><input name="web" tabindex="-1" autocomplete="off"></div>' +
         '<p class="aviso-form" id="f-aviso"></p>' +
@@ -440,10 +793,10 @@ const VIDEO = { insertar: "" };
       if (d.get('web')) return;                          /* la trampa: sólo la llena un robot */
       const datos = {
         instagram: '@' + String(d.get('instagram')||'').trim().replace(/^@+/, ''),
-        vende: d.get('vende'), clientes_mes: d.get('clientes_mes'),
-        onboarding: d.get('onboarding'), tarea: String(d.get('tarea')||'').trim()
+        vende: d.get('vende'), consultas_dia: d.get('consultas_dia'),
+        responde: d.get('responde'), tarea: String(d.get('tarea')||'').trim()
       };
-      if (datos.instagram.length < 3 || !datos.vende || !datos.clientes_mes || !datos.onboarding || datos.tarea.length < 3) {
+      if (datos.instagram.length < 3 || !datos.vende || !datos.consultas_dia || !datos.responde || datos.tarea.length < 3) {
         aviso.textContent = 'Completá las 5 preguntas para seguir.'; return;
       }
       aviso.textContent = '';
@@ -469,14 +822,16 @@ const VIDEO = { insertar: "" };
     app.innerHTML =
       '<div class="paso-tit"><h3>Elegí día y horario</h3><span class="paso-n">Paso 2 de 2</span></div>' +
       '<p class="zona">Cuando confirmás, te llega la invitación al mail con el link de Google Meet.</p>' +
-      '<div class="gcal-marco"><iframe title="Agenda de Luca" loading="lazy" src="' + esc(url) + '"></iframe></div>';
+      (estado.pre ? '<p class="elegido">Habías tocado el <b>' + esc(fDia.format(new Date(estado.pre))) + ' a las ' + fHora.format(new Date(estado.pre)) + ' h</b>: lo encontrás abajo.</p>' : '') +
+      AVISO_CANCELAR +
+      '<div class="gcal-marco"><iframe title="Calendario de Luca" loading="lazy" src="' + esc(url) + '"></iframe></div>';
     subir();
   }
 
   function noCalifica(){
     app.innerHTML = '<div class="fin-caja"><div class="icono">✓</div>' +
       '<h3>Gracias por contarme</h3>' +
-      '<p>Por lo que me contás, hoy esta consultoría no es para vos, y prefiero no hacerte perder tiempo. Si algo cambia, escribime a ' + MAIL + '.</p></div>';
+      '<p>Por lo que me contás, hoy esto no es para vos, y prefiero no hacerte perder tiempo. Si algo cambia, escribime a ' + MAIL + '.</p></div>';
     subir();
   }
 
@@ -486,7 +841,7 @@ const VIDEO = { insertar: "" };
     subir();
     api('landing_ver_horarios').then(function(lista){
       if (!lista || !lista.length) {
-        app.innerHTML = '<div class="fin-caja"><div class="icono">…</div><h3>Estoy acomodando la agenda</h3>' +
+        app.innerHTML = '<div class="fin-caja"><div class="icono">…</div><h3>Estoy acomodando el calendario</h3>' +
           '<p>Ahora mismo no tengo horarios para mostrarte. Escribime a ' + MAIL + ' y te paso uno.</p></div>';
         return;
       }
@@ -500,6 +855,7 @@ const VIDEO = { insertar: "" };
         '<div class="paso-tit"><h3>Elegí día y horario</h3><span class="paso-n">Paso 2 de 2</span></div>' +
         (mensaje ? '<p class="aviso-form">' + mensaje + '</p>' : '') +
         '<p class="zona">Es por videollamada. Los horarios están en tu hora local.</p>' +
+        AVISO_CANCELAR +
         '<div class="dias">' + Object.keys(porDia).map(function(dia){
           return '<div class="dia"><h4>' + esc(dia) + '</h4><div class="horas">' + porDia[dia].map(function(h){
             return '<button type="button" class="hora" aria-pressed="false" data-inicio="' + h.inicio + '">' + fHora.format(new Date(h.inicio)) + '</button>';
@@ -514,6 +870,12 @@ const VIDEO = { insertar: "" };
           pasoDatos();
         });
       });
+      if (estado.pre) {
+        const pb = [].find.call(app.querySelectorAll('.hora'), function(x){ return x.dataset.inicio === estado.pre; });
+        estado.pre = null;
+        if (pb) pb.click();
+        else app.querySelector('.zona').insertAdjacentHTML('beforebegin', '<p class="aviso-form">El horario que habías tocado ya no está libre. Elegí otro.</p>');
+      }
     }).catch(function(){
       app.innerHTML = '<div class="fin-caja"><h3>No pude cargar los horarios</h3><p>Probá recargar la página o escribime a ' + MAIL + '.</p></div>';
     });
@@ -572,14 +934,111 @@ const VIDEO = { insertar: "" };
   /* el form se abre sólo cuando la persona elige agendar (26-sep) */
   let abierto = false;
   function abrir(){ if (abierto) return; abierto = true; pasoForm(); }
+  /* tanda 14: a la derecha, los próximos horarios libres (la MISMA lectura que el paso 2, landing_ver_horarios:
+     sólo lee). Tocar "Quiero agendar" o un horario abre PRIMERO las 5 preguntas; el horario tocado queda marcado
+     en el paso 2. Si la lectura falla en la vista previa local, se muestran horarios de muestra (y lo dice). */
+  const LOCAL = location.protocol === 'file:' || /^(127\.0\.0\.1|localhost|\[::1\])$/.test(location.hostname);
+  const fMes = new Intl.DateTimeFormat('es-AR', { month: 'long', year: 'numeric' });
+  const RELOJ = '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M16.24 7.75A5.974 5.974 0 0 0 12 5.99v6l-4.24 4.24c2.34 2.34 6.14 2.34 8.49 0a5.99 5.99 0 0 0-.01-8.48zM12 1.99c-5.52 0-10 4.48-10 10s4.48 10 10 10 10-4.48 10-10-4.48-10-10-10zm0 18c-4.42 0-8-3.58-8-8s3.58-8 8-8 8 3.58 8 8-3.58 8-8 8z"/></svg>';
+  const IZQ = '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M15.41 7.41L14 6l-6 6 6 6 1.41-1.41L10.83 12l4.58-4.59z"/></svg>';
+  const DER = '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M10 6L8.59 7.41 13.17 12l-4.58 4.59L10 18l6-6-6-6z"/></svg>';
+  /* la columna de la izquierda de la página de reservas de Google: foto, nombre, título, duración y Meet */
+  const PERFIL = '<div class="gc-perfil"><div class="gc-cab"><img class="gc-foto" src="luca-perfil.png" alt="" width="40" height="40">' +
+    '<span class="gc-nombre">Luca Abalos</span></div>' +
+    '<p class="gc-titulo">Llamada con Luca</p>' +
+    '<p class="gc-dato">' + RELOJ + '15 min</p>' +
+    '<p class="gc-dato"><img src="meet.svg" alt="" width="20" height="20">Videollamada de Google Meet</p></div>';
+  function muestra(){
+    const r = [], plan = [[[10,0],[11,30],[15,0],[17,30]], [[9,30],[12,0],[16,0]], [[11,0],[14,30],[18,0]], [[10,30],[15,30]], [[9,0],[12,30],[17,0]]];
+    const d = new Date(); d.setHours(0,0,0,0);
+    let k = 0;
+    while (k < plan.length) {
+      d.setDate(d.getDate() + 1);
+      if (d.getDay() === 0 || d.getDay() === 6) continue;
+      plan[k++].forEach(function(h){ const x = new Date(d); x.setHours(h[0], h[1]); r.push({ inicio: x.toISOString() }); });
+    }
+    return r;
+  }
+  function pintarMini(lista){
+    const caja = document.getElementById('mini-cal'); if (!caja) return;
+    let deMuestra = false;
+    if (!lista || !lista.length) {
+      if (!LOCAL) { caja.innerHTML = '<div class="gc">' + PERFIL + '<div class="gc-cal"><p class="gc-sel">Elegí un horario</p><p class="gc-sin">Elegís el horario después de las 5 preguntas.</p></div></div>'; return; }
+      lista = muestra(); deMuestra = true; caja.dataset.muestra = '1';
+    }
+    const porDia = {};
+    lista.forEach(function(h){ const k = new Date(h.inicio).toDateString(); (porDia[k] = porDia[k] || []).push(h); });
+    const meses = [];
+    lista.forEach(function(h){ const t = new Date(h.inicio), m = t.getFullYear() * 12 + t.getMonth(); if (meses.indexOf(m) < 0) meses.push(m); });
+    meses.sort(function(a, b){ return a - b; });
+    let elegido = new Date(lista[0].inicio); elegido.setHours(0,0,0,0);
+    let vista = 0;
+    function dibujar(){
+      const m = meses[vista], y = Math.floor(m / 12), mo = m % 12;
+      const primero = new Date(y, mo, 1), d = new Date(y, mo, 1 - primero.getDay());
+      const hoy = new Date(); hoy.setHours(0,0,0,0);
+      let celdas = '';
+      ['D','L','M','X','J','V','S'].forEach(function(x){ celdas += '<span class="gc-dow" aria-hidden="true">' + x + '</span>'; });
+      do {
+        for (let i = 0; i < 7; i++) {
+          const k = d.toDateString(), fuera = d.getMonth() !== mo;
+          if (porDia[k] && d >= hoy) {
+            celdas += '<button type="button" class="gc-d" data-k="' + esc(k) + '" aria-pressed="' + (k === elegido.toDateString()) + '" aria-label="' + esc(diaTxt(d)) + '"><i>' + d.getDate() + '</i></button>';
+          } else {
+            celdas += '<span class="gc-d' + (fuera ? ' fuera' : '') + '" aria-hidden="true"><i>' + d.getDate() + '</i></span>';
+          }
+          d.setDate(d.getDate() + 1);
+        }
+      } while (d.getMonth() === mo);
+      const mes = fMes.format(primero);
+      const horas = porDia[elegido.toDateString()] || [];
+      caja.innerHTML = '<div class="gc">' + PERFIL + '<div class="gc-cal"><p class="gc-sel">Elegí un horario</p>' +
+        '<div class="gc-mes"><span>' + esc(mes.charAt(0).toUpperCase() + mes.slice(1)) + '</span><div class="gc-flechas">' +
+        '<button type="button" class="gc-flecha" data-v="-1" aria-label="Mes anterior"' + (vista === 0 ? ' disabled' : '') + '>' + IZQ + '</button>' +
+        '<button type="button" class="gc-flecha" data-v="1" aria-label="Mes siguiente"' + (vista === meses.length - 1 ? ' disabled' : '') + '>' + DER + '</button></div></div>' +
+        '<div class="gc-grilla">' + celdas + '</div>' +
+        (horas.length ? '<p class="gc-dia">' + esc(diaTxt(elegido)) + '</p><div class="gc-horas">' + horas.map(function(h){
+          return '<button type="button" class="gc-hora" data-inicio="' + esc(h.inicio) + '">' + fHora.format(new Date(h.inicio)) + '</button>';
+        }).join('') + '</div>' : '<p class="gc-sin">Tocá un día marcado para ver sus horarios.</p>') +
+        '<p class="gc-pie">En tu hora local.' + (deMuestra ? ' Horarios de muestra en esta vista previa.' : '') + '</p></div></div>';
+      caja.querySelectorAll('button.gc-d').forEach(function(b){ b.addEventListener('click', function(){ elegido = new Date(b.dataset.k); dibujar(); }); });
+      caja.querySelectorAll('.gc-flecha:not([disabled])').forEach(function(b){ b.addEventListener('click', function(){
+        vista += +b.dataset.v; const mm = meses[vista];
+        const primer = lista.map(function(h){ return new Date(h.inicio); }).find(function(t){ return t.getFullYear() * 12 + t.getMonth() === mm; });
+        if (primer) { elegido = new Date(primer); elegido.setHours(0,0,0,0); }
+        dibujar(); }); });
+      caja.querySelectorAll('.gc-hora').forEach(function(b){ b.addEventListener('click', function(){ estado.pre = b.dataset.inicio; abrir(); }); });
+    }
+    dibujar();
+  }
   function pasoInicio(){
-    app.innerHTML = '<div class="inicio-agenda"><h3>Agendá una llamada</h3>' +
+    app.innerHTML = '<div class="inicio-agenda con-cal"><div class="ia-txt"><h3>Agendá una llamada</h3>' +
       '<p>Respondés 5 preguntas cortas y después elegís el horario. No tiene costo.</p>' +
-      '<button class="boton rayo" type="button" id="abrir-form">Quiero agendar</button></div>';
+      '<button class="boton rayo" type="button" id="abrir-form">Quiero agendar</button></div>' +
+      '<div class="mini-cal" id="mini-cal" role="group" aria-label="Calendario de Luca: próximos horarios libres"><div class="gc">' + PERFIL +
+      '<div class="gc-cal"><p class="gc-sel">Elegí un horario</p><p class="gc-sin">Buscando horarios…</p></div></div></div></div>';
     document.getElementById('abrir-form').addEventListener('click', abrir);
+    api('landing_ver_horarios').then(pintarMini).catch(function(){ pintarMini(null); });
   }
   document.querySelectorAll('a[href="#agendar"]').forEach(function(a){ a.addEventListener('click', abrir); });
   pasoInicio();
+})();
+
+/* los videos: se cargan y se reproducen cuando entran en pantalla, y se pausan al salir */
+(function(){
+  const vids = document.querySelectorAll('video[data-src]');
+  if (!('IntersectionObserver' in window)) { vids.forEach(function(v){ v.src = v.dataset.src; v.muted = true; v.play().catch(function(){}); }); return; }
+  const ov = new IntersectionObserver(function(es){
+    es.forEach(function(e){
+      const v = e.target;
+      if (e.isIntersecting) {
+        if (!v.getAttribute('src')) { v.preload = 'auto'; v.src = v.dataset.src; }
+        v.muted = true;
+        const p = v.play(); if (p) p.catch(function(){});
+      } else if (!v.paused) v.pause();
+    });
+  }, { rootMargin: '120px 0px', threshold: .25 });
+  vids.forEach(function(v){ ov.observe(v); });
 })();
 
 const io=new IntersectionObserver(function(es){
@@ -590,14 +1049,270 @@ document.querySelectorAll('.reveal').forEach(function(el,i){el.style.transitionD
 /* la píldora de abajo aparece cuando pasaste el primer calendario y se va en el cierre */
 const pie=document.getElementById('pie');
 const cierre=document.querySelector('.cierre');
+const panel=document.querySelector('.fwp'), nota=document.querySelector('.vos')||document.querySelector('.nota');
 function mirar(){
   const y=window.scrollY, vh=window.innerHeight;
   const fin=cierre.offsetTop-vh*0.75;
-  pie.classList.toggle('vista', y>vh*0.9 && y<fin);
+  const p=panel.getBoundingClientRect(), n=nota?nota.getBoundingClientRect():{top:1e9,bottom:-1e9};
+  /* tanda 15: tampoco tapa la nota de "Es para vos si" mientras se lee */
+  const enPanel=(p.top<vh*0.85 && p.bottom>vh*0.25) || (n.top<vh*0.9 && n.bottom>vh*0.2);
+  pie.classList.toggle('vista', y>vh*0.9 && y<fin && !enPanel);
 }
 addEventListener('scroll',mirar,{passive:true});
 addEventListener('resize',mirar);
 mirar();
+
+/* B · puntos vivos + brillo que sigue al mouse con retardo; inclinación 3D de los videos */
+(function(){
+  const hero = document.querySelector('.hero'), vivos = document.querySelector('.capa.vivos'), halo = document.querySelector('.capa.halo i');
+  if (!hero || !vivos) return;
+  const quieto = matchMedia('(prefers-reduced-motion: reduce)').matches;
+  const fino = matchMedia('(hover: hover) and (pointer: fine)').matches;
+  let tx = 0, ty = 0, x = 0, y = 0, anim = 0;
+  function seguir(){ x += (tx - x) * .12; y += (ty - y) * .12; halo.style.transform = 'translate(' + x + 'px,' + y + 'px)';
+    anim = (Math.abs(tx - x) + Math.abs(ty - y) > .5) ? requestAnimationFrame(seguir) : 0; }
+  function poner(cx, cy){ const r = hero.getBoundingClientRect(); tx = cx - r.left; ty = cy - r.top;
+    vivos.style.setProperty('--mx', tx + 'px'); vivos.style.setProperty('--my', ty + 'px');
+    if (quieto) { x = tx; y = ty; halo.style.transform = 'translate(' + x + 'px,' + y + 'px)'; } else if (!anim) anim = requestAnimationFrame(seguir); }
+  if (fino) {
+    hero.addEventListener('pointerenter', function(e){ const r = hero.getBoundingClientRect(); x = tx = e.clientX - r.left; y = ty = e.clientY - r.top; });
+    hero.addEventListener('pointermove', function(e){ poner(e.clientX, e.clientY); hero.classList.add('encendida'); });
+    hero.addEventListener('pointerleave', function(){ hero.classList.remove('encendida'); });
+  } else if (!quieto) {
+    let t;
+    hero.addEventListener('touchstart', function(e){ const p = e.touches[0]; const r = hero.getBoundingClientRect(); x = tx = p.clientX - r.left; y = ty = p.clientY - r.top; poner(p.clientX, p.clientY); hero.classList.add('encendida');
+      const h1 = hero.querySelector('h1'); if (h1 && h1.contains(e.target)) h1.classList.add('toque');
+      clearTimeout(t); t = setTimeout(function(){ hero.classList.remove('encendida'); if (h1) h1.classList.remove('toque'); }, 1400); }, { passive: true });
+  }
+  /* inclinación 3D (sólo con mouse y sin "reducir movimiento") */
+  if (false) document.querySelectorAll('.brillo').forEach(function(c){
+    c.addEventListener('pointermove', function(e){ const r = c.getBoundingClientRect(); const px = (e.clientX - r.left) / r.width, py = (e.clientY - r.top) / r.height;
+      c.style.transform = 'perspective(1300px) rotateX(' + ((.5 - py) * 7).toFixed(2) + 'deg) rotateY(' + ((px - .5) * 9).toFixed(2) + 'deg)';
+      c.style.setProperty('--gx', (px * 100) + '%'); c.style.setProperty('--gy', (py * 100) + '%'); c.classList.add('en'); });
+    c.addEventListener('pointerleave', function(){ c.style.transform = ''; c.classList.remove('en'); });
+  });
+})();
+
+/* tanda 11 · subtítulos debajo de cada iPhone, al ritmo del video; borde vivo de las celdas de "para vos" */
+(function(){
+  document.querySelectorAll('.clip').forEach(function(fig){
+    const v = fig.querySelector('video'), s = fig.querySelector('.subt');
+    if (!v || !s) return;
+    let subs = []; try { subs = JSON.parse(s.dataset.subs); } catch (e) { return; }
+    let actual = 0;
+    v.addEventListener('timeupdate', function(){
+      let k = 0; for (let i = 0; i < subs.length; i++) if (v.currentTime >= subs[i][0]) k = i;
+      if (k === actual) return; actual = k;
+      s.classList.add('cambia');
+      setTimeout(function(){ s.innerHTML = subs[k][1]; s.classList.remove('cambia'); }, 180);
+    });
+  });
+  const fino = matchMedia('(hover: hover) and (pointer: fine)').matches;
+  document.querySelectorAll('.celda').forEach(function(c){
+    function poner(x, y){ const r = c.getBoundingClientRect(); c.style.setProperty('--mx', (x - r.left) + 'px'); c.style.setProperty('--my', (y - r.top) + 'px'); }
+    if (fino) c.addEventListener('pointermove', function(e){ poner(e.clientX, e.clientY); });
+    else c.addEventListener('touchstart', function(e){ const p = e.touches[0]; poner(p.clientX, p.clientY); c.classList.add('viva');
+      setTimeout(function(){ c.classList.remove('viva'); }, 1200); }, { passive: true });
+  });
+})();
+</script>
+
+<script>
+/* tanda 13 · panel de cajitas + un solo iPhone (adaptado de "Features With Panel", ScrollX UI, MIT).
+   Sólo se baja el video que se ve; al terminar pasa solo al siguiente; con "reducir movimiento" nada pasa solo. */
+(function(){
+  const raiz = document.querySelector('.fwp'); if (!raiz) return;
+  const datos = JSON.parse(document.getElementById('fwp-datos').textContent);
+  const items = [...raiz.querySelectorAll('.fwp-item')];
+  const video = raiz.querySelector('video'), subt = raiz.querySelector('.fwp-subt');
+  const quieto = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  let act = 0, sub = 0, visible = false, sigueSolo = !quieto;
+
+  function pintarSub(){
+    const s = datos[act][sub].subs; let k = 0;
+    for (let i = 0; i < s.length; i++) if (video.currentTime >= s[i][0]) k = i;
+    if (subt.dataset.k !== act + '-' + sub + '-' + k) { subt.dataset.k = act + '-' + sub + '-' + k; subt.innerHTML = s[k][1]; }
+  }
+  const lista = raiz.querySelector('.fwp-lista');
+  function centrar(){
+    if (lista.scrollWidth <= lista.clientWidth + 2) return;
+    const li = items[act];
+    lista.scrollTo({ left: li.offsetLeft - (lista.clientWidth - li.offsetWidth) / 2, behavior: quieto ? 'auto' : 'smooth' });
+  }
+  function marcar(){
+    items.forEach(function(li, i){
+      const on = i === act; li.classList.toggle('activa', on);
+      li.querySelector('.fwp-cab').setAttribute('aria-expanded', on ? 'true' : 'false');
+      li.querySelector('.fwp-prog i').style.transform = 'scaleX(' + (on ? (sub / datos[i].length).toFixed(4) : 0) + ')';
+      li.querySelectorAll('.fwp-app button').forEach(function(b){ b.setAttribute('aria-pressed', on && +b.dataset.sub === sub ? 'true' : 'false'); });
+    });
+  }
+  function cargar(reproducir){
+    const d = datos[act][sub];
+    video.pause(); video.poster = d.poster; video.setAttribute('aria-label', d.aria);
+    if (reproducir) { video.preload = 'auto'; video.src = d.src; video.load(); const p = video.play(); if (p) p.catch(function(){}); }
+    else { video.removeAttribute('src'); video.load(); }
+    subt.dataset.k = ''; subt.innerHTML = d.subs[0][1];
+  }
+  function elegir(i, s, porUsuario){
+    if (i === act && s === sub && video.getAttribute('src')) { if (porUsuario && video.paused) video.play().catch(function(){}); return; }
+    act = i; sub = s || 0; marcar(); centrar();
+    cargar(visible && (!quieto || porUsuario));
+  }
+  items.forEach(function(li, i){
+    /* sólo con clic o toque (tanda 14): pasar el mouse no cambia nada. Toda la cajita se puede tocar. */
+    li.addEventListener('click', function(){ if (i !== act) elegir(i, 0, true); else if (video.paused) elegir(i, sub, true); });
+    li.querySelectorAll('.fwp-app button').forEach(function(b){ b.addEventListener('click', function(e){ e.stopPropagation(); elegir(i, +b.dataset.sub, true); }); });
+  });
+  function pintarProg(){
+    const n = datos[act].length, d = video.duration;
+    const f = (sub + (d ? Math.min(video.currentTime / d, 1) : 0)) / n;
+    items[act].querySelector('.fwp-prog i').style.transform = 'scaleX(' + f.toFixed(4) + ')';
+  }
+  let raf = 0;
+  function bucle(){ pintarProg(); raf = requestAnimationFrame(bucle); }
+  video.addEventListener('playing', function(){ cancelAnimationFrame(raf); raf = requestAnimationFrame(bucle); });
+  video.addEventListener('pause', function(){ cancelAnimationFrame(raf); pintarProg(); });
+  video.addEventListener('timeupdate', function(){ if (video.duration) pintarSub(); });
+  video.addEventListener('ended', function(){
+    if (!sigueSolo) return;
+    if (sub + 1 < datos[act].length) elegir(act, sub + 1, false);
+    else elegir((act + 1) % datos.length, 0, false);
+  });
+  marcar(); subt.innerHTML = datos[0][0].subs[0][1];
+  if (!('IntersectionObserver' in window)) { visible = true; if (!quieto) cargar(true); return; }
+  new IntersectionObserver(function(es){
+    es.forEach(function(e){
+      visible = e.isIntersecting;
+      if (visible) { if (!video.getAttribute('src')) { if (!quieto) cargar(true); } else if (!quieto) video.play().catch(function(){}); }
+      else if (!video.paused) video.pause();
+    });
+  }, { rootMargin: '80px 0px', threshold: .3 }).observe(video);
+})();
+</script>
+<script>
+/* tanda 15: el resaltador se pinta una sola vez, cuando el renglón entra en pantalla, una frase después de la otra */
+(function(){
+  const marcas = [...document.querySelectorAll('.nota-txt mark.rs')]; if (!marcas.length) return;
+  const nota = document.querySelector('.nota-txt');
+  if (matchMedia('(prefers-reduced-motion: reduce)').matches || !('IntersectionObserver' in window)) return;
+  nota.classList.add('js-rs');
+  const cola = []; let libre = 0;
+  function pintar(){
+    cola.sort(function(a, b){ return marcas.indexOf(a) - marcas.indexOf(b); });
+    while (cola.length) {
+      const m = cola.shift(), ahora = performance.now(), cuando = Math.max(ahora, libre);
+      libre = cuando + 450;
+      setTimeout(function(){ m.classList.add('pintado'); }, cuando - ahora);
+    }
+  }
+  const io = new IntersectionObserver(function(es){
+    es.forEach(function(e){ if (e.isIntersecting) { io.unobserve(e.target); cola.push(e.target); } });
+    pintar();
+  }, { rootMargin: '0px 0px -12% 0px', threshold: 1 });
+  marcas.forEach(function(m){ io.observe(m); });
+})();
+</script>
+<script>
+/* tanda 17b: el título y la tarjeta quedan pegados en la pantalla y el texto se lee de a renglón. El renglón del medio
+   está siempre encendido, el de arriba queda al 0.3 y los que vienen al 0.15. Todo el recorrido mide unas 2,5 pantallas.
+   Al terminar se va la tarjeta y sube el texto entero, con sus 13 marcadores ya pintados. */
+(function(){
+  const sec = document.querySelector('.vos'); if (!sec) return;
+  if (matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+  const pista = sec.querySelector('.vos-pista'), pega = sec.querySelector('.vos-pega'), tit = sec.querySelector('.vos-cab h2'),
+        tarjeta = sec.querySelector('.vos-tarjeta'), caja = sec.querySelector('.vos-caja'), rollo = sec.querySelector('.vos-rollo'),
+        barrita = sec.querySelector('.vos-barrita i'), nota = sec.querySelector('.nota'),
+        barra = document.querySelector('.barra .caja'),
+        rw = [...rollo.querySelectorAll('.rw')];
+  sec.classList.add('vos-anim');
+  /* las columnas del final aparecen con todos los marcadores completos */
+  nota.querySelectorAll('mark.rs').forEach(function(m){ m.classList.add('pintado'); });
+  let linea = [], centro = [], NL = 1, paso = 30, fF = 160, fD = 200, sobra = 0, arriba = 0, hc = 0, meta = 0, va = 0, antL = -1, corriendo = false, tAnt = 0;
+  function medir(){
+    hc = caja.clientHeight;
+    linea = []; centro = [];
+    let top = null, L = -1;
+    rw.forEach(function(w, i){
+      const t = w.offsetTop;
+      if (top === null || Math.abs(t - top) > 4) { L++; top = t; centro[L] = t + w.offsetHeight / 2; }
+      linea[i] = L;
+    });
+    NL = L + 1;
+    const vh = innerHeight, gh = pega.offsetHeight, bajoBarra = barra ? barra.getBoundingClientRect().bottom : 74;
+    /* compu: en el medio del espacio libre abajo de la barra; celular: más arriba, con menos blanco arriba */
+    const libre = Math.max(0, vh - bajoBarra - gh), parte = innerWidth <= 600 ? 0.42 : 0.5;
+    arriba = Math.round(bajoBarra + Math.max(14, libre * parte));
+    pega.style.top = arriba + 'px';
+    let ty = 0; for (let e = tit; e && e !== pega; e = e.offsetParent) ty += e.offsetTop;
+    sobra = gh - (ty + tit.offsetHeight) - 1.6 * parseFloat(getComputedStyle(document.documentElement).fontSize);
+    /* al terminar: un tramo para que se vaya la tarjeta y otro para que suban las columnas */
+    fF = Math.round(vh * 0.16); fD = Math.round(vh * 0.2);
+    /* el recorrido entero de la sección pegada queda en 2,5 pantallas */
+    paso = Math.max(12, (2.5 * vh - gh - fF - fD) / NL);
+    pista.style.height = Math.round(gh + NL * paso + fF + fD) + 'px';
+    nota.style.marginTop = (-sobra) + 'px';
+    antL = -1; objetivo(); va = meta;
+    rollo.style.transition = 'none'; pintar(); rollo.offsetHeight; rollo.style.transition = '';
+  }
+  function avance(){ return arriba - pista.getBoundingClientRect().top; }
+  function objetivo(){ meta = Math.max(0, Math.min(NL, avance() / paso)); }
+  function pintar(){
+    const L = Math.max(0, Math.min(NL - 1, Math.floor(va + 1e-6)));
+    if (L !== antL) {
+      for (let i = 0; i < rw.length; i++) {
+        rw[i].classList.toggle('lit', linea[i] === L);
+        rw[i].classList.toggle('pasado', linea[i] < L);
+      }
+      antL = L;
+      rollo.style.transform = 'translate3d(0,' + (hc / 2 - centro[L]).toFixed(2) + 'px,0)';
+    }
+    barrita.style.transform = 'scaleX(' + Math.min(1, va / NL).toFixed(4) + ')';
+    /* al terminar el último renglón: se va la tarjeta y después las columnas suben 60 px hasta quedar abajo del título.
+       Las columnas van corridas para arriba lo que falta de recorrido, así no queda el hueco del alto de la tarjeta. */
+    const pasado = avance() - NL * paso;
+    const op = 1 - Math.max(0, Math.min(1, pasado / fF));
+    const sube = Math.max(0, Math.min(1, (pasado - fF * 0.8) / fD));
+    const falta = Math.max(0, fF + fD - pasado);
+    tarjeta.style.opacity = op.toFixed(3);
+    tarjeta.style.visibility = op < 0.01 ? 'hidden' : 'visible';
+    nota.style.opacity = sube.toFixed(3);
+    nota.style.transform = falta > 0 ? 'translate3d(0,' + (60 * (1 - sube) - falta).toFixed(1) + 'px,0)' : '';
+    nota.style.pointerEvents = sube < 0.99 ? 'none' : '';
+  }
+  function cuadro(t){
+    const dt = Math.min(64, t - (tAnt || t)); tAnt = t;
+    va += (meta - va) * (1 - Math.exp(-dt / 300 * 3));
+    if (Math.abs(meta - va) < 0.02) va = meta;
+    pintar();
+    if (va !== meta) requestAnimationFrame(cuadro); else { corriendo = false; tAnt = 0; }
+  }
+  addEventListener('scroll', function(){ objetivo(); if (!corriendo) { corriendo = true; requestAnimationFrame(cuadro); } }, { passive: true });
+  addEventListener('resize', medir);
+  medir();
+  if (document.fonts && document.fonts.ready) document.fonts.ready.then(medir);
+  addEventListener('load', medir);
+})();
+</script>
+<script>
+/* los links de la barra: bajan suave hasta la sección y dejan su título a la vista, debajo de la barra.
+   La sección pegada de "Es para vos si" queda justo en el comienzo de su recorrido, con ninguna palabra encendida. */
+(function(){
+  const barra = document.querySelector('.barra .caja');
+  function arribaDoc(el){ let y = 0; for (let e = el; e; e = e.offsetParent) y += e.offsetTop; return y; }
+  document.querySelectorAll('.barra-nav a').forEach(function(a){
+    a.addEventListener('click', function(e){
+      const sec = document.getElementById(a.getAttribute('href').slice(1)); if (!sec) return;
+      e.preventDefault();
+      const pista = sec.querySelector('.vos-pista'), pega = sec.querySelector('.vos-pega');
+      let y;
+      if (pista && sec.classList.contains('vos-anim')) y = arribaDoc(pista) - parseFloat(pega.style.top || 0);
+      else y = arribaDoc([...sec.querySelectorAll('.rotulo')].find(function(r){ return r.offsetParent; }) || sec) - barra.getBoundingClientRect().bottom - 28;
+      const quieto = matchMedia('(prefers-reduced-motion: reduce)').matches;
+      scrollTo({ top: Math.max(0, Math.round(y)), behavior: quieto ? 'auto' : 'smooth' });
+    });
+  });
+})();
 </script>
 </body>
 </html>
