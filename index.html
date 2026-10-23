@@ -507,24 +507,25 @@ mark.rs{font-weight:700}
 .vos-pista{display:none}
 .vos.vos-anim .vos-pista{display:block;position:relative}
 .vos.vos-anim .nota-cab{display:none}
-.vos.vos-anim .nota{position:relative;z-index:1}
+.vos.vos-anim .nota{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);clip-path:inset(50%);white-space:nowrap}
+.vos.vos-anim > .env{position:relative}
 .vos-pega{position:sticky;top:22vh}
 .vos-cab{max-width:68rem;margin:0 auto}
 .vos-cab h2{margin:0 0 clamp(1.1rem,2.8vh,1.8rem);max-width:none}
-/* el cuadrito: una tarjeta como las otras de la landing, apenas más clara que el fondo, con el texto en el medio */
+/* el cuadrito: sin tarjeta (23-oct), el texto apoyado directo sobre el fondo */
 .vos-tarjeta{position:relative;max-width:68rem;margin:0 auto;display:grid;place-items:center;
-  min-height:clamp(270px,32vh,330px);padding:clamp(1.8rem,4.5vh,2.6rem) clamp(1.4rem,4vw,3.5rem) clamp(2.6rem,6vh,3.4rem);
-  background:var(--blanco);border:1px solid var(--linea);border-radius:22px;
-  box-shadow:0 30px 70px -40px rgba(7,68,53,.28),0 8px 20px -14px rgba(7,68,53,.14)}
-.vos-caja{position:relative;width:min(100%,54rem);height:calc(4.35em + 4px);overflow:hidden;
+  padding:clamp(.4rem,1.2vh,.8rem) 0 clamp(2rem,4.5vh,2.6rem);background:none;border:0;box-shadow:none}
+.vos-caja{position:relative;width:min(100%,54rem);height:calc(7.25em + 4px);overflow:hidden;
   font-size:clamp(24px,2.25vw,32px);line-height:1.45;letter-spacing:-.015em;
-  -webkit-mask-image:linear-gradient(transparent 0,#000 5%,#000 95%,transparent 100%);mask-image:linear-gradient(transparent 0,#000 5%,#000 95%,transparent 100%)}
+  -webkit-mask-image:linear-gradient(transparent 0,#000 13%,#000 87%,transparent 100%);mask-image:linear-gradient(transparent 0,#000 13%,#000 87%,transparent 100%)}
 .vos-rollo{position:absolute;left:0;right:0;top:0;will-change:transform;transition:transform .45s cubic-bezier(.22,1,.36,1)}
 .vos-rollo p{margin:0;font-size:1em;line-height:inherit;font-weight:500;color:var(--tinta);text-align:center;max-width:none}
-/* de a renglón: el del medio encendido entero, el de arriba al 0.3 y los que vienen al 0.15 */
-.vos-rollo .rw{opacity:.15;transition:opacity .35s ease}
+/* de a renglón, cinco a la vista: el del medio encendido entero, los de al lado más oscuros que antes
+   (arriba 0.5, abajo 0.4) y los de las puntas con el gris de antes (arriba 0.3, abajo 0.15) */
+.vos-rollo .rw{opacity:.08;transition:opacity .35s ease}
 .vos-rollo .rw.lit{opacity:1}
-.vos-rollo .rw.pasado{opacity:.3}
+.vos-rollo .rw.a1{opacity:.5}.vos-rollo .rw.b1{opacity:.4}
+.vos-rollo .rw.a2{opacity:.3}.vos-rollo .rw.b2{opacity:.15}
 /* el acento: negrita y el mismo marcador a media altura de la landing, que se pinta cuando su renglón se enciende */
 .vos-rollo .ac{font-weight:700;color:var(--tinta);
   background-image:linear-gradient(transparent 58%,rgba(30,215,96,.6) 58%,rgba(30,215,96,.6) 94%,transparent 94%);background-repeat:no-repeat;
@@ -535,7 +536,7 @@ mark.rs{font-weight:700}
   border-radius:3px;background:rgba(16,35,39,.07);overflow:hidden}
 .vos-barrita i{display:block;height:100%;width:100%;background:#1ED760;transform-origin:left center;transform:scaleX(0);transition:transform .3s ease}
 @media(max-width:600px){
-  .vos-tarjeta{min-height:clamp(240px,38vh,340px);padding:1.6rem 1.1rem 2.4rem;border-radius:18px}
+  .vos-tarjeta{padding:.4rem 0 2.2rem}
   .vos-caja{font-size:22px;line-height:1.45}
   .vos-barrita{width:calc(100% - 2.2rem);bottom:1.2rem}
 }
@@ -598,12 +599,12 @@ mark.rs{font-weight:700}
       <div class="fwp-lado">
         <figure class="fwp-tel" id="fwp-tel">
           <div class="iphone"><span class="boton-lado l1"></span><span class="boton-lado l2"></span><span class="boton-lado l3"></span><span class="boton-lado r1"></span>
-            <div class="pantalla"><video muted playsinline preload="none" poster="videos/cel-01-whatsapp.jpg" aria-label="Una consulta por WhatsApp a las 23:14 que el asistente responde en minutos"></video><span class="isla"></span><span class="barra-inicio"></span></div></div>
+            <div class="pantalla"><video muted playsinline preload="none" poster="videos/cel-01-whatsapp.jpg?v=15" aria-label="Una consulta por WhatsApp a las 23:14 que el asistente responde en minutos"></video><span class="isla"></span><span class="barra-inicio"></span></div></div>
           <figcaption class="subt fwp-subt" aria-live="off"></figcaption>
         </figure>
       </div>
     </div>
-    <script type="application/json" id="fwp-datos">[[{"poster": "videos/cel-01-whatsapp.jpg", "src": "videos/cel-01-whatsapp.mp4", "aria": "Una consulta por WhatsApp a las 23:14 que el asistente responde en minutos", "subs": [[0, "Te escriben <mark>a las 23:14.</mark>"], [4.8, "El asistente contesta <mark>en minutos.</mark>"], [10.73, "Le pregunta <mark>lo necesario.</mark>"], [17.33, "Le ofrece <mark>tus horarios libres.</mark>"], [23.6, "Y el turno queda <mark>en tu calendario.</mark>"]], "app": "WhatsApp"}, {"poster": "videos/cel-02-instagram.jpg?v=14", "src": "videos/cel-02-instagram.mp4?v=14", "aria": "Otra consulta, por mensaje directo de Instagram a las 7:52, que termina con el turno puesto", "subs": [[0, "Te escriben por Instagram <mark>a las 7:52.</mark>"], [4.8, "El asistente contesta <mark>en minutos.</mark>"], [10.73, "Le pregunta <mark>lo necesario.</mark>"], [17.33, "Le ofrece <mark>tus horarios libres.</mark>"], [23.6, "Y el turno queda <mark>en tu calendario.</mark>"]], "app": "Instagram"}], [{"poster": "videos/cel-03-filtrar.jpg", "src": "videos/cel-03-filtrar.mp4", "aria": "Al que solo pregunta le contesta amable; al que va en serio le deja el turno", "subs": [[0, "Al que <mark>solo pregunta,</mark> le contesta amable."], [6.47, "Al que va en serio, <mark>le pregunta lo necesario.</mark>"], [12.73, "Y le <mark>deja el turno.</mark>"], [19, "A tu calendario llegan <mark>los que quieren el turno.</mark>"]], "app": ""}], [{"poster": "videos/cel-04-agenda.jpg", "src": "videos/cel-04-agenda.mp4", "aria": "El turno aparece en el calendario con sus datos y se puede mover", "subs": [[0, "Cada turno aparece <mark>en tu calendario.</mark>"], [6.47, "Con <mark>todos los datos.</mark>"], [13.73, "Y si querés, <mark>lo movés vos.</mark>"]], "app": ""}], [{"poster": "videos/cel-05-recordatorio-y-reagenda.jpg", "src": "videos/cel-05-recordatorio-y-reagenda.mp4", "aria": "Recordatorio del día antes, otro horario y el hueco que se vuelve a llenar", "subs": [[0, "El día antes, <mark>le recuerda el turno.</mark>"], [6.13, "Si no puede, <mark>le ofrece otro horario.</mark>"], [12.4, "Y el hueco <mark>se vuelve a llenar.</mark>"], [17.67, "Tu calendario <mark>no queda con huecos.</mark>"]], "app": ""}], [{"poster": "videos/cel-06-lo-medico.jpg", "src": "videos/cel-06-lo-medico.mp4", "aria": "El asistente consulta al profesional y le responde a la persona", "subs": [[0, "Si le preguntan <mark>algo médico...</mark>"], [5.8, "...el asistente <mark>te pregunta a vos.</mark>"], [13.4, "Y le responde <mark>lo que vos dijiste.</mark>"]], "app": ""}], [{"poster": "videos/cel-07-cuando-ya-es-cliente.jpg", "src": "videos/cel-07-cuando-ya-es-cliente.mp4", "aria": "Aviso del control a los 6 meses, seguimiento y turnos de vuelta en el calendario", "subs": [[0, "A los 6 meses, <mark>le avisa que le toca el control.</mark>"], [7.13, "Hace el seguimiento <mark>del tratamiento.</mark>"], [13.73, "Y los turnos de vuelta <mark>quedan en tu calendario.</mark>"]], "app": ""}]]</script>
+    <script type="application/json" id="fwp-datos">[[{"poster": "videos/cel-01-whatsapp.jpg?v=15", "src": "videos/cel-01-whatsapp.mp4?v=15", "aria": "Una consulta por WhatsApp a las 23:14 que el asistente responde en minutos", "subs": [[0, "Te escriben <mark>a las 23:14.</mark>"], [4.8, "El asistente contesta <mark>en minutos.</mark>"], [10.73, "Le pregunta <mark>lo necesario.</mark>"], [17.33, "Le ofrece <mark>tus horarios libres.</mark>"], [23.6, "Y el turno queda <mark>en tu calendario.</mark>"]], "app": "WhatsApp"}, {"poster": "videos/cel-02-instagram.jpg?v=15", "src": "videos/cel-02-instagram.mp4?v=15", "aria": "Otra consulta, por mensaje directo de Instagram a las 7:52, que termina con el turno puesto", "subs": [[0, "Te escriben por Instagram <mark>a las 7:52.</mark>"], [4.8, "El asistente contesta <mark>en minutos.</mark>"], [10.73, "Le pregunta <mark>lo necesario.</mark>"], [17.33, "Le ofrece <mark>tus horarios libres.</mark>"], [23.6, "Y el turno queda <mark>en tu calendario.</mark>"]], "app": "Instagram"}], [{"poster": "videos/cel-03-filtrar.jpg", "src": "videos/cel-03-filtrar.mp4", "aria": "Al que solo pregunta le contesta amable; al que va en serio le deja el turno", "subs": [[0, "Al que <mark>solo pregunta,</mark> le contesta amable."], [6.47, "Al que va en serio, <mark>le pregunta lo necesario.</mark>"], [12.73, "Y le <mark>deja el turno.</mark>"], [19, "A tu calendario llegan <mark>los que quieren el turno.</mark>"]], "app": ""}], [{"poster": "videos/cel-04-agenda.jpg", "src": "videos/cel-04-agenda.mp4", "aria": "El turno aparece en el calendario con sus datos y se puede mover", "subs": [[0, "Cada turno aparece <mark>en tu calendario.</mark>"], [6.47, "Con <mark>todos los datos.</mark>"], [13.73, "Y si querés, <mark>lo movés vos.</mark>"]], "app": ""}], [{"poster": "videos/cel-05-recordatorio-y-reagenda.jpg", "src": "videos/cel-05-recordatorio-y-reagenda.mp4", "aria": "Recordatorio del día antes, otro horario y el hueco que se vuelve a llenar", "subs": [[0, "El día antes, <mark>le recuerda el turno.</mark>"], [6.13, "Si no puede, <mark>le ofrece otro horario.</mark>"], [12.4, "Y el hueco <mark>se vuelve a llenar.</mark>"], [17.67, "Tu calendario <mark>no queda con huecos.</mark>"]], "app": ""}], [{"poster": "videos/cel-06-lo-medico.jpg", "src": "videos/cel-06-lo-medico.mp4", "aria": "El asistente consulta al profesional y le responde a la persona", "subs": [[0, "Si le preguntan <mark>algo médico...</mark>"], [5.8, "...el asistente <mark>te pregunta a vos.</mark>"], [13.4, "Y le responde <mark>lo que vos dijiste.</mark>"]], "app": ""}], [{"poster": "videos/cel-07-cuando-ya-es-cliente.jpg", "src": "videos/cel-07-cuando-ya-es-cliente.mp4", "aria": "Aviso del control a los 6 meses, seguimiento y turnos de vuelta en el calendario", "subs": [[0, "A los 6 meses, <mark>le avisa que le toca el control.</mark>"], [7.13, "Hace el seguimiento <mark>del tratamiento.</mark>"], [13.73, "Y los turnos de vuelta <mark>quedan en tu calendario.</mark>"]], "app": ""}]]</script>
   </div>
 </section>
 
@@ -1216,7 +1217,7 @@ mirar();
 <script>
 /* tanda 17b: el título y la tarjeta quedan pegados en la pantalla y el texto se lee de a renglón. El renglón del medio
    está siempre encendido, el de arriba queda al 0.3 y los que vienen al 0.15. Todo el recorrido mide unas 2,5 pantallas.
-   Al terminar se va la tarjeta y sube el texto entero, con sus 13 marcadores ya pintados. */
+   23-oct: sin tarjeta y sin las dos columnas del final; se ven cinco renglones que se esfuman hacia las puntas. */
 (function(){
   const sec = document.querySelector('.vos'); if (!sec) return;
   if (matchMedia('(prefers-reduced-motion: reduce)').matches) return;
@@ -1228,7 +1229,7 @@ mirar();
   sec.classList.add('vos-anim');
   /* las columnas del final aparecen con todos los marcadores completos */
   nota.querySelectorAll('mark.rs').forEach(function(m){ m.classList.add('pintado'); });
-  let linea = [], centro = [], NL = 1, paso = 30, fF = 160, fD = 200, sobra = 0, arriba = 0, hc = 0, meta = 0, va = 0, antL = -1, corriendo = false, tAnt = 0;
+  let linea = [], centro = [], NL = 1, paso = 30, arriba = 0, hc = 0, meta = 0, va = 0, antL = -1, corriendo = false, tAnt = 0;
   function medir(){
     hc = caja.clientHeight;
     linea = []; centro = [];
@@ -1244,14 +1245,9 @@ mirar();
     const libre = Math.max(0, vh - bajoBarra - gh), parte = innerWidth <= 600 ? 0.42 : 0.5;
     arriba = Math.round(bajoBarra + Math.max(14, libre * parte));
     pega.style.top = arriba + 'px';
-    let ty = 0; for (let e = tit; e && e !== pega; e = e.offsetParent) ty += e.offsetTop;
-    sobra = gh - (ty + tit.offsetHeight) - 1.6 * parseFloat(getComputedStyle(document.documentElement).fontSize);
-    /* al terminar: un tramo para que se vaya la tarjeta y otro para que suban las columnas */
-    fF = Math.round(vh * 0.16); fD = Math.round(vh * 0.2);
-    /* el recorrido entero de la sección pegada queda en 2,5 pantallas */
-    paso = Math.max(12, (2.5 * vh - gh - fF - fD) / NL);
-    pista.style.height = Math.round(gh + NL * paso + fF + fD) + 'px';
-    nota.style.marginTop = (-sobra) + 'px';
+    /* el recorrido entero de la sección pegada queda en 2,5 pantallas; al terminar se suelta y sigue la página */
+    paso = Math.max(12, (2.5 * vh - gh) / NL);
+    pista.style.height = Math.round(gh + NL * paso) + 'px';
     antL = -1; objetivo(); va = meta;
     rollo.style.transition = 'none'; pintar(); rollo.offsetHeight; rollo.style.transition = '';
   }
@@ -1261,24 +1257,15 @@ mirar();
     const L = Math.max(0, Math.min(NL - 1, Math.floor(va + 1e-6)));
     if (L !== antL) {
       for (let i = 0; i < rw.length; i++) {
-        rw[i].classList.toggle('lit', linea[i] === L);
-        rw[i].classList.toggle('pasado', linea[i] < L);
+        const d = linea[i] - L, c = rw[i].classList;
+        c.toggle('lit', d === 0); c.toggle('pasado', d < 0);
+        c.toggle('a1', d === -1); c.toggle('b1', d === 1);
+        c.toggle('a2', d === -2); c.toggle('b2', d === 2);
       }
       antL = L;
       rollo.style.transform = 'translate3d(0,' + (hc / 2 - centro[L]).toFixed(2) + 'px,0)';
     }
     barrita.style.transform = 'scaleX(' + Math.min(1, va / NL).toFixed(4) + ')';
-    /* al terminar el último renglón: se va la tarjeta y después las columnas suben 60 px hasta quedar abajo del título.
-       Las columnas van corridas para arriba lo que falta de recorrido, así no queda el hueco del alto de la tarjeta. */
-    const pasado = avance() - NL * paso;
-    const op = 1 - Math.max(0, Math.min(1, pasado / fF));
-    const sube = Math.max(0, Math.min(1, (pasado - fF * 0.8) / fD));
-    const falta = Math.max(0, fF + fD - pasado);
-    tarjeta.style.opacity = op.toFixed(3);
-    tarjeta.style.visibility = op < 0.01 ? 'hidden' : 'visible';
-    nota.style.opacity = sube.toFixed(3);
-    nota.style.transform = falta > 0 ? 'translate3d(0,' + (60 * (1 - sube) - falta).toFixed(1) + 'px,0)' : '';
-    nota.style.pointerEvents = sube < 0.99 ? 'none' : '';
   }
   function cuadro(t){
     const dt = Math.min(64, t - (tAnt || t)); tAnt = t;
